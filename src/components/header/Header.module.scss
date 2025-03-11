@@ -1,0 +1,126 @@
+@import "../../styles/variables.scss";
+
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: $color-background-primary;
+  box-shadow: $shadow-md;
+  z-index: $z-index-fixed;
+}
+
+.container {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: 2px $container-padding;
+}
+
+.wrapper {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  flex-shrink: 0;
+
+  .logoImage {
+    cursor: pointer;
+    transition: transform $transition-fast;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.navigation {
+  display: flex;
+  gap: 32px;
+
+  @media (max-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+.navLink {
+  padding: 8px 24px;
+  margin: 4px 0;
+  border-radius: 16px;
+  font-size: calc(#{$font-size-base} * 1.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: $color-text-primary;
+  text-decoration: none;
+  font-weight: $font-weight-medium;
+  transition: background-color $transition-fast, color $transition-fast;
+
+  &:hover {
+    background-color: darken($color-background-primary, 5%);
+  }
+
+  &.active {
+    color: $color-primary;
+  }
+
+  span {
+    font-size: calc(#{$font-size-sm} * 1.1);
+  }
+}
+
+.navIcon {
+  width: 26px;
+  height: 26px;
+  stroke-width: 1.6;
+}
+
+.userActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.chatButton {
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  color: $color-text-primary;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+.chatIcon {
+  width: 26px;
+  height: 26px;
+}
+
+.profileLink {
+  text-decoration: none;
+}
+
+.avatarWrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: $border-radius-full;
+  overflow: hidden;
+  background-color: $color-background-secondary;
+  transition: transform $transition-fast;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

@@ -1,0 +1,57 @@
+@import "../../styles/variables.scss";
+
+.container {
+  display: flex;
+  height: calc(100vh - #{$header-height});
+  background-color: $color-background-primary;
+}
+
+.sidebar {
+  width: 320px;
+  border-right: 1px solid $color-background-tertiary;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarTitle {
+  padding: 20px;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  border-bottom: 1px solid $color-background-tertiary;
+}
+
+.chatsList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.chatWindow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatHeader {
+  padding: 20px;
+  border-bottom: 1px solid $color-background-tertiary;
+
+  h2 {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
+  }
+}
+
+.messagesList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.messageInput {
+  border-top: 1px solid $color-background-tertiary;
+  padding: 20px;
+  background-color: $color-background-secondary;
+}

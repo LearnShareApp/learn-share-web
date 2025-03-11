@@ -1,0 +1,53 @@
+@import "../../styles/variables.scss";
+
+.container {
+  padding: $container-padding;
+  max-width: $container-max-width;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: 24px;
+}
+
+.content {
+  background-color: $color-background-primary;
+  border-radius: $border-radius-lg;
+  padding: 24px;
+  box-shadow: $shadow-sm;
+}
+
+.filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.filterButton {
+  padding: 8px 16px;
+  border-radius: $border-radius-md;
+  background-color: $color-background-secondary;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+  border: none;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    background-color: $color-background-tertiary;
+  }
+}
+
+.calendar {
+  margin-bottom: 32px;
+  min-height: 300px;
+  border: 1px solid $color-background-tertiary;
+  border-radius: $border-radius-md;
+}
+
+.lessonsList {
+  min-height: 200px;
+}

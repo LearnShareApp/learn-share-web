@@ -1,0 +1,66 @@
+// Цветовая палитра
+$color-page-background: #999999;
+
+$color-primary: #d4a373;
+$color-primary-light: #e6c19c;
+$color-primary-dark: #b28f5d;
+
+$color-text-primary: #333333;
+$color-text-secondary: #666666;
+$color-text-light: #ffffff;
+
+$color-background-primary: #ffffff;
+$color-background-secondary: #f3f4f6;
+$color-background-tertiary: #e5e7eb;
+
+// Тени
+$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+// Размеры контейнера
+$container-max-width: 1200px;
+$container-padding: 20px;
+
+// Высоты компонентов
+$header-height: 64px;
+
+// Размеры шрифтов
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-base: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-2xl: 24px;
+
+// Жирность шрифта
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Радиусы скругления
+$border-radius-sm: 4px;
+$border-radius-md: 6px;
+$border-radius-lg: 8px;
+$border-radius-full: 9999px;
+
+// Анимации
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.4s ease;
+
+// Точки перелома для медиа-запросов
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+// Z-индексы
+$z-index-dropdown: 100;
+$z-index-sticky: 200;
+$z-index-fixed: 300;
+$z-index-modal-backdrop: 400;
+$z-index-modal: 500;
+$z-index-popover: 600;
+$z-index-tooltip: 700;
