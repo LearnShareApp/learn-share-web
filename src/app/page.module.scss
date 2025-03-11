@@ -1,4 +1,4 @@
-@import "../styles/variables.scss";
+@use "../styles/variables.scss" as *;
 
 .page {
   --gray-rgb: 0, 0, 0;
@@ -196,44 +196,55 @@ a.secondary {
   border-radius: 50%;
   overflow: hidden;
   background-color: $color-background-secondary;
+  border: 2px solid #383838;
+  padding: 4px;
 }
 
 .avatar {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.avatar:hover {
+  transform: scale(1.05);
 }
 
 .details {
   display: flex;
   flex-direction: column;
+  margin-left: 16px;
 }
 
 .userName {
-  font-size: $font-size-xl;
-  font-weight: $font-weight-bold;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
   color: $color-text-primary;
 }
 
 .userRole {
-  font-size: $font-size-base;
+  font-size: 1rem;
   color: $color-text-secondary;
 }
 
 .nextLessonSection,
 .previousTeachersSection,
 .findTeacherSection {
-  background-color: $color-background-primary;
-  border-radius: $border-radius-lg;
-  padding: 24px;
-  box-shadow: $shadow-sm;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
 }
 
 .sectionTitle {
-  font-size: $font-size-xl;
-  font-weight: $font-weight-semibold;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
   color: $color-text-primary;
-  margin-bottom: 16px;
 }
 
 .lessonDetails,
@@ -251,19 +262,26 @@ a.secondary {
   gap: 8px;
 }
 
-.findTeacherButton {
-  display: inline-block;
-  padding: 12px 24px;
-  background-color: $color-primary;
-  color: $color-text-light;
-  border-radius: $border-radius-md;
-  font-weight: $font-weight-medium;
-  text-decoration: none;
-  transition: background-color $transition-fast;
+.teachersList li {
+  padding: 10px;
+  border-bottom: 1px solid #eaeaea;
+}
 
-  &:hover {
-    background-color: $color-primary-dark;
-  }
+.teachersList li:last-child {
+  border-bottom: none;
+}
+
+.findTeacherButton {
+  background-color: $color-primary;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.findTeacherButton:hover {
+  background-color: $color-primary-dark;
 }
 
 .hero {
@@ -391,4 +409,65 @@ a.secondary {
   font-size: $font-size-base;
   color: $color-text-secondary;
   line-height: 1.5;
+}
+
+/* Добавленные стили для разделения контента на две колонки */
+.columns {
+  display: flex;
+  gap: 32px;
+}
+
+.leftColumn {
+  flex: 1;
+  section {
+    margin-bottom: 20px;
+  }
+
+  section:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.rightColumn {
+  flex: 2;
+}
+
+@media (max-width: 768px) {
+  .columns {
+    flex-direction: column;
+  }
+}
+
+.balanceCard {
+  background: linear-gradient(135deg, #ffffff, #f7f7f7);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.mobileAppBanner {
+  background: linear-gradient(135deg, $color-primary, $color-primary-dark);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.downloadButton {
+  background-color: #383838;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.downloadButton:hover {
+  background-color: #2e2e2e;
 }

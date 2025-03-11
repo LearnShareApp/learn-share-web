@@ -1,9 +1,12 @@
-@import "../../styles/variables.scss";
+@use "../../styles/variables.scss" as *;
 
 .container {
   display: flex;
-  height: calc(100vh - #{$header-height});
+  flex-direction: row;
+  padding: $container-padding;
   background-color: $color-background-primary;
+  max-width: $container-max-width;
+  margin: 0 auto;
 }
 
 .sidebar {
@@ -54,4 +57,27 @@
   border-top: 1px solid $color-background-tertiary;
   padding: 20px;
   background-color: $color-background-secondary;
+}
+
+.chatLayout {
+  display: flex;
+  width: 100%;
+}
+
+/* Добавляю темный фон для контейнера на странице чатов */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: #181818 !important;
+  }
+}
+
+/* Добавляю стили для обертки с классом chatPage */
+.chatPage {
+  background-color: $color-background-primary;
+}
+
+@media (prefers-color-scheme: dark) {
+  .chatPage {
+    background-color: #181818 !important;
+  }
 }
