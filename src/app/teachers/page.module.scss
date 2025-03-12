@@ -15,13 +15,6 @@
   margin-bottom: 24px;
 }
 
-.content {
-  background-color: $color-background-primary;
-  border-radius: $border-radius-lg;
-  padding: 24px;
-  box-shadow: $shadow-sm;
-}
-
 /* Добавляю новые стили для элементов поиска */
 
 .searchContainer {
@@ -86,11 +79,6 @@
 
 /* Новые стили для обновлённой структуры страницы */
 
-.header {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
 .searchSection {
   margin-bottom: 24px;
 }
@@ -124,20 +112,67 @@
 .filtersContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
   align-items: center;
-}
-
-.resultsSection {
-  margin-top: 32px;
+  justify-content: space-between;
+  width: 100%;
 }
 
 /* Добавляю новые стили для фильтров */
 
 .filter {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
+  padding: 0.5rem 0.5rem 0.5rem 2.5em;
+  border: none;
+  border-radius: $border-radius-lg;
+  background-color: $color-background-secondary;
   font-size: 1rem;
+  color: #333;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  text-align: left;
+}
+
+.filter:hover {
+  background-color: #d6d6d6;
+}
+
+.filter:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.filter:active {
+  outline: none;
+  border: none;
+}
+
+/* Стили для кнопки сброса фильтров */
+.resetButton {
+  background: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  color: #333;
+}
+
+.resetButton:hover {
+  background: #e0e0e0;
+}
+
+/* Стили для контейнера иконок фильтров */
+.filterWrapper {
+  position: relative;
+}
+
+/* Стили для иконок фильтров */
+.filterIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  width: 20px;
+  height: 20px;
+  stroke: #333;
 }
