@@ -1,9 +1,20 @@
 "use client";
 
+import React from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./page.module.scss";
 
-export default function ProfilePage() {
+const ProfilePage = () => {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // Удаляем jwt токен из localStorage
+    localStorage.removeItem("userToken");
+    // Перенаправляем пользователя на страницу авторизации
+    router.push("/");
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -62,6 +73,20 @@ export default function ProfilePage() {
           </div>
         </section>
       </div>
+
+      <button
+        onClick={handleLogout}
+        style={{
+          padding: "10px",
+          background: "#ccc",
+          border: "none",
+          cursor: "pointer",
+        }}
+      >
+        Выйти
+      </button>
     </div>
   );
-}
+};
+
+export default ProfilePage;
