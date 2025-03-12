@@ -1,6 +1,4 @@
-@use "sass:color" as color;
-
-@use "../styles/variables.scss" as *;
+@use "../../styles/variables.scss" as *;
 
 .page {
   --gray-rgb: 0, 0, 0;
@@ -284,107 +282,86 @@ a.secondary {
 
 .hero {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  padding: 100px 20px;
-  background: linear-gradient(
-    135deg,
-    color.adjust($color-primary, $lightness: 40%),
-    color.adjust($color-primary, $lightness: 20%)
-  );
-  border-radius: 16px;
-  margin-bottom: 60px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  animation: fadeIn 1.2s ease-out;
+  gap: 48px;
+  margin: 48px 0;
+
+  @media (max-width: $breakpoint-lg) {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 
 .heroContent {
   flex: 1;
-  padding-right: 20px;
 }
 
-.heroContent h1 {
-  font-size: 3.5rem;
-  margin-bottom: 20px;
-  font-weight: 700;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+.heroTitle {
+  font-size: 48px;
+  font-weight: $font-weight-bold;
   color: $color-text-primary;
+  line-height: 1.2;
+  margin-bottom: 24px;
 }
 
-.heroContent p {
-  font-size: 1.5rem;
-  margin-bottom: 30px;
+.heroDescription {
+  font-size: $font-size-lg;
   color: $color-text-secondary;
-}
-
-.highlight {
-  color: $color-primary;
+  margin-bottom: 32px;
+  line-height: 1.5;
 }
 
 .heroButtons {
   display: flex;
-  gap: 20px;
+  gap: 16px;
+
+  @media (max-width: $breakpoint-lg) {
+    justify-content: center;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+  }
+}
+
+.primaryButton {
+  padding: 12px 24px;
+  background-color: $color-primary;
+  color: $color-text-light;
+  border-radius: $border-radius-md;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $color-primary-dark;
+  }
+}
+
+.secondaryButton {
+  padding: 12px 24px;
+  background-color: $color-background-secondary;
+  color: $color-text-primary;
+  border-radius: $border-radius-md;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $color-background-tertiary;
+  }
 }
 
 .heroImage {
   flex: 1;
-  text-align: center;
-}
+  display: flex;
+  justify-content: center;
 
-.heroImage img {
-  max-width: 100%;
-  border-radius: 12px;
-}
-
-.testimonials {
-  padding: 60px 0;
-  background-color: #f8f9fa;
-  border-radius: 12px;
-  margin-bottom: 40px;
-  text-align: center;
-}
-
-.testimonials h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-.testimonialsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.testimonialCard {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.testimonialCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
-}
-
-.testimonialCard p {
-  font-style: italic;
-  margin-bottom: 10px;
-}
-
-.testimonialCard span {
-  font-weight: bold;
-}
-
-.footer {
-  text-align: center;
-  padding: 20px 0;
-  font-size: 0.9rem;
-  color: #999;
-  border-top: 1px solid #eee;
-  margin-top: 40px;
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: $border-radius-lg;
+  }
 }
 
 .features {
@@ -398,17 +375,11 @@ a.secondary {
 }
 
 .featureCard {
-  background-color: #fff;
+  background-color: $color-background-primary;
   padding: 32px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-sm;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.featureCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .featureIcon {
@@ -514,50 +485,5 @@ a.secondary {
 
   h3 {
     text-align: center;
-  }
-}
-
-.primaryButton {
-  background-color: $color-primary;
-  color: #fff;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.primaryButton:hover {
-  background-color: $color-primary-dark;
-  transform: translateY(-2px);
-}
-
-.secondaryButton {
-  color: $color-primary;
-  border: 2px solid $color-primary;
-  background-color: #fff;
-  padding: 12px 24px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-.secondaryButton:hover {
-  border-color: $color-primary-dark;
-  transform: translateY(-2px);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }

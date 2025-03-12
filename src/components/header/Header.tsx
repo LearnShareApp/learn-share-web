@@ -15,7 +15,7 @@ const Header = () => {
         <div className={styles.wrapper}>
           {/* Левая часть - логотип */}
           <div className={styles.logo}>
-            <Link href="/">
+            <Link href="/home">
               <Image
                 src="/logo.png"
                 alt="Learn&Share Logo"
@@ -29,9 +29,9 @@ const Header = () => {
           {/* Центральная часть - основное меню */}
           <nav className={styles.navigation}>
             <Link
-              href="/"
+              href="/home"
               className={`${styles.navLink} ${
-                pathname === "/" ? styles.active : ""
+                pathname === "/home" ? styles.active : ""
               }`}
             >
               <svg

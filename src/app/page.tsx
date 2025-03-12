@@ -1,109 +1,155 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./page.module.scss";
 
-export default function HomePage() {
+export default function LandingPage() {
   return (
     <div className={styles.container}>
-      <div className={styles.columns}>
-        <div className={styles.leftColumn}>
-          <section className="card">
-            <div className={styles.userInfo}>
-              <div className={styles.avatarWrapper}>
-                <Image
-                  src="/default-avatar.png"
-                  alt="Фото профиля"
-                  width="80"
-                  height="80"
-                  style={{ borderRadius: "50%" }}
-                />
-              </div>
-              <div className={styles.details}>
-                <h1 className={styles.userName}>Имя Пользователя</h1>
-                <p className={styles.userRole}>Ученик</p>
-              </div>
-            </div>
-          </section>
-          <section className="card balance">
-            <h2>Баланс</h2>
-            <div className={styles.balanceWrapper}>
-              <p>$1000 USD</p>
+      <section className={styles.hero}>
+        <div className={styles.heroContent}>
+          <h1>
+            Добро пожаловать в{" "}
+            <span className={styles.highlight}>Learn&amp;Share</span>
+          </h1>
+          <p>Обучение никогда не было таким простым и доступным!</p>
+          <div className={styles.heroButtons}>
+            <Link href="/signup" className={styles.primaryButton}>
+              Начать обучение
+            </Link>
+            <Link href="/home" className={styles.secondaryButton}>
+              Войти в кабинет
+            </Link>
+          </div>
+        </div>
+        <div className={styles.heroImage}>
+          <Image
+            src="/hero-image.jpg"
+            alt="Учимся вместе"
+            width={600}
+            height={400}
+          />
+        </div>
+      </section>
+      <section className={styles.about}>
+        <h2>О Нас</h2>
+        <p>
+          Мы создаем сообщество единомышленников, где каждый может учиться,
+          делиться опытом и открывать новые возможности. Наша миссия – сделать
+          обучение доступным для всех.
+        </p>
+      </section>
+      <section className={styles.features}>
+        <h2>Наши Преимущества</h2>
+        <div className={styles.featureGrid}>
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
               <svg
-                width="16"
-                height="16"
+                xmlns="http://www.w3.org/2000/svg"
+                width="48"
+                height="48"
                 viewBox="0 0 24 24"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-book"
               >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-                <line
-                  x1="12"
-                  y1="6"
-                  x2="12"
-                  y2="18"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-                <line
-                  x1="6"
-                  y1="12"
-                  x2="18"
-                  y2="12"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v19H6.5A2.5 2.5 0 0 1 4 18.5z"></path>
               </svg>
             </div>
-          </section>
-          <section className="card">
-            <div className={styles.mobileAppBanner}>
-              <div>
-                <h3>Попробуйте мобильную версию</h3>
-                <Link href="/download" className={styles.downloadButton}>
-                  Скачать приложение
-                </Link>
-              </div>
-              <Image
-                className={styles.appLogo}
-                src="/app-logo.png"
-                alt="Скачать приложение"
-                width={100}
-                height={100}
-              />
+            <h3 className={styles.featureTitle}>
+              Инновационные методы обучения
+            </h3>
+            <p className={styles.featureDescription}>
+              Мы используем современные подходы для эффективного усвоения
+              знаний.
+            </p>
+          </div>
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-layout"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+              </svg>
             </div>
-          </section>
-        </div>
-        <div className={styles.rightColumn}>
-          <section className="card">
-            <h2 className={styles.sectionTitle}>Следующий урок</h2>
-            <div className={styles.lessonDetails}>
-              <p>Дата и время: 25 декабря, 15:00</p>
-              <p>Учитель: Иван Иванов</p>
+            <h3 className={styles.featureTitle}>
+              Удобный и современный интерфейс
+            </h3>
+            <p className={styles.featureDescription}>
+              Простой и интуитивно понятный дизайн для комфортного обучения.
+            </p>
+          </div>
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-users"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M9 21v-2a4 4 0 0 1 3-3.87"></path>
+                <path d="M12 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                <path d="M8 3.13a4 4 0 0 0 0 7.75"></path>
+              </svg>
             </div>
-          </section>
-          <section className="card">
-            <h2 className={styles.sectionTitle}>Предыдущие учителя</h2>
-            <ul className={styles.teachersList}>
-              <li>Мария Петрова</li>
-              <li>Алексей Смирнов</li>
-              <li>Ольга Кузнецова</li>
-            </ul>
-          </section>
-          <Link href="/teachers">
-            <section className="card search-teacher">
-              <h3 style={{ textAlign: "center" }}>Найти нового учителя</h3>
-            </section>
-          </Link>
+            <h3 className={styles.featureTitle}>Поддержка сообщества</h3>
+            <p className={styles.featureDescription}>
+              Мы создаем дружелюбное сообщество для обмена опытом и
+              взаимопомощи.
+            </p>
+          </div>
         </div>
-      </div>
+      </section>
+      <section className={styles.testimonials}>
+        <h2>Отзывы наших студентов</h2>
+        <div className={styles.testimonialsGrid}>
+          <div className={styles.testimonialCard}>
+            <p>
+              &quot;Это лучший образовательный проект, в котором я когда-либо
+              учился!&quot;
+            </p>
+            <span>Анна</span>
+          </div>
+          <div className={styles.testimonialCard}>
+            <p>
+              &quot;Благодаря Learn &amp; Share я смог найти свое призвание в
+              жизни.&quot;
+            </p>
+            <span>Иван</span>
+          </div>
+          <div className={styles.testimonialCard}>
+            <p>
+              &quot;Замечательная платформа, которая помогает развиваться каждый
+              день.&quot;
+            </p>
+            <span>Мария</span>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
