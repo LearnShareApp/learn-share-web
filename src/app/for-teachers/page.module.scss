@@ -1,4 +1,5 @@
 @use "../../styles/variables.scss" as *;
+@use "sass:color" as color;
 
 .container {
   padding: $container-padding;
@@ -25,4 +26,55 @@
   color: $color-text-secondary;
   margin-bottom: 32px;
   line-height: 1.5;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.button {
+  padding: 12px 20px;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-background-primary;
+  background-color: $color-primary;
+  border: none;
+  border-radius: $border-radius-lg;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: color.adjust($color-text-primary, $lightness: 10%);
+}
+
+.lessonsList {
+  margin-top: 32px;
+  padding: 16px;
+  background-color: color.adjust($color-background-primary, $lightness: 5%);
+  border: 1px solid color.adjust($color-background-primary, $lightness: 10%);
+  border-radius: $border-radius-lg;
+}
+
+.lessonsList h2 {
+  font-size: $font-size-lg;
+  color: $color-text-primary;
+  margin-bottom: 16px;
+}
+
+.lessonsList ul {
+  list-style: none;
+  padding: 0;
+}
+
+.lessonsList ul li {
+  padding: 8px 0;
+  border-bottom: 1px solid
+    color.adjust($color-background-primary, $lightness: 10%);
+}
+
+.lessonsList ul li:last-child {
+  border-bottom: none;
 }

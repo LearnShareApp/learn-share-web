@@ -194,10 +194,7 @@ a.secondary {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  overflow: hidden;
   background-color: $color-background-secondary;
-  border: 2px solid #383838;
-  padding: 4px;
 }
 
 .avatar {
@@ -216,7 +213,6 @@ a.secondary {
 .details {
   display: flex;
   flex-direction: column;
-  margin-left: 16px;
 }
 
 .userName {
@@ -414,22 +410,21 @@ a.secondary {
 /* Добавленные стили для разделения контента на две колонки */
 .columns {
   display: flex;
-  gap: 32px;
+  gap: 16px;
 }
 
 .leftColumn {
   flex: 1;
-  section {
-    margin-bottom: 20px;
-  }
-
-  section:last-child {
-    margin-bottom: 0;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .rightColumn {
   flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 @media (max-width: 768px) {
@@ -443,24 +438,31 @@ a.secondary {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  text-align: center;
   margin-bottom: 20px;
+}
+
+.balanceWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .mobileAppBanner {
-  background: linear-gradient(135deg, $color-primary, $color-primary-dark);
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.mobileAppBanner > div {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .downloadButton {
-  background-color: #383838;
+  display: inline-block;
+  background-color: $color-primary;
   color: #fff;
   padding: 10px 20px;
   border-radius: 8px;
@@ -468,6 +470,20 @@ a.secondary {
   transition: background-color 0.3s ease;
 }
 
+.appLogo {
+  width: 100px;
+  height: 100px;
+  border-radius: $border-radius-lg;
+}
+
 .downloadButton:hover {
-  background-color: #2e2e2e;
+  background-color: $color-primary-dark;
+}
+
+.search-teacher {
+  cursor: pointer;
+
+  h3 {
+    text-align: center;
+  }
 }

@@ -6,13 +6,13 @@ export default function ChatsPage() {
   return (
     <div className={`${styles.container} ${styles.chatPage}`}>
       <div className={styles.chatLayout}>
-        <div className={styles.sidebar}>
+        <section className="card">
           <h2 className={styles.sidebarTitle}>Сообщения</h2>
           <div className={styles.chatsList}>
             {/* Здесь будет список чатов */}
           </div>
-        </div>
-        <div className={styles.chatWindow}>
+        </section>
+        <section className="card">
           <div className={styles.chatHeader}>
             <h2>Выберите чат для начала общения</h2>
           </div>
@@ -22,7 +22,7 @@ export default function ChatsPage() {
           <div className={styles.messageInput}>
             {/* Здесь будет форма отправки сообщений */}
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

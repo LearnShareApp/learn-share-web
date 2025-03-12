@@ -26,7 +26,7 @@ export default function ProfilePage() {
       </div>
 
       <div className={styles.content}>
-        <div className={styles.section}>
+        <section className="card">
           <h2 className={styles.sectionTitle}>Личная информация</h2>
           <div className={styles.infoGrid}>
             <div className={styles.infoItem}>
@@ -42,9 +42,9 @@ export default function ProfilePage() {
               <span className={styles.value}>Москва (GMT+3)</span>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className={styles.section}>
+        <section className="card">
           <h2 className={styles.sectionTitle}>Статистика</h2>
           <div className={styles.statsGrid}>
             <div className={styles.statCard}>
@@ -60,7 +60,7 @@ export default function ProfilePage() {
               <span className={styles.statLabel}>Часа обучения</span>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

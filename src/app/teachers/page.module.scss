@@ -1,3 +1,5 @@
+@use "sass:color" as color;
+
 @use "../../styles/variables.scss" as *;
 
 .container {
@@ -18,4 +20,124 @@
   border-radius: $border-radius-lg;
   padding: 24px;
   box-shadow: $shadow-sm;
+}
+
+/* Добавляю новые стили для элементов поиска */
+
+.searchContainer {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: $font-size-lg;
+  border: 1px solid #ccc;
+  border-radius: $border-radius-md;
+}
+
+.navIcon {
+  width: 26px;
+  height: 26px;
+  stroke-width: 1.6;
+}
+
+.filterButton {
+  padding: 8px 16px;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-background-primary;
+  background-color: $color-text-primary;
+  border: none;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filterButton:hover {
+  background-color: color.adjust($color-text-primary, $lightness: 10%);
+}
+
+/* Обновляю стиль для контейнера выбора категории */
+
+.categoryContainer {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+/* Добавляю стили для селекторов сортировки (они похожи на .categorySelect) */
+
+.sortSelect,
+.sortLanguageSelect,
+.sortOriginSelect {
+  padding: 8px 12px;
+  font-size: $font-size-lg;
+  border: 1px solid #ccc;
+  border-radius: $border-radius-md;
+}
+
+/* Заменяю .resetButton:hover */
+.resetButton:hover {
+  background-color: color.adjust($color-text-primary, $lightness: 10%);
+}
+
+/* Новые стили для обновлённой структуры страницы */
+
+.header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.searchSection {
+  margin-bottom: 24px;
+}
+
+.searchForm {
+  width: 100%;
+}
+
+.searchContainer {
+  display: flex;
+  gap: 8px;
+}
+
+.searchButton {
+  background-color: $color-primary;
+  color: $color-background-primary;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchButton:hover {
+  background-color: color.adjust($color-text-primary, $lightness: 10%);
+}
+
+.filtersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.resultsSection {
+  margin-top: 32px;
+}
+
+/* Добавляю новые стили для фильтров */
+
+.filter {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 1rem;
 }
