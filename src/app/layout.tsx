@@ -4,6 +4,7 @@ import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import "@/styles/globals.scss";
 import LanguageProvider from "@/providers/LanguageProvider";
+import AuthRedirector from "@/components/AuthRedirector";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,7 @@ export default function RootLayout({
     <html lang="ru">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <LanguageProvider>
+          <AuthRedirector />
           <Header />
           <main className="pt-[64px]">{children}</main>
           <Footer />

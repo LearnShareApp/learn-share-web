@@ -19,10 +19,10 @@ export default function LandingPage() {
           </h1>
           <p>{t.subtitle}</p>
           <div className={styles.heroButtons}>
-            <Link href="/signup" className={styles.primaryButton}>
+            <Link href="/auth" className={styles.primaryButton}>
               {t.buttonPrimary}
             </Link>
-            <Link href="/home" className={styles.secondaryButton}>
+            <Link href="/auth" className={styles.secondaryButton}>
               {t.buttonSecondary}
             </Link>
           </div>
