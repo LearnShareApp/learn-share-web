@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useLanguage } from "@/components/LanguageProvider";
+import { useLanguage } from "@/providers/LanguageProvider";
 import styles from "./LanguageSwitcher.module.scss";
 
 const LanguageSwitcher: React.FC = () => {

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.scss";
-import { useLanguage } from "@/components/LanguageProvider";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 export default function LandingPage() {
   const { t } = useLanguage();
