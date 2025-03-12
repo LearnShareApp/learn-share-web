@@ -30,7 +30,7 @@ export const useLanguage = () => {
 const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [language, setLanguage] = useState<Language>("ru");
+  const [language, setLanguage] = useState<Language>("en");
 
   const t =
     language === "ru"

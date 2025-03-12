@@ -1,11 +1,32 @@
 "use client";
 
+// import { apiService } from "../../utilities/api";
+import { useEffect, useState } from "react";
+import { apiService, TeacherProfile } from "../../utilities/api";
 import styles from "./page.module.scss";
+import TeacherItem from "@/components/teacher-item/TeacherItem";
 
 export default function TeachersPage() {
+  const [teachers, setTeachers] = useState<TeacherProfile[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchTeachers() {
+      try {
+        const teachersData = await apiService.getTeachers();
+        setTeachers(teachersData);
+      } catch (err) {
+        console.error("Ошибка при получении учителей:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchTeachers();
+  }, []);
+
   return (
     <div className={styles.container}>
-      <main className={styles.content}>
+      <div className={styles.content}>
         <section className="card">
           <form className={styles.searchForm}>
             <div className={styles.searchContainer}>
@@ -169,9 +190,18 @@ export default function TeachersPage() {
           </form>
         </section>
         <section className={styles.resultsSection}>
-          {/* Teacher search results will be displayed here */}
+          <div className={`${styles.teachersList}`}>
+            {loading ? (
+              <p>Загрузка...</p>
+            ) : (
+              teachers.map((teacher) => (
+                <TeacherItem key={teacher.teacher_id} teacher={teacher} />
+              ))
+            )}
+          </div>
+          <div className={styles.info}></div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }

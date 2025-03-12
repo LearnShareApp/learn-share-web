@@ -1,0 +1,76 @@
+.teacherItemLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.teacherItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+.teacherItem:hover {
+  background-color: #f9f9f9;
+}
+
+.teacherItem__image {
+  flex-shrink: 0;
+}
+
+.teacherItem__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.teacherItem__names {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.teacherItem__skills {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.skillBadge {
+  background-color: #e0e0e0;
+  color: #333;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.teacherItem__rating {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.ratingValue {
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.star {
+  margin-left: 4px;
+  color: #f5a623;
+}
+
+.finishedLessons {
+  font-size: 0.9rem;
+  color: #666;
+}

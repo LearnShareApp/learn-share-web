@@ -8,6 +8,12 @@
   margin: 0 auto;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .title {
   font-size: $font-size-2xl;
   font-weight: $font-weight-bold;
@@ -175,4 +181,21 @@
   width: 20px;
   height: 20px;
   stroke: #333;
+}
+
+.resultsSection {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.teachersList {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16;
+}
+
+.info {
+  flex: 1;
 }
