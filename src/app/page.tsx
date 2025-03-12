@@ -3,23 +3,27 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.scss";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function LandingPage() {
+  const { t } = useLanguage();
+
   return (
     <div className={styles.container}>
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1>
-            Добро пожаловать в{" "}
-            <span className={styles.highlight}>Learn&amp;Share</span>
+            {t.title}
+            {` `}
+            <span className={styles.highlight}>{t.highlight}</span>
           </h1>
-          <p>Обучение никогда не было таким простым и доступным!</p>
+          <p>{t.subtitle}</p>
           <div className={styles.heroButtons}>
             <Link href="/signup" className={styles.primaryButton}>
-              Начать обучение
+              {t.buttonPrimary}
             </Link>
             <Link href="/home" className={styles.secondaryButton}>
-              Войти в кабинет
+              {t.buttonSecondary}
             </Link>
           </div>
         </div>
@@ -33,15 +37,11 @@ export default function LandingPage() {
         </div>
       </section>
       <section className={styles.about}>
-        <h2>О Нас</h2>
-        <p>
-          Мы создаем сообщество единомышленников, где каждый может учиться,
-          делиться опытом и открывать новые возможности. Наша миссия – сделать
-          обучение доступным для всех.
-        </p>
+        <h2>{t.aboutTitle}</h2>
+        <p>{t.aboutText}</p>
       </section>
       <section className={styles.features}>
-        <h2>Наши Преимущества</h2>
+        <h2>{t.featuresTitle}</h2>
         <div className={styles.featureGrid}>
           <div className={styles.featureCard}>
             <div className={styles.featureIcon}>
@@ -61,13 +61,8 @@ export default function LandingPage() {
                 <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v19H6.5A2.5 2.5 0 0 1 4 18.5z"></path>
               </svg>
             </div>
-            <h3 className={styles.featureTitle}>
-              Инновационные методы обучения
-            </h3>
-            <p className={styles.featureDescription}>
-              Мы используем современные подходы для эффективного усвоения
-              знаний.
-            </p>
+            <h3 className={styles.featureTitle}>{t.feature1Title}</h3>
+            <p className={styles.featureDescription}>{t.feature1Text}</p>
           </div>
           <div className={styles.featureCard}>
             <div className={styles.featureIcon}>
@@ -88,12 +83,8 @@ export default function LandingPage() {
                 <line x1="9" y1="21" x2="9" y2="9"></line>
               </svg>
             </div>
-            <h3 className={styles.featureTitle}>
-              Удобный и современный интерфейс
-            </h3>
-            <p className={styles.featureDescription}>
-              Простой и интуитивно понятный дизайн для комфортного обучения.
-            </p>
+            <h3 className={styles.featureTitle}>{t.feature2Title}</h3>
+            <p className={styles.featureDescription}>{t.feature2Text}</p>
           </div>
           <div className={styles.featureCard}>
             <div className={styles.featureIcon}>
@@ -116,37 +107,25 @@ export default function LandingPage() {
                 <path d="M8 3.13a4 4 0 0 0 0 7.75"></path>
               </svg>
             </div>
-            <h3 className={styles.featureTitle}>Поддержка сообщества</h3>
-            <p className={styles.featureDescription}>
-              Мы создаем дружелюбное сообщество для обмена опытом и
-              взаимопомощи.
-            </p>
+            <h3 className={styles.featureTitle}>{t.feature3Title}</h3>
+            <p className={styles.featureDescription}>{t.feature3Text}</p>
           </div>
         </div>
       </section>
       <section className={styles.testimonials}>
-        <h2>Отзывы наших студентов</h2>
+        <h2>{t.testimonialsTitle}</h2>
         <div className={styles.testimonialsGrid}>
           <div className={styles.testimonialCard}>
-            <p>
-              &quot;Это лучший образовательный проект, в котором я когда-либо
-              учился!&quot;
-            </p>
-            <span>Анна</span>
+            <p>{t.testimonial1Text}</p>
+            <span>{t.testimonial1Name}</span>
           </div>
           <div className={styles.testimonialCard}>
-            <p>
-              &quot;Благодаря Learn &amp; Share я смог найти свое призвание в
-              жизни.&quot;
-            </p>
-            <span>Иван</span>
+            <p>{t.testimonial2Text}</p>
+            <span>{t.testimonial2Name}</span>
           </div>
           <div className={styles.testimonialCard}>
-            <p>
-              &quot;Замечательная платформа, которая помогает развиваться каждый
-              день.&quot;
-            </p>
-            <span>Мария</span>
+            <p>{t.testimonial3Text}</p>
+            <span>{t.testimonial3Name}</span>
           </div>
         </div>
       </section>

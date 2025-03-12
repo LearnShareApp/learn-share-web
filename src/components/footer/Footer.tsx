@@ -1,6 +1,7 @@
 import React from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 import styles from "./Footer.module.scss";
+import LanguageSwitcher from "@/components/language-switcher/LanguageSwitcher";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -41,6 +42,7 @@ const Footer: React.FC = () => {
       <div className={styles.copy}>
         © {currentYear} Learn&Share. Все права защищены.
       </div>
+      <LanguageSwitcher />
     </footer>
   );
 };
