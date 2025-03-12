@@ -4,98 +4,93 @@ import styles from "./page.module.scss";
 export default function PrivacyPage() {
   return (
     <div className={styles.container}>
-      <h1>Политика конфиденциальности приложения Learn&amp;Share</h1>
+      <h1>Learn&amp;Share Application Privacy Policy</h1>
 
       <div className="card" style={{ padding: "1rem", marginBottom: "1rem" }}>
-        <h2>Введение</h2>
+        <h2>Introduction</h2>
         <p>
-          Настоящая Политика конфиденциальности описывает, как приложение
-          Learn&amp;Share собирает, использует и защищает информацию, полученную
-          от пользователей. Мы ценим вашу конфиденциальность и стремимся
-          обеспечить максимальную защиту ваших персональных данных.
+          This Privacy Policy describes how the Learn&amp;Share application
+          collects, uses, and protects information obtained from users. We value
+          your privacy and strive to provide maximum protection for your
+          personal data.
         </p>
       </div>
 
       <div className="card" style={{ padding: "1rem", marginBottom: "1rem" }}>
-        <h2>Собираемая информация</h2>
-        <p>Мы можем собирать следующие типы информации:</p>
+        <h2>Collected Information</h2>
+        <p>We may collect the following types of information:</p>
         <ul>
-          <li>
-            Персональные данные (имя, адрес электронной почты, номер телефона)
-          </li>
-          <li>Информация о навыках и интересах</li>
-          <li>Данные профиля (фотография, биография)</li>
-          <li>Информация о взаимодействиях между пользователями</li>
-          <li>
-            Технические данные (IP-адрес, тип устройства, операционная система)
-          </li>
+          <li>Personal data (name, email address, phone number)</li>
+          <li>Information about skills and interests</li>
+          <li>Profile data (photo, biography)</li>
+          <li>Information about user interactions</li>
+          <li>Technical data (IP address, device type, operating system)</li>
         </ul>
       </div>
 
       <div className="card" style={{ padding: "1rem", marginBottom: "1rem" }}>
-        <h2>Использование информации</h2>
-        <p>Собранная информация используется для:</p>
+        <h2>Use of Information</h2>
+        <p>The collected information is used for:</p>
         <ul>
-          <li>Создания и управления аккаунтами пользователей</li>
-          <li>Обеспечения функционирования платформы обмена навыками</li>
-          <li>Соединения учеников с преподавателями</li>
-          <li>Улучшения качества услуг и пользовательского опыта</li>
-          <li>Обеспечения безопасности платформы</li>
+          <li>Creating and managing user accounts</li>
+          <li>Ensuring the functioning of the skills exchange platform</li>
+          <li>Connecting students with teachers</li>
+          <li>Improving service quality and user experience</li>
+          <li>Ensuring platform security</li>
         </ul>
       </div>
 
       <div className="card" style={{ padding: "1rem", marginBottom: "1rem" }}>
-        <h2>Передача данных третьим лицам</h2>
+        <h2>Data Sharing with Third Parties</h2>
         <p>
-          Мы не продаем и не передаем ваши персональные данные третьим лицам без
-          вашего согласия, за исключением случаев:
+          We do not sell or transfer your personal data to third parties without
+          your consent, except in cases:
         </p>
         <ul>
-          <li>Когда это необходимо для обеспечения работы сервиса</li>
-          <li>В случаях, предусмотренных законодательством</li>
-          <li>С целью защиты прав и безопасности пользователей</li>
+          <li>When necessary to ensure service operation</li>
+          <li>In cases provided by law</li>
+          <li>To protect user rights and safety</li>
         </ul>
       </div>
 
       <div className="card" style={{ padding: "1rem", marginBottom: "1rem" }}>
-        <h2>Хранение и защита данных</h2>
+        <h2>Data Storage and Protection</h2>
         <p>
-          Мы принимаем все необходимые меры для защиты ваших данных от
-          несанкционированного доступа, изменения, раскрытия или уничтожения.
-          Данные хранятся только в течение периода, необходимого для обеспечения
-          работы сервиса.
+          We take all necessary measures to protect your data from unauthorized
+          access, alteration, disclosure, or destruction. Data is stored only
+          for the period necessary to ensure service operation.
         </p>
       </div>
 
       <div className="card" style={{ padding: "1rem", marginBottom: "1rem" }}>
-        <h2>Права пользователей</h2>
-        <p>Вы имеете право:</p>
+        <h2>User Rights</h2>
+        <p>You have the right to:</p>
         <ul>
-          <li>Получить доступ к своим персональным данным</li>
-          <li>Исправить неточную информацию</li>
-          <li>Удалить свои данные из системы</li>
-          <li>Отозвать свое согласие на обработку данных</li>
+          <li>Access your personal data</li>
+          <li>Correct inaccurate information</li>
+          <li>Delete your data from the system</li>
+          <li>Withdraw your consent to data processing</li>
         </ul>
       </div>
 
       <div className="card" style={{ padding: "1rem", marginBottom: "1rem" }}>
-        <h2>Изменения в политике конфиденциальности</h2>
+        <h2>Changes to Privacy Policy</h2>
         <p>
-          Мы оставляем за собой право вносить изменения в данную Политику
-          конфиденциальности. Пользователи будут уведомлены о существенных
-          изменениях через приложение или по электронной почте.
+          We reserve the right to make changes to this Privacy Policy. Users
+          will be notified of significant changes through the application or by
+          email.
         </p>
       </div>
 
       <div className="card" style={{ padding: "1rem", marginBottom: "1rem" }}>
-        <h2>Контактная информация</h2>
+        <h2>Contact Information</h2>
         <p>
-          По вопросам, касающимся данной Политики конфиденциальности, вы можете
-          связаться с нами по электронной почте: learnandshareapp@gmail.com.
+          For questions regarding this Privacy Policy, you can contact us by
+          email: learnandshareapp@gmail.com.
         </p>
       </div>
 
-      <p>Дата последнего обновления: 12 марта 2025 г.</p>
+      <p>Last updated: March 12, 2025</p>
     </div>
   );
 }

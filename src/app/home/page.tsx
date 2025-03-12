@@ -14,20 +14,20 @@ export default function HomePage() {
               <div className={styles.avatarWrapper}>
                 <Image
                   src="/default-avatar.png"
-                  alt="Фото профиля"
+                  alt="Profile Photo"
                   width="80"
                   height="80"
                   style={{ borderRadius: "50%" }}
                 />
               </div>
               <div className={styles.details}>
-                <h1 className={styles.userName}>Имя Пользователя</h1>
-                <p className={styles.userRole}>Ученик</p>
+                <h1 className={styles.userName}>User Name</h1>
+                <p className={styles.userRole}>Student</p>
               </div>
             </div>
           </section>
           <section className="card balance">
-            <h2>Баланс</h2>
+            <h2>Balance</h2>
             <div className={styles.balanceWrapper}>
               <p>$1000 USD</p>
               <svg
@@ -66,15 +66,15 @@ export default function HomePage() {
           <section className="card">
             <div className={styles.mobileAppBanner}>
               <div>
-                <h3>Попробуйте мобильную версию</h3>
+                <h3>Try the mobile version</h3>
                 <Link href="/download" className={styles.downloadButton}>
-                  Скачать приложение
+                  Download the App
                 </Link>
               </div>
               <Image
                 className={styles.appLogo}
                 src="/app-logo.png"
-                alt="Скачать приложение"
+                alt="Download the App"
                 width={100}
                 height={100}
               />
@@ -83,23 +83,23 @@ export default function HomePage() {
         </div>
         <div className={styles.rightColumn}>
           <section className="card">
-            <h2 className={styles.sectionTitle}>Следующий урок</h2>
+            <h2 className={styles.sectionTitle}>Next Lesson</h2>
             <div className={styles.lessonDetails}>
-              <p>Дата и время: 25 декабря, 15:00</p>
-              <p>Учитель: Иван Иванов</p>
+              <p>Date and Time: December 25, 15:00</p>
+              <p>Teacher: Ivan Ivanov</p>
             </div>
           </section>
           <section className="card">
-            <h2 className={styles.sectionTitle}>Предыдущие учителя</h2>
+            <h2 className={styles.sectionTitle}>Previous Teachers</h2>
             <ul className={styles.teachersList}>
-              <li>Мария Петрова</li>
-              <li>Алексей Смирнов</li>
-              <li>Ольга Кузнецова</li>
+              <li>Maria Petrova</li>
+              <li>Alexey Smirnov</li>
+              <li>Olga Kuznetsova</li>
             </ul>
           </section>
           <Link href="/teachers">
             <section className="card search-teacher">
-              <h3 style={{ textAlign: "center" }}>Найти нового учителя</h3>
+              <h3 style={{ textAlign: "center" }}>Find a New Teacher</h3>
             </section>
           </Link>
         </div>

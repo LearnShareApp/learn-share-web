@@ -4,23 +4,21 @@ import styles from "./page.module.scss";
 
 export default function ChatsPage() {
   return (
-    <div className={`${styles.container} ${styles.chatPage}`}>
+    <div className={styles.container}>
       <div className={styles.chatLayout}>
         <section className="card">
-          <h2 className={styles.sidebarTitle}>Сообщения</h2>
-          <div className={styles.chatsList}>
-            {/* Здесь будет список чатов */}
-          </div>
+          <h2 className={styles.sidebarTitle}>Messages</h2>
+          <div className={styles.chatsList}>{/* Chat list will be here */}</div>
         </section>
         <section className="card">
           <div className={styles.chatHeader}>
-            <h2>Выберите чат для начала общения</h2>
+            <h2>Select a chat to start conversation</h2>
           </div>
           <div className={styles.messagesList}>
-            {/* Здесь будут сообщения */}
+            {/* Messages will be here */}
           </div>
           <div className={styles.messageInput}>
-            {/* Здесь будет форма отправки сообщений */}
+            {/* Message input form will be here */}
           </div>
         </section>
       </div>

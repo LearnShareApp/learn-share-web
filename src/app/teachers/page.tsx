@@ -12,12 +12,12 @@ export default function TeachersPage() {
               <input
                 type="text"
                 className={styles.searchInput}
-                placeholder="Поиск учителей..."
+                placeholder="Search for Teachers..."
               />
               <button
                 type="submit"
                 className={styles.searchButton}
-                aria-label="Найти"
+                aria-label="Search"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -52,10 +52,10 @@ export default function TeachersPage() {
                   />
                 </svg>
                 <select className={styles.filter}>
-                  <option value="">Все категории</option>
-                  <option value="matematika">Математика</option>
-                  <option value="fizika">Физика</option>
-                  <option value="himiya">Химия</option>
+                  <option value="">All Categories</option>
+                  <option value="matematika">Mathematics</option>
+                  <option value="fizika">Physics</option>
+                  <option value="himiya">Chemistry</option>
                   {/* Можно добавить другие категории */}
                 </select>
               </div>
@@ -81,9 +81,9 @@ export default function TeachersPage() {
                   />
                 </svg>
                 <select className={styles.filter}>
-                  <option value="">Цена</option>
-                  <option value="asc">По возрастанию</option>
-                  <option value="desc">По убыванию</option>
+                  <option value="">Price</option>
+                  <option value="asc">Ascending</option>
+                  <option value="desc">Descending</option>
                 </select>
               </div>
               <div className={styles.filterWrapper}>
@@ -108,10 +108,10 @@ export default function TeachersPage() {
                   />
                 </svg>
                 <select className={styles.filter}>
-                  <option value="">Язык</option>
-                  <option value="ru">Русский</option>
-                  <option value="en">Английский</option>
-                  <option value="es">Испанский</option>
+                  <option value="">Language</option>
+                  <option value="ru">Russian</option>
+                  <option value="en">English</option>
+                  <option value="es">Spanish</option>
                 </select>
               </div>
               <div className={styles.filterWrapper}>
@@ -136,9 +136,9 @@ export default function TeachersPage() {
                   />
                 </svg>
                 <select className={styles.filter}>
-                  <option value="">Учителя из</option>
-                  <option value="local">Местные</option>
-                  <option value="foreign">Иностранные</option>
+                  <option value="">Teachers from</option>
+                  <option value="local">Local</option>
+                  <option value="foreign">Foreign</option>
                 </select>
               </div>
               <div className={styles.filterWrapper}>
@@ -157,19 +157,19 @@ export default function TeachersPage() {
                   />
                 </svg>
                 <select className={styles.filter}>
-                  <option value="">Все учителя</option>
-                  <option value="professional">Профессиональные</option>
-                  <option value="non-professional">Непрофессиональные</option>
+                  <option value="">All Teachers</option>
+                  <option value="professional">Professional</option>
+                  <option value="non-professional">Non-professional</option>
                 </select>
               </div>
               <button type="reset" className={styles.resetButton}>
-                Сброс фильтров
+                Reset Filters
               </button>
             </div>
           </form>
         </section>
         <section className={styles.resultsSection}>
-          {/* Здесь будут отображаться результаты поиска учителей */}
+          {/* Teacher search results will be displayed here */}
         </section>
       </main>
     </div>

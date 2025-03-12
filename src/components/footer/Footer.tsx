@@ -8,10 +8,10 @@ const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.links}>
-        <a href="/about">О нас</a>
-        <a href="/support">Поддержка</a>
-        <a href="/privacy">Политика</a>
-        <a href="/contacts">Контакты</a>
+        <a href="/about">About Us</a>
+        <a href="/support">Support</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/contacts">Contacts</a>
       </div>
       <div className={styles.social}>
         <a
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
         </a>
       </div>
       <div className={styles.copy}>
-        © {currentYear} Learn&Share. Все права защищены.
+        © {currentYear} Learn&Share. All rights reserved.
       </div>
       <LanguageSwitcher />
     </footer>
