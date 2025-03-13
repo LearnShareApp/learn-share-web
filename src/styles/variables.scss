@@ -9,9 +9,17 @@ $color-text-primary: #333333;
 $color-text-secondary: #666666;
 $color-text-light: #ffffff;
 
+$color-text-error: #dc2626;
+
 $color-background-primary: #ffffff;
 $color-background-secondary: #f3f4f6;
 $color-background-tertiary: #e5e7eb;
+
+$color-border: #e5e7eb;
+$color-border-light: #f3f4f6;
+$color-border-dark: #d1d5db;
+$color-border-primary: $color-primary;
+$color-border-error: #ef4444;
 
 // Тени
 $shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);

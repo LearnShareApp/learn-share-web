@@ -3,7 +3,7 @@ import { apiService, UserProfile } from "../utilities/api";
 
 const useProfile = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loadingProfile, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<unknown>(null);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const useProfile = () => {
     };
   }, []);
 
-  return { profile, loading, error };
+  return { profile, loadingProfile, error };
 };
 
 export default useProfile;

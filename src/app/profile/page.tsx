@@ -6,11 +6,12 @@ import Image from "next/image";
 import styles from "./page.module.scss";
 import useProfile from "../../hooks/useProfile";
 import { useAvatar } from "../../hooks/avatar-hook";
+import Loader from "@/components/loader/Loader";
 
 const ProfilePage = () => {
   const router = useRouter();
-  const { profile } = useProfile();
-  const { avatarSource } = useAvatar(profile?.avatar || null);
+  const { profile, loadingProfile } = useProfile();
+  const { avatarSource, loadingAvatar } = useAvatar(profile?.avatar || null);
 
   const handleLogout = () => {
     // Удаляем jwt токен из localStorage
@@ -19,8 +20,10 @@ const ProfilePage = () => {
     router.push("/");
   };
 
+  if (loadingProfile || loadingAvatar) return <Loader />;
+
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.header}>
         <div className={styles.profileInfo}>
           <div className={styles.avatarWrapper}>
@@ -98,7 +101,7 @@ const ProfilePage = () => {
       >
         Выйти
       </button>
-    </div>
+    </>
   );
 };
 

@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from "react";
 import { apiService } from "../../utilities/api";
 import { useRouter } from "next/navigation";
+import styles from "./page.module.scss";
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -55,33 +56,25 @@ const AuthPage = () => {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "0 auto", padding: "20px" }}>
-      <div style={{ display: "flex", marginBottom: "20px" }}>
+    <div className={styles["auth-container"]}>
+      <div className={styles["auth-toggle"]}>
         <button
           onClick={() => setIsLogin(true)}
-          style={{
-            flex: 1,
-            padding: "10px",
-            background: isLogin ? "#ccc" : "#fff",
-          }}
+          className={isLogin ? "active" : ""}
         >
           Вход
         </button>
         <button
           onClick={() => setIsLogin(false)}
-          style={{
-            flex: 1,
-            padding: "10px",
-            background: !isLogin ? "#ccc" : "#fff",
-          }}
+          className={!isLogin ? "active" : ""}
         >
           Регистрация
         </button>
       </div>
-      {message && <p>{message}</p>}
+      {message && <p className={styles["message"]}>{message}</p>}
       {isLogin ? (
-        <form onSubmit={handleLoginSubmit}>
-          <div style={{ marginBottom: "10px" }}>
+        <form onSubmit={handleLoginSubmit} className={styles["auth-form"]}>
+          <div>
             <label>Email:</label>
             <br />
             <input
@@ -91,10 +84,9 @@ const AuthPage = () => {
                 setLoginData({ ...loginData, email: e.target.value })
               }
               required
-              style={{ width: "100%" }}
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
+          <div>
             <label>Пароль:</label>
             <br />
             <input
@@ -104,16 +96,13 @@ const AuthPage = () => {
                 setLoginData({ ...loginData, password: e.target.value })
               }
               required
-              style={{ width: "100%" }}
             />
           </div>
-          <button type="submit" style={{ width: "100%", padding: "10px" }}>
-            Войти
-          </button>
+          <button type="submit">Войти</button>
         </form>
       ) : (
-        <form onSubmit={handleSignUpSubmit}>
-          <div style={{ marginBottom: "10px" }}>
+        <form onSubmit={handleSignUpSubmit} className={styles["auth-form"]}>
+          <div>
             <label>Имя:</label>
             <br />
             <input
@@ -123,10 +112,9 @@ const AuthPage = () => {
                 setSignUpData({ ...signUpData, name: e.target.value })
               }
               required
-              style={{ width: "100%" }}
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
+          <div>
             <label>Фамилия:</label>
             <br />
             <input
@@ -136,10 +124,9 @@ const AuthPage = () => {
                 setSignUpData({ ...signUpData, surname: e.target.value })
               }
               required
-              style={{ width: "100%" }}
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
+          <div>
             <label>Дата рождения:</label>
             <br />
             <input
@@ -149,10 +136,9 @@ const AuthPage = () => {
                 setSignUpData({ ...signUpData, birthdate: e.target.value })
               }
               required
-              style={{ width: "100%" }}
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
+          <div>
             <label>Email:</label>
             <br />
             <input
@@ -162,10 +148,9 @@ const AuthPage = () => {
                 setSignUpData({ ...signUpData, email: e.target.value })
               }
               required
-              style={{ width: "100%" }}
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
+          <div>
             <label>Пароль:</label>
             <br />
             <input
@@ -175,12 +160,9 @@ const AuthPage = () => {
                 setSignUpData({ ...signUpData, password: e.target.value })
               }
               required
-              style={{ width: "100%" }}
             />
           </div>
-          <button type="submit" style={{ width: "100%", padding: "10px" }}>
-            Зарегистрироваться
-          </button>
+          <button type="submit">Зарегистрироваться</button>
         </form>
       )}
     </div>

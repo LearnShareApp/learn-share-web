@@ -7,11 +7,39 @@ import styles from "./page.module.scss";
 import { apiService } from "../../../utilities/api";
 import useProfile from "../../../hooks/useProfile";
 import { useAvatar } from "@/hooks/avatar-hook";
+import * as zod from "zod";
+import Loader from "@/components/loader/Loader";
+
+const profileSchema = zod.object({
+  name: zod
+    .string()
+    .min(2, { message: "Имя должно содержать минимум 2 символа" }),
+  surname: zod
+    .string()
+    .min(2, { message: "Фамилия должна содержать минимум 2 символа" }),
+  birthdate: zod.string().optional(),
+  avatar: zod.string().optional(),
+});
+
+const validateProfileData = (data: {
+  name: string;
+  surname: string;
+  birthdate?: string;
+  avatar?: string;
+}) => {
+  try {
+    profileSchema.parse(data);
+    return null;
+  } catch (error) {
+    const zodError = error as zod.ZodError;
+    return zodError.errors.map((err) => err.message).join(", ");
+  }
+};
 
 const EditProfilePage = () => {
   const router = useRouter();
-  const { profile } = useProfile();
-  const { avatarSource } = useAvatar(profile?.avatar || null);
+  const { profile, loadingProfile } = useProfile();
+  const { avatarSource, loadingAvatar } = useAvatar(profile?.avatar || null);
 
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -33,7 +61,21 @@ const EditProfilePage = () => {
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    const validationError = validateProfileData({
+      name,
+      surname,
+      birthdate,
+      avatar: newAvatar,
+    });
+    if (validationError) {
+      setError(validationError);
+      setLoading(false);
+      return;
+    }
+
     try {
+      console.log(newAvatar);
       await apiService.updateProfile({
         name,
         surname,
@@ -65,6 +107,8 @@ const EditProfilePage = () => {
     if (newAvatar) return newAvatar;
     return avatarSource;
   };
+
+  if (loadingProfile || loadingAvatar) return <Loader />;
 
   return (
     <div className={styles.container}>

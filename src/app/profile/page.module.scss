@@ -1,16 +1,9 @@
 @use "../../styles/variables.scss" as *;
 
-.container {
-  padding: $container-padding;
-  max-width: $container-max-width;
-  margin: 0 auto;
-}
-
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
 }
 
 .profileInfo {

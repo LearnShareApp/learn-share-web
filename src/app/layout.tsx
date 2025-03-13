@@ -32,7 +32,7 @@ export default function RootLayout({
         <LanguageProvider>
           <AuthRedirector />
           <Header />
-          <main className="pt-[64px]">{children}</main>
+          <main className="pt-[64px] container">{children}</main>
           <Footer />
         </LanguageProvider>
       </body>

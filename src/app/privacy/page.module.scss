@@ -3,12 +3,9 @@
 @use "../../styles/variables.scss" as *;
 
 .container {
-  padding: 2rem;
   max-width: 800px;
-  margin: 0 auto;
-  line-height: 1.6;
-  font-size: 16px;
   color: #333;
+  margin: 0 auto;
 }
 
 .container h1 {

@@ -4,7 +4,7 @@ import styles from "./page.module.scss";
 
 export default function SchedulePage() {
   return (
-    <div className={styles.container}>
+    <>
       <h1 className={styles.title}>My Lessons</h1>
       <div className={styles.content}>
         <div className={styles.filters}>
@@ -16,6 +16,6 @@ export default function SchedulePage() {
           {/* Lessons list will be here */}
         </div>
       </div>
-    </div>
+    </>
   );
 }

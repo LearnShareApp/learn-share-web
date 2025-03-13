@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function ForTeachersPage() {
   return (
-    <div className={styles.container}>
+    <>
       <h1 className={styles.title}>For Teachers</h1>
       <div className={styles.content}>
         <div className={styles.description}>
@@ -32,6 +32,6 @@ export default function ForTeachersPage() {
           </ul>
         </div>
       </div>
-    </div>
+    </>
   );
 }
