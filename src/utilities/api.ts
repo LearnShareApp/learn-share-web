@@ -198,7 +198,7 @@ class ApiService {
     name: string;
     surname: string;
     birthdate: string;
-    avatar: string;
+    avatar?: string;
   }): Promise<string> {
     const response = await this.api.patch("/api/user/profile", data);
     return response.statusText;

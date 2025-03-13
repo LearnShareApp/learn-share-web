@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { TeacherProfile } from "../../utilities/api";
 import styles from "./TeacherItem.module.scss";
-import { useAvatar } from "../../utilities/avatar-hook";
+import { useAvatar } from "../../hooks/avatar-hook";
 
 interface TeacherItemProps {
   teacher: TeacherProfile;

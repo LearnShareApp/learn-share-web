@@ -4,10 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import styles from "./Header.module.scss";
+import useProfile from "@/hooks/useProfile";
+import { useAvatar } from "@/hooks/avatar-hook";
 
 const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
+
+  const { profile } = useProfile();
+  const { avatarSource } = useAvatar(profile?.avatar || null);
 
   return (
     <header className={styles.header}>
@@ -143,7 +148,7 @@ const Header = () => {
             <Link href="/profile" className={styles.profileLink}>
               <div className={styles.avatarWrapper}>
                 <Image
-                  src="/default-avatar.png"
+                  src={avatarSource}
                   alt="User Avatar"
                   width={32}
                   height={32}

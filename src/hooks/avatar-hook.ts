@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import { apiService } from "./api";
+import { useState, useEffect, useCallback } from "react";
+import { apiService } from "../utilities/api";
 
 export const useAvatar = (avatarId: string | null) => {
   const [avatar, setAvatar] = useState<string | null>(null);
   const [loadingAvatar, setLoadingAvatar] = useState<boolean>(true);
   const [errorAvatar, setErrorAvatar] = useState<string | null>(null);
 
-  const fetchAvatar = async () => {
+  const fetchAvatar = useCallback(async () => {
     if (!avatarId) {
       setLoadingAvatar(false);
       return;
@@ -35,11 +35,11 @@ export const useAvatar = (avatarId: string | null) => {
     } finally {
       setLoadingAvatar(false);
     }
-  };
+  }, [avatarId]);
 
   useEffect(() => {
     fetchAvatar();
-  }, [avatarId]);
+  }, [fetchAvatar]);
 
   // Возвращаем полученный аватар или путь к значку по умолчанию
   const avatarSource = avatar ? avatar : "/default-avatar.png";

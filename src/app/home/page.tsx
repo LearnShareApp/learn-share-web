@@ -3,8 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.scss";
+import useProfile from "../../hooks/useProfile";
+import { useAvatar } from "../../hooks/avatar-hook";
 
 export default function HomePage() {
+  const { profile } = useProfile();
+
+  const { avatarSource } = useAvatar(profile?.avatar || null);
+
   return (
     <div className={styles.container}>
       <div className={styles.columns}>
@@ -13,7 +19,7 @@ export default function HomePage() {
             <div className={styles.userInfo}>
               <div className={styles.avatarWrapper}>
                 <Image
-                  src="/default-avatar.png"
+                  src={avatarSource}
                   alt="Profile Photo"
                   width="80"
                   height="80"
@@ -21,7 +27,9 @@ export default function HomePage() {
                 />
               </div>
               <div className={styles.details}>
-                <h1 className={styles.userName}>User Name</h1>
+                <h1 className={styles.userName}>
+                  {profile ? `${profile.name} ${profile.surname}` : "User Name"}
+                </h1>
                 <p className={styles.userRole}>Student</p>
               </div>
             </div>
