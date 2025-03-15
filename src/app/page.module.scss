@@ -1,3 +1,5 @@
+@use "sass:color" as color;
+
 @use "../styles/variables.scss" as *;
 
 .page {
@@ -194,10 +196,7 @@ a.secondary {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  overflow: hidden;
   background-color: $color-background-secondary;
-  border: 2px solid #383838;
-  padding: 4px;
 }
 
 .avatar {
@@ -216,7 +215,6 @@ a.secondary {
 .details {
   display: flex;
   flex-direction: column;
-  margin-left: 16px;
 }
 
 .userName {
@@ -286,86 +284,107 @@ a.secondary {
 
 .hero {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 48px;
-  margin: 48px 0;
-
-  @media (max-width: $breakpoint-lg) {
-    flex-direction: column;
-    text-align: center;
-  }
+  justify-content: space-between;
+  padding: 100px 20px;
+  background: linear-gradient(
+    135deg,
+    color.adjust($color-primary, $lightness: 40%),
+    color.adjust($color-primary, $lightness: 20%)
+  );
+  border-radius: 16px;
+  margin-bottom: 60px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1.2s ease-out;
 }
 
 .heroContent {
   flex: 1;
+  padding-right: 20px;
 }
 
-.heroTitle {
-  font-size: 48px;
-  font-weight: $font-weight-bold;
+.heroContent h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
   color: $color-text-primary;
-  line-height: 1.2;
-  margin-bottom: 24px;
 }
 
-.heroDescription {
-  font-size: $font-size-lg;
+.heroContent p {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
   color: $color-text-secondary;
-  margin-bottom: 32px;
-  line-height: 1.5;
+}
+
+.highlight {
+  color: $color-primary;
 }
 
 .heroButtons {
   display: flex;
-  gap: 16px;
-
-  @media (max-width: $breakpoint-lg) {
-    justify-content: center;
-  }
-
-  @media (max-width: $breakpoint-sm) {
-    flex-direction: column;
-  }
-}
-
-.primaryButton {
-  padding: 12px 24px;
-  background-color: $color-primary;
-  color: $color-text-light;
-  border-radius: $border-radius-md;
-  font-weight: $font-weight-medium;
-  text-decoration: none;
-  transition: background-color $transition-fast;
-
-  &:hover {
-    background-color: $color-primary-dark;
-  }
-}
-
-.secondaryButton {
-  padding: 12px 24px;
-  background-color: $color-background-secondary;
-  color: $color-text-primary;
-  border-radius: $border-radius-md;
-  font-weight: $font-weight-medium;
-  text-decoration: none;
-  transition: background-color $transition-fast;
-
-  &:hover {
-    background-color: $color-background-tertiary;
-  }
+  gap: 20px;
 }
 
 .heroImage {
   flex: 1;
-  display: flex;
-  justify-content: center;
+  text-align: center;
+}
 
-  img {
-    max-width: 100%;
-    height: auto;
-    border-radius: $border-radius-lg;
-  }
+.heroImage img {
+  max-width: 100%;
+  border-radius: 12px;
+}
+
+.testimonials {
+  padding: 60px 0;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.testimonials h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.testimonialsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.testimonialCard {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonialCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+.testimonialCard p {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.testimonialCard span {
+  font-weight: bold;
+}
+
+.footer {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 0.9rem;
+  color: #999;
+  border-top: 1px solid #eee;
+  margin-top: 40px;
 }
 
 .features {
@@ -379,11 +398,17 @@ a.secondary {
 }
 
 .featureCard {
-  background-color: $color-background-primary;
+  background-color: #fff;
   padding: 32px;
-  border-radius: $border-radius-lg;
-  box-shadow: $shadow-sm;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .featureIcon {
@@ -414,22 +439,21 @@ a.secondary {
 /* Добавленные стили для разделения контента на две колонки */
 .columns {
   display: flex;
-  gap: 32px;
+  gap: 16px;
 }
 
 .leftColumn {
   flex: 1;
-  section {
-    margin-bottom: 20px;
-  }
-
-  section:last-child {
-    margin-bottom: 0;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .rightColumn {
   flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 @media (max-width: 768px) {
@@ -443,24 +467,31 @@ a.secondary {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  text-align: center;
   margin-bottom: 20px;
+}
+
+.balanceWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .mobileAppBanner {
-  background: linear-gradient(135deg, $color-primary, $color-primary-dark);
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.mobileAppBanner > div {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .downloadButton {
-  background-color: #383838;
+  display: inline-block;
+  background-color: $color-primary;
   color: #fff;
   padding: 10px 20px;
   border-radius: 8px;
@@ -468,6 +499,149 @@ a.secondary {
   transition: background-color 0.3s ease;
 }
 
+.appLogo {
+  width: 100px;
+  height: 100px;
+  border-radius: $border-radius-lg;
+}
+
 .downloadButton:hover {
-  background-color: #2e2e2e;
+  background-color: $color-primary-dark;
+}
+
+.search-teacher {
+  cursor: pointer;
+
+  h3 {
+    text-align: center;
+  }
+}
+
+.primaryButton {
+  background-color: $color-primary;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.primaryButton:hover {
+  background-color: $color-primary-dark;
+  transform: translateY(-2px);
+}
+
+.secondaryButton {
+  color: $color-primary;
+  border: 2px solid $color-primary;
+  background-color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.secondaryButton:hover {
+  border-color: $color-primary-dark;
+  transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gettingStarted {
+  padding: 80px 20px;
+  background-color: $color-background-secondary;
+  border-radius: 16px;
+  margin-bottom: 60px;
+  text-align: center;
+  box-shadow: $shadow-lg;
+}
+
+.gettingStarted h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: $color-primary-dark;
+}
+
+.columns {
+  display: flex;
+  gap: 24px;
+}
+
+.leftColumn,
+.rightColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: $color-background-primary;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: $shadow-md;
+}
+
+.leftColumn h3,
+.rightColumn h3 {
+  font-size: 1.75rem;
+  color: $color-primary-dark;
+}
+
+.leftColumn p,
+.rightColumn p {
+  font-size: 1rem;
+  color: $color-text-primary;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .columns {
+    flex-direction: column;
+  }
+}
+
+.gettingStarted ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1rem;
+  text-align: start;
+}
+
+.gettingStarted li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.gettingStarted li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $color-primary;
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.container ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: $color-primary;
+  font-size: 1.2rem;
+  line-height: 1.6;
 }

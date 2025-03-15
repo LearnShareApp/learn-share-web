@@ -1,0 +1,77 @@
+@use "sass:color" as color;
+@use "../../styles/variables.scss" as *;
+
+.auth-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: $color-background-primary;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.auth-toggle {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.auth-toggle button {
+  flex: 1;
+  padding: 10px;
+  background: $color-background-secondary;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-toggle button.active {
+  background: $color-primary;
+  color: $color-text-light;
+}
+
+.auth-toggle button:hover {
+  background: color.scale($color-primary, $lightness: -10%);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-form label {
+  margin-bottom: 5px;
+  color: $color-text-secondary;
+}
+
+.auth-form input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid $color-border;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.auth-form input:focus {
+  border-color: $color-primary;
+  outline: none;
+}
+
+.auth-form button {
+  padding: 10px;
+  background: $color-primary;
+  color: $color-text-light;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-form button:hover {
+  background: color.scale($color-primary, $lightness: -10%);
+}
+
+.message {
+  margin-bottom: 20px;
+  color: $color-text-error;
+}

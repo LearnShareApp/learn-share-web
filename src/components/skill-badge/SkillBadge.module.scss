@@ -1,0 +1,27 @@
+@use "../../styles/variables.scss" as *;
+@use "sass:color";
+
+.skillBadge {
+  display: inline-block;
+  padding: 0.75em 1.5em;
+  background-color: $color-background-secondary;
+  color: $color-text-primary;
+  border-radius: $border-radius-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  box-shadow: $shadow-md;
+  transition: background-color $transition-fast, transform $transition-fast;
+  cursor: pointer;
+
+  &:not(.active):hover {
+    background-color: $color-primary-light;
+    transform: translateY(-2px);
+  }
+}
+
+.active {
+  background-color: $color-primary;
+  color: $color-text-light;
+  transform: translateY(-2px);
+  position: relative;
+}

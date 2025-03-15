@@ -1,9 +1,11 @@
+@use "sass:color" as color;
+
 @use "../../styles/variables.scss" as *;
 
-.container {
-  padding: $container-padding;
-  max-width: $container-max-width;
-  margin: 0 auto;
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .title {
@@ -13,9 +15,181 @@
   margin-bottom: 24px;
 }
 
-.content {
-  background-color: $color-background-primary;
+/* Добавляю новые стили для элементов поиска */
+
+.searchContainer {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: $font-size-lg;
+  border: 1px solid #ccc;
+  border-radius: $border-radius-md;
+}
+
+.navIcon {
+  width: 26px;
+  height: 26px;
+  stroke-width: 1.6;
+}
+
+.filterButton {
+  padding: 8px 16px;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-background-primary;
+  background-color: $color-text-primary;
+  border: none;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filterButton:hover {
+  background-color: color.adjust($color-text-primary, $lightness: 10%);
+}
+
+/* Обновляю стиль для контейнера выбора категории */
+
+.categoryContainer {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+/* Добавляю стили для селекторов сортировки (они похожи на .categorySelect) */
+
+.sortSelect,
+.sortLanguageSelect,
+.sortOriginSelect {
+  padding: 8px 12px;
+  font-size: $font-size-lg;
+  border: 1px solid #ccc;
+  border-radius: $border-radius-md;
+}
+
+/* Заменяю .resetButton:hover */
+.resetButton:hover {
+  background-color: color.adjust($color-text-primary, $lightness: 10%);
+}
+
+/* Новые стили для обновлённой структуры страницы */
+
+.searchSection {
+  margin-bottom: 24px;
+}
+
+.searchForm {
+  width: 100%;
+}
+
+.searchContainer {
+  display: flex;
+  gap: 8px;
+}
+
+.searchButton {
+  background-color: $color-primary;
+  color: $color-background-primary;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchButton:hover {
+  background-color: color.adjust($color-text-primary, $lightness: 10%);
+}
+
+.filtersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Добавляю новые стили для фильтров */
+
+.filter {
+  padding: 0.5rem 0.5rem 0.5rem 2.5em;
+  border: none;
   border-radius: $border-radius-lg;
-  padding: 24px;
-  box-shadow: $shadow-sm;
+  background-color: $color-background-secondary;
+  font-size: 1rem;
+  color: #333;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  text-align: left;
+}
+
+.filter:hover {
+  background-color: #d6d6d6;
+}
+
+.filter:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.filter:active {
+  outline: none;
+  border: none;
+}
+
+/* Стили для кнопки сброса фильтров */
+.resetButton {
+  background: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  color: #333;
+}
+
+.resetButton:hover {
+  background: #e0e0e0;
+}
+
+/* Стили для контейнера иконок фильтров */
+.filterWrapper {
+  position: relative;
+}
+
+/* Стили для иконок фильтров */
+.filterIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  width: 20px;
+  height: 20px;
+  stroke: #333;
+}
+
+.resultsSection {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.teachersList {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16;
+}
+
+.info {
+  flex: 1;
 }

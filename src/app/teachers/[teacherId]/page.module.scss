@@ -1,0 +1,174 @@
+@use "sass:color" as color;
+
+@use "../../../styles/variables.scss" as *;
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.left {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  gap: 16;
+}
+
+.nameDate {
+  display: flex;
+  flex-direction: column;
+  gap: 16;
+}
+
+.skills {
+  padding: 10px;
+  background-color: $color-background-tertiary;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-md;
+}
+
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.video {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.video iframe {
+  width: 100%;
+  height: 315px;
+  border-radius: 8px;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.buttons button {
+  padding: 15px 20px;
+  font-size: $font-size-lg;
+  border: none;
+  background-color: $color-primary;
+  border-radius: $border-radius-lg;
+  color: $color-text-light;
+}
+
+.buttons button:hover {
+  background-color: $color-primary-dark;
+}
+
+.buttons button:last-child {
+  background-color: $color-background-secondary;
+  color: $color-text-primary;
+}
+
+.buttons button:last-child:hover {
+  background-color: $color-background-tertiary;
+}
+
+.skillDescription {
+  background-color: $color-background-primary;
+  padding: 15px;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  margin-top: 10px;
+  position: relative;
+}
+
+.skillDescription::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: var(--arrow-position, 50%);
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid $color-background-primary;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+}
+
+.statItem {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8;
+}
+
+.statValue {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.statLabel {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.profileDescription {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  overflow: hidden;
+}
+
+.expandButton {
+  position: relative;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  margin-top: 0;
+  padding: 5px 10px;
+  font-size: $font-size-sm;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: $color-text-secondary;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.expandButton:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.reviewsGrid {
+  display: contents;
+}

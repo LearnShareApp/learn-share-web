@@ -1,0 +1,38 @@
+@use "../../styles/variables.scss" as *;
+@use "sass:color";
+
+.reviewItem {
+  background-color: $color-background-secondary;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  padding: $container-padding;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: $container-padding;
+}
+
+.reviewItem h4 {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+.reviewItem span {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.reviewItem p {
+  font-size: $font-size-base;
+  color: $color-text-primary;
+  margin: 0;
+}
