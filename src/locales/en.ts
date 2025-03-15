@@ -24,6 +24,13 @@ const en = {
   testimonial2Name: "John",
   testimonial3Text: "An excellent platform that helps you grow every day.",
   testimonial3Name: "Mary",
+  gettingStartedTitle: "Getting Started",
+  learnTitle: "Learn",
+  learnText:
+    "Create a profile, browse teacher profiles and choose the right one, book a lesson with them and gain new knowledge!",
+  shareTitle: "Share",
+  shareText:
+    "Create a profile, record a video on YouTube where you talk about your skill and yourself, add a new category to your profile, choose a convenient time for your lessons, share your skills with everyone!",
 };
 
 export default en;

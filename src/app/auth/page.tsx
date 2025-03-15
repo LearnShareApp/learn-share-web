@@ -30,7 +30,6 @@ const AuthPage = () => {
     e.preventDefault();
     try {
       const response = await apiService.login(loginData);
-      setMessage("Успешный вход. Токен: " + response.token);
       localStorage.setItem("userToken", response.token);
       router.push("/home");
     } catch (error) {
@@ -46,7 +45,7 @@ const AuthPage = () => {
         ...signUpData,
         birthdate: new Date(signUpData.birthdate),
       });
-      setMessage("Успешная регистрация. Токен: " + response.token);
+      // setMessage("Успешная регистрация. Токен: " + response.token);
       localStorage.setItem("userToken", response.token);
       router.push("/home");
     } catch (error) {

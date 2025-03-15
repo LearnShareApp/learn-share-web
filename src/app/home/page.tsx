@@ -6,6 +6,7 @@ import styles from "./page.module.scss";
 import useProfile from "../../hooks/useProfile";
 import { useAvatar } from "../../hooks/avatar-hook";
 import Loader from "@/components/loader/Loader";
+import Avatar from "@/components/avatar/Avatar";
 
 export default function HomePage() {
   const { profile, loadingProfile } = useProfile();
@@ -19,13 +20,7 @@ export default function HomePage() {
         <section className="card">
           <div className={styles.userInfo}>
             <div className={styles.avatarWrapper}>
-              <Image
-                src={avatarSource}
-                alt="Profile Photo"
-                width="80"
-                height="80"
-                style={{ borderRadius: "50%" }}
-              />
+              <Avatar src={avatarSource} size={80} />
             </div>
             <div className={styles.details}>
               <h1 className={styles.userName}>
@@ -36,7 +31,7 @@ export default function HomePage() {
           </div>
         </section>
         <section className="card balance">
-          <h2>Balance</h2>
+          <h2>Balance (inDev)</h2>
           <div className={styles.balanceWrapper}>
             <p>$1000 USD</p>
             <svg

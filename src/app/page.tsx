@@ -3,45 +3,46 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.scss";
-import { useLanguage } from "@/providers/LanguageProvider";
 
 export default function LandingPage() {
-  const { t } = useLanguage();
-
   return (
     <div className={styles.container}>
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1>
-            {t.title}
+            Welcome to
             {` `}
-            <span className={styles.highlight}>{t.highlight}</span>
+            <span className={styles.highlight}>Learn&Share</span>
           </h1>
-          <p>{t.subtitle}</p>
+          <p>Learning has never been so simple and accessible!</p>
           <div className={styles.heroButtons}>
             <Link href="/auth" className={styles.primaryButton}>
-              {t.buttonPrimary}
+              Start Learning
             </Link>
             <Link href="/auth" className={styles.secondaryButton}>
-              {t.buttonSecondary}
+              Sign In
             </Link>
           </div>
         </div>
         <div className={styles.heroImage}>
           <Image
-            src="/hero-image.jpg"
-            alt="Учимся вместе"
+            src="/globe.svg"
+            alt="Learn Together"
             width={600}
             height={400}
           />
         </div>
       </section>
       <section className={styles.about}>
-        <h2>{t.aboutTitle}</h2>
-        <p>{t.aboutText}</p>
+        <h2>About Us</h2>
+        <p>
+          We are building a community of like-minded individuals where everyone
+          can learn, share experiences, and explore new possibilities. Our
+          mission is to make learning accessible for all.
+        </p>
       </section>
       <section className={styles.features}>
-        <h2>{t.featuresTitle}</h2>
+        <h2>Our Advantages</h2>
         <div className={styles.featureGrid}>
           <div className={styles.featureCard}>
             <div className={styles.featureIcon}>
@@ -61,8 +62,10 @@ export default function LandingPage() {
                 <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v19H6.5A2.5 2.5 0 0 1 4 18.5z"></path>
               </svg>
             </div>
-            <h3 className={styles.featureTitle}>{t.feature1Title}</h3>
-            <p className={styles.featureDescription}>{t.feature1Text}</p>
+            <h3 className={styles.featureTitle}>Innovative Learning Methods</h3>
+            <p className={styles.featureDescription}>
+              We use modern approaches for effective knowledge acquisition.
+            </p>
           </div>
           <div className={styles.featureCard}>
             <div className={styles.featureIcon}>
@@ -83,8 +86,12 @@ export default function LandingPage() {
                 <line x1="9" y1="21" x2="9" y2="9"></line>
               </svg>
             </div>
-            <h3 className={styles.featureTitle}>{t.feature2Title}</h3>
-            <p className={styles.featureDescription}>{t.feature2Text}</p>
+            <h3 className={styles.featureTitle}>
+              User-friendly and Modern Interface
+            </h3>
+            <p className={styles.featureDescription}>
+              Simple and intuitive design for a comfortable learning experience.
+            </p>
           </div>
           <div className={styles.featureCard}>
             <div className={styles.featureIcon}>
@@ -107,25 +114,55 @@ export default function LandingPage() {
                 <path d="M8 3.13a4 4 0 0 0 0 7.75"></path>
               </svg>
             </div>
-            <h3 className={styles.featureTitle}>{t.feature3Title}</h3>
-            <p className={styles.featureDescription}>{t.feature3Text}</p>
+            <h3 className={styles.featureTitle}>Community Support</h3>
+            <p className={styles.featureDescription}>
+              We foster a friendly community for sharing experiences and mutual
+              help.
+            </p>
           </div>
         </div>
       </section>
       <section className={styles.testimonials}>
-        <h2>{t.testimonialsTitle}</h2>
+        <h2>Student Testimonials</h2>
         <div className={styles.testimonialsGrid}>
           <div className={styles.testimonialCard}>
-            <p>{t.testimonial1Text}</p>
-            <span>{t.testimonial1Name}</span>
+            <p>This is the best educational platform I have ever attended!</p>
+            <span>Anna</span>
           </div>
           <div className={styles.testimonialCard}>
-            <p>{t.testimonial2Text}</p>
-            <span>{t.testimonial2Name}</span>
+            <p>Thanks to Learn & Share, I found my calling in life.</p>
+            <span>John</span>
           </div>
           <div className={styles.testimonialCard}>
-            <p>{t.testimonial3Text}</p>
-            <span>{t.testimonial3Name}</span>
+            <p>An excellent platform that helps you grow every day.</p>
+            <span>Mary</span>
+          </div>
+        </div>
+      </section>
+      <section className={styles.gettingStarted}>
+        <h2>Getting Started</h2>
+        <div className={styles.columns}>
+          <div className={styles.leftColumn}>
+            <h3>Learn</h3>
+            <ul>
+              <li>Create a profile</li>
+              <li>Browse teacher profiles and choose the right one</li>
+              <li>Book a lesson with them</li>
+              <li>Gain new knowledge!</li>
+            </ul>
+          </div>
+          <div className={styles.rightColumn}>
+            <h3>Share</h3>
+            <ul>
+              <li>Create a profile</li>
+              <li>
+                Record a video on YouTube where you talk about your skill and
+                yourself
+              </li>
+              <li>Add a new category to your profile</li>
+              <li>Choose a convenient time for your lessons</li>
+              <li>Share your skills with everyone!</li>
+            </ul>
           </div>
         </div>
       </section>

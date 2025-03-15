@@ -2,11 +2,11 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import styles from "./page.module.scss";
 import useProfile from "../../hooks/useProfile";
 import { useAvatar } from "../../hooks/avatar-hook";
 import Loader from "@/components/loader/Loader";
+import Avatar from "@/components/avatar/Avatar";
 
 const ProfilePage = () => {
   const router = useRouter();
@@ -27,13 +27,7 @@ const ProfilePage = () => {
       <div className={styles.header}>
         <div className={styles.profileInfo}>
           <div className={styles.avatarWrapper}>
-            <Image
-              src={avatarSource}
-              alt="Profile Photo"
-              width={120}
-              height={120}
-              className={styles.avatar}
-            />
+            <Avatar src={avatarSource} size={120} />
           </div>
           <div className={styles.userInfo}>
             <h1 className={styles.userName}>

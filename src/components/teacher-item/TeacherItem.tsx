@@ -1,9 +1,9 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { TeacherProfile } from "../../utilities/api";
 import styles from "./TeacherItem.module.scss";
 import { useAvatar } from "../../hooks/avatar-hook";
+import Avatar from "../avatar/Avatar";
 
 interface TeacherItemProps {
   teacher: TeacherProfile;
@@ -23,7 +23,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher, category }) => {
       : null;
 
   const teacherLink =
-    `/teacher/${teacher.teacher_id}` +
+    `/teachers/${teacher.teacher_id}` +
     (skillToShow ? `?category=${skillToShow.category_id}` : "");
 
   // Используем useAvatar для получения корректного URL для аватара, деструктурируя avatarSource
@@ -33,12 +33,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher, category }) => {
     <Link href={teacherLink} className={styles.teacherItemLink}>
       <div className={`${styles.teacherItem} card`}>
         <div className={styles.teacherItem__image}>
-          <Image
-            src={avatarSource}
-            alt={`${teacher.name} ${teacher.surname}`}
-            width={100}
-            height={100}
-          />
+          <Avatar src={avatarSource} size={100} />
         </div>
         <div className={styles.teacherItem__info}>
           <div className={styles.teacherItem__names}>

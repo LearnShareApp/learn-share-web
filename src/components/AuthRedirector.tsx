@@ -8,7 +8,13 @@ export default function AuthRedirector() {
 
   useEffect(() => {
     const token = localStorage.getItem("userToken");
-    if (!token && pathname !== "/" && pathname !== "/auth") {
+    if (
+      !token &&
+      pathname !== "/" &&
+      pathname !== "/auth" &&
+      pathname !== "/privacy" &&
+      pathname !== "/about"
+    ) {
       router.replace("/");
     }
   }, [pathname, router]);
