@@ -1,0 +1,34 @@
+@use "../../styles/variables.scss" as *;
+
+.lessonItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $container-padding;
+  background-color: $color-background-primary;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  margin-bottom: 16px;
+}
+
+.lessonInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.lessonInfo h3 {
+  font-size: $font-size-lg;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+.lessonInfo p {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin: 0;
+}
+
+.lessonStatus {
+  font-size: $font-size-base;
+  color: $color-text-primary;
+}

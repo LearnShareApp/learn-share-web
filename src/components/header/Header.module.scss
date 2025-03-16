@@ -108,10 +108,11 @@
 }
 
 .avatarWrapper {
+  position: relative;
   width: 36px;
   height: 36px;
   border-radius: $border-radius-full;
-  overflow: hidden;
+
   background-color: $color-background-secondary;
   transition: transform $transition-fast;
 
@@ -124,4 +125,37 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: $color-background-primary;
+  color: $color-text-primary;
+  box-shadow: $shadow-md;
+  border-radius: $border-radius-md;
+  padding: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+  font-size: $font-size-base;
+}
+
+.dropdownItem {
+  padding: 8px 12px;
+  border-radius: $border-radius-sm;
+  transition: background-color $transition-fast, color $transition-fast;
+  cursor: pointer;
+
+  &:hover {
+    background-color: color.adjust($color-background-primary, $lightness: -5%);
+    color: $color-primary;
+  }
+}
+
+.avatarWrapper:hover .dropdownMenu {
+  display: flex;
 }

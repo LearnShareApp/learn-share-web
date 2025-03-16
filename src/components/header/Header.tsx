@@ -6,6 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import styles from "./Header.module.scss";
 import useProfile from "@/hooks/useProfile";
 import { useAvatar } from "@/hooks/avatar-hook";
+import { useState } from "react";
 
 const Header = () => {
   const router = useRouter();
@@ -13,6 +14,13 @@ const Header = () => {
 
   const { profile } = useProfile();
   const { avatarSource } = useAvatar(profile?.avatar || null);
+
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!isDropdownVisible);
+    console.log("Dropdown visibility:", !isDropdownVisible);
+  };
 
   return (
     <header className={styles.header}>
@@ -78,6 +86,28 @@ const Header = () => {
               <span>Search</span>
             </Link>
             <Link
+              href="/lessons"
+              className={`${styles.navLink} ${
+                pathname === "/lessons" ? styles.active : ""
+              }`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={styles.navIcon}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              <span>Lessons</span>
+            </Link>
+            <Link
               href="/for-teachers"
               className={`${styles.navLink} ${
                 pathname === "/for-teachers" ? styles.active : ""
@@ -98,28 +128,6 @@ const Header = () => {
                 />
               </svg>
               <span>For teachers</span>
-            </Link>
-            <Link
-              href="/schedule"
-              className={`${styles.navLink} ${
-                pathname === "/schedule" ? styles.active : ""
-              }`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={styles.navIcon}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-              <span>Lessons</span>
             </Link>
           </nav>
 
@@ -145,8 +153,12 @@ const Header = () => {
               </svg>
             </button>
 
-            <Link href="/profile" className={styles.profileLink}>
-              <div className={styles.avatarWrapper}>
+            <div
+              className={styles.avatarWrapper}
+              onMouseEnter={toggleDropdown}
+              onMouseLeave={toggleDropdown}
+            >
+              <Link href="/profile" className={styles.profileLink}>
                 <Image
                   src={avatarSource}
                   alt="User Avatar"
@@ -154,8 +166,26 @@ const Header = () => {
                   height={32}
                   className={styles.avatarImage}
                 />
-              </div>
-            </Link>
+              </Link>
+              {isDropdownVisible && (
+                <div className={styles.dropdownMenu}>
+                  <Link href="/settings" className={styles.dropdownItem}>
+                    Настройки
+                  </Link>
+                  <button
+                    onClick={() => {
+                      /* логика выхода из аккаунта */
+                    }}
+                    className={styles.dropdownItem}
+                  >
+                    Выйти
+                  </button>
+                  <div className={styles.dropdownItem}>
+                    Имя пользователя: {profile?.name}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

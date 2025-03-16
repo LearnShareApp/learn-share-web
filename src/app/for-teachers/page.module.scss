@@ -44,7 +44,6 @@
 }
 
 .lessonsList {
-  margin-top: 32px;
   padding: 16px;
   background-color: color.adjust($color-background-primary, $lightness: 5%);
   border: 1px solid color.adjust($color-background-primary, $lightness: 10%);
@@ -70,4 +69,43 @@
 
 .lessonsList ul li:last-child {
   border-bottom: none;
+}
+
+.pageContainer {
+  padding: $container-padding;
+  background-color: $color-background-secondary;
+  min-height: 100vh;
+}
+
+.mainContent {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: $container-padding;
+}
+
+.lessonsSection {
+  margin-bottom: 32px;
+  padding: 16px;
+  background-color: $color-background-primary;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-md;
+}
+
+.lessonsSection h2 {
+  font-size: $font-size-xl;
+  color: $color-text-primary;
+  margin-bottom: 16px;
+}
+
+.lessonsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.loading {
+  font-size: $font-size-lg;
+  color: $color-text-secondary;
+  text-align: center;
+  padding: 32px 0;
 }
