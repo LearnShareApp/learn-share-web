@@ -71,18 +71,6 @@
   border-bottom: none;
 }
 
-.pageContainer {
-  padding: $container-padding;
-  background-color: $color-background-secondary;
-  min-height: 100vh;
-}
-
-.mainContent {
-  max-width: $container-max-width;
-  margin: 0 auto;
-  padding: $container-padding;
-}
-
 .lessonsSection {
   margin-bottom: 32px;
   padding: 16px;
@@ -108,4 +96,31 @@
   color: $color-text-secondary;
   text-align: center;
   padding: 32px 0;
+}
+
+.errorContainer {
+  background-color: $color-background-secondary;
+  padding: 24px;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.becomeTeacherButton {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 20px;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-background-primary;
+  background-color: $color-primary;
+  border: none;
+  border-radius: $border-radius-lg;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.becomeTeacherButton:hover {
+  background-color: color.adjust($color-primary, $lightness: -10%);
 }

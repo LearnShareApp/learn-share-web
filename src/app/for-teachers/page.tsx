@@ -3,16 +3,17 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useTeacher } from "../../hooks/useTeacher";
 import { apiService, TeacherLesson } from "../../utilities/api";
-import Footer from "../../components/footer/Footer";
 import LessonItem from "../../components/lesson-item/LessonItem";
 import styles from "./page.module.scss";
 import Link from "next/link";
+import Loader from "@/components/loader/Loader";
 
 const TeachingPage = () => {
-  const { loadingTeacher, refetch } = useTeacher();
+  const { teacher, loadingTeacher, refetch } = useTeacher();
 
   const [pastLessons, setPastLessons] = useState<TeacherLesson[]>([]);
   const [upcomingLessons, setUpcomingLessons] = useState<TeacherLesson[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchLessons = useCallback(async () => {
     try {
@@ -31,8 +32,10 @@ const TeachingPage = () => {
       setUpcomingLessons(
         sortedLessons.filter((lesson) => new Date(lesson.datetime) >= now)
       );
+      setError(null);
     } catch (err) {
       console.error("Error details:", err);
+      setError("Не удалось загрузить данные. Хотите стать учителем?");
     }
   }, []);
 
@@ -40,47 +43,60 @@ const TeachingPage = () => {
     fetchLessons();
   }, []);
 
+  if (loadingTeacher) return <Loader />;
+
+  if (!teacher || error)
+    return (
+      <div className="card">
+        <p>Чтобы создать профиль преподавателя, выполните следующие шаги:</p>
+        <ol>
+          <li>
+            Запишите ролик с демонстрацией вашего навыка и загрузите его на
+            YouTube.
+          </li>
+          <li>Заполните форму подачи заявки на добавление навыка.</li>
+          <li>Подождите принятия вашей заявки.</li>
+        </ol>
+        <Link
+          href="/for-teachers/add-skill"
+          className={styles.becomeTeacherButton}
+        >
+          Стать преподавателем
+        </Link>
+      </div>
+    );
+
   return (
     <div className={styles.pageContainer}>
-      <main className={styles.mainContent}>
-        {loadingTeacher ? (
-          <div className={styles.loading}>Loading...</div>
-        ) : (
-          <>
-            <div className={styles.buttonContainer}>
-              <Link href="/for-teachers/add-time" className={styles.button}>
-                Add Time
-              </Link>
-              <Link
-                href="/for-teachers/lesson-requests"
-                className={styles.button}
-              >
-                Handle Lesson Requests
-              </Link>
-              <Link href="/for-teachers/statistics" className={styles.button}>
-                Statistics
-              </Link>
-            </div>
-            <section className={styles.lessonsSection}>
-              <h2>Upcoming Lessons</h2>
-              <div className={styles.lessonsList}>
-                {upcomingLessons.map((lesson) => (
-                  <LessonItem key={lesson.lesson_id} lesson={lesson} />
-                ))}
-              </div>
-            </section>
-            <section className={styles.lessonsSection}>
-              <h2>Previous Lessons</h2>
-              <div className={styles.lessonsList}>
-                {pastLessons.map((lesson) => (
-                  <LessonItem key={lesson.lesson_id} lesson={lesson} />
-                ))}
-              </div>
-            </section>
-          </>
-        )}
-      </main>
-      <Footer />
+      <>
+        <div className={styles.buttonContainer}>
+          <Link href="/for-teachers/add-time" className={styles.button}>
+            Add Time
+          </Link>
+          <Link href="/for-teachers/lesson-requests" className={styles.button}>
+            Handle Lesson Requests
+          </Link>
+          <Link href="/for-teachers/statistics" className={styles.button}>
+            Statistics
+          </Link>
+        </div>
+        <section className={styles.lessonsSection}>
+          <h2>Upcoming Lessons</h2>
+          <div className={styles.lessonsList}>
+            {upcomingLessons.map((lesson) => (
+              <LessonItem key={lesson.lesson_id} lesson={lesson} />
+            ))}
+          </div>
+        </section>
+        <section className={styles.lessonsSection}>
+          <h2>Previous Lessons</h2>
+          <div className={styles.lessonsList}>
+            {pastLessons.map((lesson) => (
+              <LessonItem key={lesson.lesson_id} lesson={lesson} />
+            ))}
+          </div>
+        </section>
+      </>
     </div>
   );
 };

@@ -199,13 +199,17 @@ export default function TeacherProfilePage() {
             isExpanded ? styles.reviewsExpanded : ""
           }`}
         >
-          <div className={styles.reviewsGrid}>
-            {(isExpanded ? reviews : reviews.slice(0, 6)).map(
-              (review, index) => (
-                <ReviewItem key={`${review.id}-${index}`} review={review} />
-              )
-            )}
-          </div>
+          {reviews.length > 0 ? (
+            <div className={styles.reviewsGrid}>
+              {(isExpanded ? reviews : reviews.slice(0, 6)).map(
+                (review, index) => (
+                  <ReviewItem key={`${review.id}-${index}`} review={review} />
+                )
+              )}
+            </div>
+          ) : (
+            <p className={styles.noReviews}>Пока нет отзывов</p>
+          )}
         </section>
         {reviews.length > 6 && (
           <button onClick={toggleExpand} className={styles.expandButton}>

@@ -7,6 +7,7 @@ import styles from "./Header.module.scss";
 import useProfile from "@/hooks/useProfile";
 import { useAvatar } from "@/hooks/avatar-hook";
 import { useState } from "react";
+import Avatar from "@/components/avatar/Avatar";
 
 const Header = () => {
   const router = useRouter();
@@ -20,6 +21,13 @@ const Header = () => {
   const toggleDropdown = () => {
     setDropdownVisible(!isDropdownVisible);
     console.log("Dropdown visibility:", !isDropdownVisible);
+  };
+
+  const handleLogout = () => {
+    // Удаляем jwt токен из localStorage
+    localStorage.removeItem("userToken");
+    // Перенаправляем пользователя на страницу авторизации
+    router.push("/");
   };
 
   return (
@@ -169,20 +177,22 @@ const Header = () => {
               </Link>
               {isDropdownVisible && (
                 <div className={styles.dropdownMenu}>
+                  <div
+                    className={styles.dropdownItem}
+                    onClick={() => router.push("/profile")}
+                  >
+                    <Avatar src={avatarSource} size={32} /> {profile?.name}{" "}
+                    {profile?.surname}
+                  </div>
                   <Link href="/settings" className={styles.dropdownItem}>
                     Настройки
                   </Link>
                   <button
-                    onClick={() => {
-                      /* логика выхода из аккаунта */
-                    }}
+                    onClick={handleLogout}
                     className={styles.dropdownItem}
                   >
                     Выйти
                   </button>
-                  <div className={styles.dropdownItem}>
-                    Имя пользователя: {profile?.name}
-                  </div>
                 </div>
               )}
             </div>

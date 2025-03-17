@@ -13,13 +13,6 @@ const ProfilePage = () => {
   const { profile, loadingProfile } = useProfile();
   const { avatarSource, loadingAvatar } = useAvatar(profile?.avatar || null);
 
-  const handleLogout = () => {
-    // Удаляем jwt токен из localStorage
-    localStorage.removeItem("userToken");
-    // Перенаправляем пользователя на страницу авторизации
-    router.push("/");
-  };
-
   if (loadingProfile || loadingAvatar) return <Loader />;
 
   return (
@@ -69,32 +62,26 @@ const ProfilePage = () => {
           <h2 className={styles.sectionTitle}>Statistics</h2>
           <div className={styles.statsGrid}>
             <div className={styles.statCard}>
-              <span className={styles.statValue}>12</span>
+              <span className={styles.statValue}>
+                {profile?.finished_lessons}
+              </span>
               <span className={styles.statLabel}>Completed Lessons</span>
             </div>
             <div className={styles.statCard}>
-              <span className={styles.statValue}>4</span>
+              <span className={styles.statValue}>
+                {profile?.count_of_teachers}
+              </span>
               <span className={styles.statLabel}>Teachers</span>
             </div>
             <div className={styles.statCard}>
-              <span className={styles.statValue}>24</span>
+              <span className={styles.statValue}>
+                {profile?.finished_lessons}
+              </span>
               <span className={styles.statLabel}>Learning Hours</span>
             </div>
           </div>
         </section>
       </div>
-
-      <button
-        onClick={handleLogout}
-        style={{
-          padding: "10px",
-          background: "#ccc",
-          border: "none",
-          cursor: "pointer",
-        }}
-      >
-        Выйти
-      </button>
     </>
   );
 };
