@@ -9,6 +9,64 @@ import { useAvatar } from "@/hooks/avatar-hook";
 import { useState, useEffect, useRef } from "react";
 import Avatar from "@/components/avatar/Avatar";
 
+// Иконки для выпадающего меню
+const ProfileIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={styles.dropdownIcon}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+    />
+  </svg>
+);
+
+const SettingsIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={styles.dropdownIcon}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+    />
+  </svg>
+);
+
+const LogoutIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={styles.dropdownIcon}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+    />
+  </svg>
+);
+
 const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -18,6 +76,24 @@ const Header = () => {
   const { profile } = useProfile();
   const { avatarSource } = useAvatar(profile?.avatar || null);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const avatarContainerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Определяем, является ли устройство мобильным
+  useEffect(() => {
+    const checkIfMobile = () => {
+      const mediaQuery = window.matchMedia("(max-width: 768px)");
+      setIsMobile(mediaQuery.matches);
+    };
+
+    // Проверяем сразу
+    checkIfMobile();
+
+    // Добавляем слушатель изменения размера экрана
+    window.addEventListener("resize", checkIfMobile);
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, []);
 
   // Проверяем авторизацию при монтировании компонента
   useEffect(() => {
@@ -26,18 +102,50 @@ const Header = () => {
     setIsAuthenticated(!!userToken);
   }, []);
 
+  // Закрытие выпадающего меню при клике вне его на мобильных устройствах
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isMobile &&
+        dropdownRef.current &&
+        avatarContainerRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        !avatarContainerRef.current.contains(event.target as Node)
+      ) {
+        setDropdownVisible(false);
+      }
+    };
+
+    // Добавляем обработчик только если меню открыто
+    if (isDropdownVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownVisible, isMobile]);
+
+  // Обработчик для переключения видимости выпадающего меню
   const toggleDropdown = () => {
-    setDropdownVisible(!isDropdownVisible);
-    console.log("Dropdown visibility:", !isDropdownVisible);
+    // Переключаем меню только на мобильных устройствах
+    if (isMobile) {
+      setDropdownVisible(!isDropdownVisible);
+    }
   };
 
+  // Обработчик выхода пользователя из системы
   const handleLogout = () => {
-    // Удаляем jwt токен из localStorage
     localStorage.removeItem("userToken");
-    // Обновляем состояние авторизации
     setIsAuthenticated(false);
-    // Перенаправляем пользователя на страницу авторизации
+    setDropdownVisible(false);
     router.push("/");
+  };
+
+  // Навигация на другую страницу с закрытием меню
+  const navigateTo = (path: string) => {
+    router.push(path);
+    setDropdownVisible(false);
   };
 
   useEffect(() => {
@@ -106,6 +214,7 @@ const Header = () => {
             </svg>
             <span>Home</span>
           </Link>
+          {/* Остальные пункты навигации */}
           <Link
             href="/teachers"
             className={`${styles.navLink} ${
@@ -200,6 +309,7 @@ const Header = () => {
             </svg>
             <span>About us</span>
           </Link>
+          {/* Остальные пункты навигации */}
           <Link
             href="/support"
             className={`${styles.navLink} ${
@@ -284,8 +394,9 @@ const Header = () => {
       return (
         <div className={styles.userActions}>
           <button
-            onClick={() => router.push("/chats")}
+            onClick={() => navigateTo("/chats")}
             className={styles.chatButton}
+            aria-label="Open chats"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -303,34 +414,50 @@ const Header = () => {
             </svg>
           </button>
 
-          <div
-            className={styles.avatarWrapper}
-            onMouseEnter={toggleDropdown}
-            onMouseLeave={toggleDropdown}
-          >
-            <Link href="/profile" className={styles.profileLink}>
-              <Image
-                src={avatarSource}
-                alt="User Avatar"
-                width={32}
-                height={32}
-                className={styles.avatarImage}
-              />
-            </Link>
-            {isDropdownVisible && (
-              <div className={styles.dropdownMenu}>
-                <div
-                  className={styles.dropdownItem}
-                  onClick={() => router.push("/profile")}
-                >
-                  <Avatar src={avatarSource} size={32} /> {profile?.name}{" "}
-                  {profile?.surname}
+          <div className={styles.avatarContainer} ref={avatarContainerRef}>
+            <button
+              className={styles.avatarButton}
+              onClick={toggleDropdown}
+              aria-expanded={isDropdownVisible}
+              aria-haspopup="true"
+              aria-label="Open user menu"
+            >
+              <Avatar src={avatarSource} size={36} />
+            </button>
+
+            {/* На десктопах меню всегда в DOM, но скрыто через CSS */}
+            {/* На мобильных - показываем только при isDropdownVisible = true */}
+            {(!isMobile || isDropdownVisible) && (
+              <div className={styles.dropdownMenu} ref={dropdownRef}>
+                <div className={styles.userProfile}>
+                  <Avatar src={avatarSource} size={40} />
+                  <div className={styles.userInfo}>
+                    <div className={styles.userName}>
+                      {profile?.name} {profile?.surname}
+                    </div>
+                    <div className={styles.userRole}>Student</div>
+                  </div>
                 </div>
-                <Link href="/settings" className={styles.dropdownItem}>
-                  Settings
-                </Link>
-                <button onClick={handleLogout} className={styles.dropdownItem}>
-                  Logout
+
+                <button
+                  className={styles.dropdownItem}
+                  onClick={() => navigateTo("/profile")}
+                >
+                  <ProfileIcon />
+                  Мой профиль
+                </button>
+
+                <button
+                  className={styles.dropdownItem}
+                  onClick={() => navigateTo("/settings")}
+                >
+                  <SettingsIcon />
+                  Настройки
+                </button>
+
+                <button className={styles.dropdownItem} onClick={handleLogout}>
+                  <LogoutIcon />
+                  Выйти
                 </button>
               </div>
             )}
@@ -342,7 +469,7 @@ const Header = () => {
       return (
         <div className={styles.userActions}>
           <Link href="/auth" className={styles.authButton}>
-            <button className={styles.joinButton}>Start learning</button>
+            <button className={styles.joinButton}>Начать обучение</button>
           </Link>
         </div>
       );
