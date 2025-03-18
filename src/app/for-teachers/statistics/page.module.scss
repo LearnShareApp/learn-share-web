@@ -1,0 +1,259 @@
+@use "../../../styles/variables.scss" as *;
+
+.pageContainer {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+.title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+.backLink {
+  color: $color-primary;
+  text-decoration: none;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.statsOverview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.statCard {
+  background-color: $color-background-primary;
+  border-radius: $border-radius-md;
+  padding: 24px;
+  box-shadow: $shadow-md;
+  text-align: center;
+  transition: transform $transition-fast;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.statValue {
+  font-size: 2.5rem;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  margin-bottom: 8px;
+}
+
+.statLabel {
+  font-size: $font-size-base;
+  color: $color-text-secondary;
+}
+
+.statsSection {
+  background-color: $color-background-primary;
+  border-radius: $border-radius-lg;
+  padding: 24px;
+  box-shadow: $shadow-md;
+  margin-bottom: 32px;
+
+  h2 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin-top: 0;
+    margin-bottom: 24px;
+  }
+}
+
+.chartContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 240px;
+
+  @media (max-width: $breakpoint-md) {
+    overflow-x: auto;
+    padding-bottom: 16px;
+  }
+}
+
+.chartItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 60px;
+}
+
+.chartBar {
+  width: 40px;
+  background-color: $color-primary;
+  border-radius: $border-radius-sm;
+  position: relative;
+  transition: all $transition-fast;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  &:hover {
+    background-color: $color-primary-dark;
+    transform: scaleY(1.05);
+  }
+}
+
+.chartValue {
+  color: $color-text-light;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-sm;
+  padding: 4px 0;
+}
+
+.chartLabel {
+  margin-top: 8px;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  text-align: center;
+}
+
+.twoColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.skillsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skillItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.skillName {
+  width: 140px;
+  font-size: $font-size-base;
+  color: $color-text-primary;
+}
+
+.skillBar {
+  flex: 1;
+  height: 12px;
+  background-color: $color-background-tertiary;
+  border-radius: $border-radius-full;
+  overflow: hidden;
+}
+
+.skillBarFill {
+  height: 100%;
+  background-color: $color-primary;
+  border-radius: $border-radius-full;
+  transition: width 0.5s ease;
+}
+
+.skillCount {
+  width: 40px;
+  text-align: right;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.reviewsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reviewItem {
+  padding: 16px;
+  background-color: $color-background-secondary;
+  border-radius: $border-radius-md;
+  transition: transform $transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.reviewerName {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.reviewRating {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  display: flex;
+  align-items: center;
+}
+
+.star {
+  color: #f5a623;
+  margin-left: 4px;
+}
+
+.reviewCategory {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: 8px;
+}
+
+.reviewComment {
+  font-size: $font-size-base;
+  color: $color-text-primary;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.reviewDate {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  text-align: right;
+}

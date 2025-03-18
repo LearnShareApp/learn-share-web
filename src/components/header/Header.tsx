@@ -55,22 +55,25 @@ const Header = () => {
       }
     );
 
-    if (mainHeaderRef.current) {
-      observer.observe(mainHeaderRef.current);
+    // Сохраняем текущее значение ref в локальной переменной
+    const currentHeaderRef = mainHeaderRef.current;
+
+    if (currentHeaderRef) {
+      observer.observe(currentHeaderRef);
     }
 
     // Проверяем начальное состояние (если страница загружена уже прокрученной)
-    if (mainHeaderRef.current && window.scrollY > 0) {
+    if (currentHeaderRef && window.scrollY > 0) {
       // Если страница уже прокручена, проверяем видимость основной шапки
-      const headerRect = mainHeaderRef.current.getBoundingClientRect();
+      const headerRect = currentHeaderRef.getBoundingClientRect();
       if (headerRect.bottom <= 0) {
         setShowFixedHeader(true);
       }
     }
 
     return () => {
-      if (mainHeaderRef.current) {
-        observer.unobserve(mainHeaderRef.current);
+      if (currentHeaderRef) {
+        observer.unobserve(currentHeaderRef);
       }
     };
   }, []);

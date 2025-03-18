@@ -1,0 +1,236 @@
+@use "../../../styles/variables.scss" as *;
+
+.pageContainer {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+.title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+.backLink {
+  color: $color-primary;
+  text-decoration: none;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.card {
+  background-color: $color-background-primary;
+  border-radius: $border-radius-lg;
+  padding: 24px;
+  box-shadow: $shadow-md;
+}
+
+.tabsContainer {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid $color-border;
+  padding-bottom: 16px;
+}
+
+.tab {
+  background: none;
+  border: none;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-text-secondary;
+  padding: 8px 16px;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    background-color: $color-background-secondary;
+    color: $color-text-primary;
+  }
+}
+
+.activeTab {
+  background-color: $color-primary;
+  color: $color-text-light;
+
+  &:hover {
+    background-color: $color-primary-dark;
+    color: $color-text-light;
+  }
+}
+
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  padding: 48px 0;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 48px 24px;
+
+  .emptyStateIcon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+  }
+}
+
+.requestsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.requestCard {
+  background-color: $color-background-secondary;
+  border-radius: $border-radius-md;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform $transition-fast, box-shadow $transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+.requestInfo {
+  flex: 1;
+}
+
+.studentName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin: 0 0 8px 0;
+}
+
+.categoryName {
+  font-size: $font-size-base;
+  color: $color-text-secondary;
+  margin: 0 0 8px 0;
+}
+
+.dateTime {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin: 0 0 12px 0;
+}
+
+.statusBadge {
+  display: inline-block;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  padding: 4px 8px;
+  border-radius: $border-radius-full;
+
+  &[data-status="pending"] {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+
+  &[data-status="approved"] {
+    background-color: #dcfce7;
+    color: #15803d;
+  }
+
+  &[data-status="rejected"] {
+    background-color: #fee2e2;
+    color: #b91c1c;
+  }
+}
+
+.requestActions {
+  display: flex;
+  gap: 8px;
+
+  @media (max-width: $breakpoint-md) {
+    width: 100%;
+  }
+}
+
+.approveButton,
+.rejectButton {
+  padding: 8px 16px;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: background-color $transition-fast, transform $transition-fast;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.approveButton {
+  background-color: #10b981;
+  color: white;
+  border: none;
+
+  &:hover {
+    background-color: #059669;
+  }
+}
+
+.rejectButton {
+  background-color: transparent;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+
+  &:hover {
+    background-color: #fee2e2;
+  }
+}
+
+.errorMessage {
+  padding: 12px 16px;
+  background-color: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid #ef4444;
+  border-radius: $border-radius-sm;
+  color: $color-text-error;
+  font-size: $font-size-base;
+  margin-bottom: 24px;
+}

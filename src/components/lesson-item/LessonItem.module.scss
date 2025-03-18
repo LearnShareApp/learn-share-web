@@ -2,22 +2,36 @@
 
 .lessonItem {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 16px;
   padding: $container-padding;
   background-color: $color-background-primary;
   border-radius: $border-radius-md;
   box-shadow: $shadow-sm;
   margin-bottom: 16px;
+  transition: transform $transition-fast, box-shadow $transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+}
+
+.avatarWrapper {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 
 .lessonInfo {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 8px;
 }
 
 .lessonInfo h3 {
   font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
   color: $color-text-primary;
   margin: 0;
 }
@@ -31,4 +45,40 @@
 .lessonStatus {
   font-size: $font-size-base;
   color: $color-text-primary;
+}
+
+.joinButton {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 8px 16px;
+  background-color: $color-primary;
+  color: $color-text-light;
+  border: none;
+  border-radius: $border-radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $color-primary-dark;
+  }
+}
+
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  background-color: $color-background-secondary;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.timeInfo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: $color-text-secondary;
 }
