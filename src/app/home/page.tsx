@@ -7,10 +7,39 @@ import useProfile from "../../hooks/useProfile";
 import { useAvatar } from "../../hooks/avatar-hook";
 import Loader from "@/components/loader/Loader";
 import Avatar from "@/components/avatar/Avatar";
+import { useEffect, useState } from "react";
+import { apiService, TeacherProfile, Lesson } from "../../utilities/api";
+import TeacherItem from "@/components/teacher-item/TeacherItem";
+import LessonItem from "@/components/lesson-item/LessonItem";
 
 export default function HomePage() {
   const { profile, loadingProfile } = useProfile();
   const { avatarSource, loadingAvatar } = useAvatar(profile?.avatar || null);
+  const [teachers, setTeachers] = useState<TeacherProfile[]>([]);
+  const [nextLesson, setNextLesson] = useState<Lesson | null>(null);
+
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      const teachersData = await apiService.getTeachers(true);
+      setTeachers(teachersData);
+    };
+    fetchTeachers();
+  }, []);
+
+  useEffect(() => {
+    const fetchNextLesson = async () => {
+      const lessonsData = await apiService.getLessons();
+      const upcomingLessons = lessonsData.filter(
+        (lesson) => new Date(lesson.datetime) > new Date()
+      );
+      const sortedLessons = upcomingLessons.sort(
+        (a, b) =>
+          new Date(a.datetime).getTime() - new Date(b.datetime).getTime()
+      );
+      setNextLesson(sortedLessons[0] || null);
+    };
+    fetchNextLesson();
+  }, []);
 
   if (loadingProfile || loadingAvatar) return <Loader />;
 
@@ -88,18 +117,19 @@ export default function HomePage() {
       <div className={styles.rightColumn}>
         <section className="card">
           <h2 className={styles.sectionTitle}>Next Lesson</h2>
-          <div className={styles.lessonDetails}>
-            <p>Date and Time: December 25, 15:00</p>
-            <p>Teacher: Ivan Ivanov</p>
-          </div>
+          {nextLesson ? (
+            <LessonItem lesson={nextLesson} />
+          ) : (
+            <p>No upcoming lessons</p>
+          )}
         </section>
         <section className="card">
           <h2 className={styles.sectionTitle}>Previous Teachers</h2>
-          <ul className={styles.teachersList}>
-            <li>Maria Petrova</li>
-            <li>Alexey Smirnov</li>
-            <li>Olga Kuznetsova</li>
-          </ul>
+          <div className={styles.teachersList}>
+            {teachers.map((teacher) => (
+              <TeacherItem key={teacher.teacher_id} teacher={teacher} />
+            ))}
+          </div>
         </section>
         <Link href="/teachers">
           <section className="card search-teacher">
