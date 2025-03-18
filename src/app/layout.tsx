@@ -31,8 +31,10 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <LanguageProvider>
           <AuthRedirector />
-          <Header />
-          <main className="pt-[64px] container">{children}</main>
+          <div id="header-container">
+            <Header />
+          </div>
+          <main className="container">{children}</main>
           <Footer />
         </LanguageProvider>
       </body>
