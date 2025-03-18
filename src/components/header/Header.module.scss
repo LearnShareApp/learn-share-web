@@ -141,7 +141,7 @@
   transition: background-color $transition-fast;
 
   &:hover {
-    background-color: darken($color-primary, 5%);
+    background-color: color.adjust($color-primary, $lightness: -5%);
   }
 }
 

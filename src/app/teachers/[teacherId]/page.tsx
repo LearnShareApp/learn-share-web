@@ -246,7 +246,13 @@ export default function TeacherProfilePage() {
         </div>
 
         <div className={styles.buttons}>
-          <button>Book lesson</button>
+          <button
+            onClick={() =>
+              (window.location.href = `/book?teacherId=${teacherId}`)
+            }
+          >
+            Book lesson
+          </button>
           <button>Contact teacher</button>
         </div>
       </div>
