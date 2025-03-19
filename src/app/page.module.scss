@@ -177,6 +177,11 @@ a.secondary {
   gap: 32px;
 }
 
+.highlight {
+  color: $color-primary;
+  font-weight: bold;
+}
+
 .userInfoSection {
   display: flex;
   align-items: center;
@@ -284,182 +289,338 @@ a.secondary {
 
 .hero {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 100px 20px;
-  background: linear-gradient(
-    135deg,
-    color.adjust($color-primary, $lightness: 40%),
-    color.adjust($color-primary, $lightness: 20%)
-  );
-  border-radius: 16px;
-  margin-bottom: 60px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  animation: fadeIn 1.2s ease-out;
+  padding: 2rem 0;
+  gap: 3rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 
 .heroContent {
   flex: 1;
-  padding-right: 20px;
-}
 
-.heroContent h1 {
-  font-size: 3.5rem;
-  margin-bottom: 20px;
-  font-weight: 700;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
-  color: $color-text-primary;
-}
+  h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
 
-.heroContent p {
-  font-size: 1.5rem;
-  margin-bottom: 30px;
-  color: $color-text-secondary;
-}
-
-.highlight {
-  color: $color-primary;
-}
-
-.heroButtons {
-  display: flex;
-  gap: 20px;
+  p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
 }
 
 .heroImage {
   flex: 1;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
-.heroImage img {
-  max-width: 100%;
-  border-radius: 12px;
+.heroButtons {
+  display: flex;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 }
 
-.testimonials {
-  padding: 60px 0;
-  background-color: #f8f9fa;
-  border-radius: 12px;
-  margin-bottom: 40px;
-  text-align: center;
+.primaryButton,
+.secondaryButton,
+.ctaButton {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.testimonials h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
+.primaryButton,
+.ctaButton {
+  background-color: $color-primary;
+  color: white;
+  border: none;
+
+  &:hover {
+    background-color: darken($color-primary, 10%);
+    transform: translateY(-2px);
+  }
 }
 
-.testimonialsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+.secondaryButton {
+  background-color: $color-background-primary;
+  border: 1px solid $color-primary;
+  color: $color-primary;
+
+  &:hover {
+    background-color: rgba($color-primary, 0.1);
+    transform: translateY(-2px);
+  }
 }
 
-.testimonialCard {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+.about,
+.features,
+.testimonials,
+.gettingStarted,
+.howItWorks,
+.callToAction {
+  padding: 3rem 0;
 
-.testimonialCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
-}
+  h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
 
-.testimonialCard p {
-  font-style: italic;
-  margin-bottom: 10px;
-}
-
-.testimonialCard span {
-  font-weight: bold;
-}
-
-.footer {
-  text-align: center;
-  padding: 20px 0;
-  font-size: 0.9rem;
-  color: #999;
-  border-top: 1px solid #eee;
-  margin-top: 40px;
-}
-
-.features {
-  padding: 64px 0;
+  p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 0.85;
+    max-width: 800px;
+    margin: 0 auto 1.5rem;
+  }
 }
 
 .featureGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
 .featureCard {
-  background-color: #fff;
-  padding: 32px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+  background-color: $color-background-primary;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
 
-.featureCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  &:hover {
+    transform: translateY(-5px);
+  }
 }
 
 .featureIcon {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto 20px;
+  margin-bottom: 1.5rem;
   color: $color-primary;
 }
 
-.icon {
-  width: 100%;
-  height: 100%;
-}
-
 .featureTitle {
-  font-size: $font-size-xl;
-  font-weight: $font-weight-semibold;
-  color: $color-text-primary;
-  margin-bottom: 12px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .featureDescription {
-  font-size: $font-size-base;
-  color: $color-text-secondary;
+  font-size: 1rem;
   line-height: 1.5;
+  opacity: 0.8;
 }
 
-/* Добавленные стили для разделения контента на две колонки */
+.testimonialsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.testimonialCard {
+  background-color: $color-background-primary;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  position: relative;
+
+  p {
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+
+  span {
+    font-weight: 600;
+    display: block;
+    text-align: right;
+    color: $color-primary;
+  }
+
+  &::before {
+    content: "'";
+    font-size: 4rem;
+    position: absolute;
+    top: 0.5rem;
+    left: 1rem;
+    color: rgba($color-primary, 0.1);
+    font-family: serif;
+  }
+}
+
 .columns {
   display: flex;
-  gap: 16px;
-}
+  gap: 3rem;
 
-.leftColumn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.rightColumn {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-@media (max-width: 768px) {
-  .columns {
+  @media (max-width: 768px) {
     flex-direction: column;
   }
+}
+
+.leftColumn,
+.rightColumn {
+  flex: 1;
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: $color-primary;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+
+    li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+
+      &::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: $color-primary;
+      }
+    }
+  }
+}
+
+.howItWorks {
+  background-color: rgba(0, 0, 0, 0.03);
+  padding: 4rem 0;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+}
+
+.workflowSteps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.workflowStep {
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 1rem 0 0.5rem;
+  }
+
+  p {
+    opacity: 0.8;
+    margin: 0 auto;
+    max-width: 90%;
+  }
+
+  &:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    top: 20px;
+    right: -20px;
+    font-size: 2.5rem;
+    color: $color-primary;
+    display: none;
+    z-index: 1;
+    font-weight: bold;
+
+    @media (min-width: 993px) {
+      display: block;
+    }
+  }
+}
+
+.stepNumber {
+  width: 50px;
+  height: 50px;
+  background-color: $color-primary;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.callToAction {
+  background-color: $color-primary;
+  color: white;
+  text-align: center;
+  padding: 4rem 0;
+  border-radius: 1rem;
+  margin-top: 2rem;
+}
+
+.callToAction h2 {
+  color: white;
+}
+
+.callToAction p {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2rem;
+}
+
+.ctaButton {
+  background-color: white;
+  color: $color-primary;
+  font-size: 1.125rem;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.ctaButton:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .balanceCard {
@@ -517,40 +678,6 @@ a.secondary {
   }
 }
 
-.primaryButton {
-  background-color: $color-primary;
-  color: #fff;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.primaryButton:hover {
-  background-color: $color-primary-dark;
-  transform: translateY(-2px);
-}
-
-.secondaryButton {
-  color: $color-primary;
-  border: 2px solid $color-primary;
-  background-color: #fff;
-  padding: 12px 24px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-.secondaryButton:hover {
-  border-color: $color-primary-dark;
-  transform: translateY(-2px);
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -575,42 +702,6 @@ a.secondary {
   font-size: 2.5rem;
   margin-bottom: 30px;
   color: $color-primary-dark;
-}
-
-.columns {
-  display: flex;
-  gap: 24px;
-}
-
-.leftColumn,
-.rightColumn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  background-color: $color-background-primary;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: $shadow-md;
-}
-
-.leftColumn h3,
-.rightColumn h3 {
-  font-size: 1.75rem;
-  color: $color-primary-dark;
-}
-
-.leftColumn p,
-.rightColumn p {
-  font-size: 1rem;
-  color: $color-text-primary;
-  line-height: 1.6;
-}
-
-@media (max-width: 768px) {
-  .columns {
-    flex-direction: column;
-  }
 }
 
 .gettingStarted ul {

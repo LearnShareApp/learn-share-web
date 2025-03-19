@@ -11,8 +11,7 @@ interface TeacherItemProps {
 }
 
 const TeacherItem: React.FC<TeacherItemProps> = ({ teacher, category }) => {
-  console.log(teacher.avatar);
-
+  // Выбор отображаемого навыка
   const skillToShow =
     teacher.skills && teacher.skills.length > 0
       ? category
@@ -22,48 +21,75 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher, category }) => {
         : teacher.skills[0]
       : null;
 
+  // Формирование ссылки на профиль учителя
   const teacherLink =
     `/teachers/${teacher.teacher_id}` +
     (skillToShow ? `?category=${skillToShow.category_id}` : "");
 
-  // Используем useAvatar для получения корректного URL для аватара, деструктурируя avatarSource
+  // Получение аватара учителя
   const { avatarSource } = useAvatar(teacher.avatar);
+
+  // Форматирование рейтинга
+  const formattedRating =
+    teacher.common_rate !== 0 ? teacher.common_rate.toFixed(1) : "—";
+
+  // Склонение слова "занятие" в зависимости от количества
+  const getLessonsText = (count: number) => {
+    const lastDigit = count % 10;
+    const lastTwoDigits = count % 100;
+
+    if (lastDigit === 1 && lastTwoDigits !== 11) {
+      return `${count} занятие`;
+    } else if (
+      [2, 3, 4].includes(lastDigit) &&
+      ![12, 13, 14].includes(lastTwoDigits)
+    ) {
+      return `${count} занятия`;
+    } else {
+      return `${count} занятий`;
+    }
+  };
 
   return (
     <Link href={teacherLink} className={styles.teacherItemLink}>
-      <div className={`${styles.teacherItem} card`}>
+      <div className={styles.teacherItem}>
         <div className={styles.teacherItem__image}>
           <Avatar src={avatarSource} size={100} />
         </div>
         <div className={styles.teacherItem__info}>
           <div className={styles.teacherItem__names}>
-            <span>{teacher.name}</span> <span>{teacher.surname}</span>
+            {teacher.name} {teacher.surname}
           </div>
           <div className={styles.teacherItem__skills}>
             {teacher.skills && teacher.skills.length > 0 ? (
               teacher.skills.map((skill, index) => (
                 <span
-                  key={`${skill.about}-${index}`}
+                  key={`${skill.category_id}-${index}`}
                   className={styles.skillBadge}
                 >
                   {skill.category_name}
                 </span>
               ))
             ) : (
-              <span>Без навыков</span>
+              <span className={styles.skillBadge}>Без навыков</span>
             )}
           </div>
+          {skillToShow?.about && (
+            <p className={styles.skillDescription}>
+              {skillToShow.about.length > 100
+                ? `${skillToShow.about.substring(0, 100)}...`
+                : skillToShow.about}
+            </p>
+          )}
         </div>
         <div className={styles.teacherItem__rating}>
           <div className={styles.ratingValue}>
-            {teacher.common_rate !== 0 ? teacher.common_rate.toFixed(1) : "--"}{" "}
-            <span className={styles.star}>★</span>
+            {formattedRating} <span className={styles.star}>★</span>
           </div>
           <div className={styles.finishedLessons}>
-            {teacher.finished_lessons} занятий
+            {getLessonsText(teacher.finished_lessons)}
           </div>
         </div>
-        {/* <div>{skillToShow?.about}</div> */}
       </div>
     </Link>
   );

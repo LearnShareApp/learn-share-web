@@ -1,0 +1,169 @@
+@use "../../styles/variables.scss" as *;
+@use "sass:color";
+
+.container {
+  width: 100%;
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: $container-padding;
+}
+
+.title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid $color-border;
+}
+
+.settingsLayout {
+  display: flex;
+  gap: 32px;
+
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+  }
+}
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background-color: $color-background-primary;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  overflow: hidden;
+
+  @media (max-width: $breakpoint-md) {
+    width: 100%;
+  }
+}
+
+.sidebarItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  color: $color-text-primary;
+  transition: background-color $transition-fast, color $transition-fast;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-background-secondary;
+  }
+
+  &.active {
+    background-color: $color-primary-light;
+    color: $color-primary-dark;
+    font-weight: $font-weight-semibold;
+    border-left: 3px solid $color-primary;
+  }
+
+  svg {
+    font-size: 20px;
+  }
+}
+
+.content {
+  flex: 1;
+  background-color: $color-background-primary;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  padding: 24px;
+}
+
+.section {
+  margin-bottom: 32px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sectionTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sectionIcon {
+  color: $color-primary;
+}
+
+// Улучшенный селектор языка
+.languageSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 500px;
+}
+
+.languageOption {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: $color-background-secondary;
+  border-radius: $border-radius-lg;
+  cursor: pointer;
+  transition: all $transition-fast;
+  position: relative;
+
+  &:hover {
+    background-color: color.adjust(
+      $color-background-secondary,
+      $lightness: -3%
+    );
+    transform: translateY(-2px);
+  }
+
+  &.selected {
+    background-color: color.adjust($color-primary-light, $alpha: -0.7);
+    border: 1px solid $color-primary-light;
+  }
+}
+
+.languageFlag {
+  font-size: 28px;
+  margin-right: 16px;
+}
+
+.languageInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.languageName {
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  font-size: $font-size-base;
+}
+
+.languageNative {
+  color: $color-text-secondary;
+  font-size: $font-size-sm;
+}
+
+.selectedIndicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: $color-primary;
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 5px;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}

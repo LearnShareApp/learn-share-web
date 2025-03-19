@@ -13,6 +13,8 @@ export default function AuthRedirector() {
       pathname !== "/" &&
       pathname !== "/auth" &&
       pathname !== "/privacy" &&
+      pathname !== "/contacts" &&
+      pathname !== "/support" &&
       pathname !== "/about"
     ) {
       router.replace("/");

@@ -2,13 +2,30 @@
 @use "sass:color";
 
 .header {
-  position: sticky;
+  width: 100%;
+  background-color: $color-background-primary;
+  box-shadow: $shadow-md;
+  position: relative;
+  z-index: 100;
+}
+
+.fixedHeader {
+  width: 100%;
+  background-color: $color-background-primary;
+  box-shadow: $shadow-md;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: $color-background-primary;
-  box-shadow: $shadow-md;
-  z-index: $z-index-fixed;
+  z-index: 10000;
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.fixedHeaderVisible {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .container {
@@ -22,6 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 
 .logo {
@@ -83,6 +101,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
+  position: relative;
 }
 
 .chatButton {
@@ -103,25 +122,415 @@
   height: 26px;
 }
 
-.profileLink {
+.desktopAuthButton {
   text-decoration: none;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: $breakpoint-md) {
+    display: none; /* Скрываем кнопку на мобильных устройствах */
+  }
 }
 
-.avatarWrapper {
+.joinButton {
+  background-color: $color-primary;
+  color: white;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: 8px 16px;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: color.adjust($color-primary, $lightness: -5%);
+  }
+}
+
+/* Стили для контейнера аватара */
+.avatarContainer {
+  position: relative;
+
+  /* На больших экранах показываем меню при наведении */
+  @media (min-width: $breakpoint-md) {
+    &:hover .dropdownMenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  }
+}
+
+/* Стили для кнопки аватара */
+.avatarButton {
   width: 36px;
   height: 36px;
-  border-radius: $border-radius-full;
-  overflow: hidden;
-  background-color: $color-background-secondary;
-  transition: transform $transition-fast;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform $transition-fast, box-shadow $transition-fast;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     transform: scale(1.05);
   }
+
+  &:focus {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+
+  /* Увеличиваем область нажатия на мобильных устройствах */
+  @media (max-width: $breakpoint-md) {
+    min-width: 44px;
+    min-height: 44px;
+
+    /* Добавляем невидимый бордер для увеличения области нажатия */
+    &::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      bottom: -8px;
+      left: -8px;
+    }
+  }
 }
 
+/* Стили для изображения аватара */
 .avatarImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Стили для выпадающего меню */
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: -5px;
+  background-color: $color-background-primary;
+  color: $color-text-primary;
+  box-shadow: $shadow-lg;
+  border-radius: $border-radius-md;
+  padding: 12px 8px;
+  z-index: 10000; /* Увеличиваем z-index, чтобы меню всегда было поверх */
+  font-size: $font-size-base;
+  min-width: 220px;
+  border: 1px solid $color-border;
+  animation: slideIn 0.2s ease-out;
+
+  /* На больших экранах по умолчанию скрываем, будет видно при hover */
+  @media (min-width: $breakpoint-md) {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+
+    /* Важно: добавляем видимость при наведении на само меню */
+    &:hover {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  }
+
+  /* Треугольник для визуального соединения меню с аватаром */
+  &::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    right: 13px;
+    width: 16px;
+    height: 16px;
+    background-color: $color-background-primary;
+    border-left: 1px solid $color-border;
+    border-top: 1px solid $color-border;
+    transform: rotate(45deg);
+  }
+
+  /* Мобильная версия выпадающего меню */
+  &.dropdownMenuMobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0 20px 20px; /* Убрал верхний отступ, оставил боковые и нижний */
+    overflow-y: auto;
+    animation: fadeIn 0.2s ease-out;
+    z-index: 10001; /* Еще выше, чтобы быть поверх всего */
+    visibility: visible; /* Видимо на мобильных при активации */
+    opacity: 1;
+    transform: none;
+
+    /* Отменяем стандартное поведение hover на мобильных */
+    @media (min-width: $breakpoint-md) {
+      &:hover {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+      }
+    }
+
+    &::before {
+      display: none; /* Убираем треугольник */
+    }
+
+    /* Стили для заголовка мобильного меню */
+    .mobileMenuHeader {
+      display: flex;
+      align-items: center;
+      padding: 8px 4px;
+      gap: 12px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid $color-border;
+      justify-content: space-between; /* Распределяем элементы по краям */
+    }
+
+    .mobileAvatarContainer {
+      min-width: 36px;
+      min-height: 36px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: transform $transition-fast;
+      order: 2; /* Перемещаем аватарку в конец контейнера */
+
+      &:active {
+        transform: scale(0.95);
+        background-color: color.adjust(
+          $color-background-primary,
+          $lightness: -5%
+        );
+      }
+    }
+
+    .mobileUserInfo {
+      flex: 1;
+      overflow: hidden;
+      order: 1; /* Перемещаем информацию в начало контейнера */
+    }
+
+    /* На мобильных устройствах делаем меню более заметным */
+    .userProfile {
+      display: none; /* Скрываем стандартный профиль для мобильных устройств */
+    }
+
+    .dropdownItem {
+      padding: 16px;
+      margin-bottom: 8px;
+      font-size: calc(#{$font-size-base} * 1.1);
+
+      /* Увеличиваем размер сенсорной области для лучшего нажатия */
+      min-height: 50px;
+
+      &:active {
+        background-color: color.adjust(
+          $color-background-primary,
+          $lightness: -7%
+        );
+      }
+    }
+  }
+}
+
+/* Анимация появления выпадающего меню */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Стили для элементов выпадающего меню */
+.dropdownItem {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: $border-radius-md;
+  background: none;
+  border: none;
+  text-align: left;
+  transition: background-color $transition-fast, color $transition-fast,
+    transform $transition-fast;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+  margin-bottom: 2px;
+  font-size: $font-size-base;
+
+  /* Эффект при наведении на пункт меню */
+  &:hover {
+    background-color: color.adjust($color-background-primary, $lightness: -5%);
+    color: $color-primary;
+    transform: translateX(3px);
+  }
+
+  &:focus {
+    outline: 2px solid $color-primary;
+    outline-offset: -2px;
+  }
+
+  /* Для мобильных устройств: увеличиваем область нажатия */
+  @media (max-width: $breakpoint-md) {
+    padding: 14px 16px;
+    margin-bottom: 5px;
+
+    /* Убираем трансформацию, которая может мешать нажатию */
+    &:hover {
+      transform: none;
+    }
+
+    /* Добавляем стиль для активного состояния */
+    &:active {
+      background-color: color.adjust(
+        $color-background-primary,
+        $lightness: -7%
+      );
+    }
+  }
+
+  /* Стили для кнопки выхода (последний пункт) */
+
+  &.active {
+    color: $color-primary;
+  }
+}
+
+/* Стили для блока с информацией о пользователе */
+.userProfile {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid $color-border;
+}
+
+/* Контейнер информации о пользователе */
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Стили для имени пользователя */
+.userName {
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Стили для роли пользователя */
+.userRole {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+}
+
+/* Стили для иконок в выпадающем меню */
+.dropdownIcon {
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+  stroke-width: 2;
+}
+
+.headerPlaceholder {
+  width: 100%;
+  height: 0;
+}
+
+.headerPlaceholder.active {
+  display: block;
+}
+
+/* Мобильные навигационные ссылки */
+.mobileNavLinks {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $color-border;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobileMenuButton {
+  display: none;
+
+  @media (max-width: $breakpoint-md) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px; /* Увеличиваем область нажатия */
+    min-width: 44px; /* Минимальная ширина для лучшего нажатия */
+    min-height: 44px; /* Минимальная высота для лучшего нажатия */
+  }
+}
+
+.burgerIcon {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2;
+  color: $color-text-primary;
+}
+
+.closeIconBurger {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2;
+  color: $color-text-primary;
+}
+
+.mobileAuthButton {
+  display: block;
+  background-color: $color-primary;
+  color: white;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: 12px 16px;
+  margin-top: 20px;
+  font-weight: $font-weight-medium;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: color.adjust($color-primary, $lightness: -5%);
+    color: white;
+  }
 }

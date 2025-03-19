@@ -124,6 +124,7 @@ export interface TeacherLesson {
   student_id: number;
   student_name: string;
   student_surname: string;
+  student_avatar: string;
   category_id: number;
   category_name: string;
   status: string;
@@ -135,6 +136,7 @@ export interface Lesson {
   teacher_id: number;
   teacher_name: string;
   teacher_surname: string;
+  teacher_avatar: string;
   category_id: number;
   category_name: string;
   status: string;

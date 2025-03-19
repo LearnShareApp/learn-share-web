@@ -19,6 +19,7 @@ export default function TeacherProfilePage() {
   const { teacherId } = useParams();
   const [teacher, setTeacher] = useState<TeacherProfile>();
   const [loading, setLoading] = useState(true);
+  const [arrowPositioned, setArrowPositioned] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<TeacherSkill | null>(null);
   const skillBadgeRefs = useRef<(HTMLDivElement | null)[]>([]);
   const skillDescriptionRef = useRef<HTMLDivElement | null>(null);
@@ -69,35 +70,135 @@ export default function TeacherProfilePage() {
   const { avatarSource, loadingAvatar } = useAvatar(teacher?.avatar || null);
 
   useEffect(() => {
-    if (selectedSkill && skillDescriptionRef.current) {
-      const description = skillDescriptionRef.current;
-      const index = teacher?.skills.findIndex(
-        (skill) => skill.category_name === selectedSkill.category_name
-      );
-      if (index !== undefined && index >= 0) {
-        const badge = skillBadgeRefs.current[index];
-        if (badge) {
-          const badgeRect = badge.getBoundingClientRect();
-          const descriptionRect = description.getBoundingClientRect();
-          const offset =
-            badgeRect.left - descriptionRect.left + badgeRect.width / 2;
-          description.style.setProperty("--arrow-position", `${offset}px`);
-        }
-      }
-    }
-  }, [selectedSkill, teacher]);
-
-  useEffect(() => {
     if (teacher && teacher.skills.length > 0) {
       setSelectedSkill(teacher.skills[0]);
     }
   }, [teacher]);
 
+  useEffect(() => {
+    // Функция для расчета и установки позиции стрелки
+    const updateArrowPosition = () => {
+      if (!selectedSkill || !skillDescriptionRef.current) return false;
+
+      const description = skillDescriptionRef.current;
+
+      const index = teacher?.skills.findIndex(
+        (skill) => skill.category_name === selectedSkill.category_name
+      );
+
+      if (index === undefined || index < 0) return false;
+
+      const badge = skillBadgeRefs.current[index];
+      if (!badge) return false;
+
+      // Проверяем, что элементы полностью отрендерены и имеют размеры
+      const badgeRect = badge.getBoundingClientRect();
+      const descriptionRect = description.getBoundingClientRect();
+
+      if (badgeRect.width === 0 || descriptionRect.width === 0) return false;
+
+      // Вычисляем положение стрелки
+      const offset =
+        badgeRect.left - descriptionRect.left + badgeRect.width / 2;
+
+      // Устанавливаем положение стрелки
+      description.style.setProperty("--arrow-position", `${offset}px`);
+      // Отмечаем, что стрелка успешно позиционирована
+      setArrowPositioned(true);
+      return true;
+    };
+
+    // Если стрелка не была успешно позиционирована, пробуем еще несколько раз
+    const tryPositioningMultipleTimes = () => {
+      let attempts = 0;
+      const maxAttempts = 10;
+      const interval = 150; // Интервал между попытками (мс)
+
+      // Функция для повторных попыток
+      const attemptPositioning = () => {
+        if (updateArrowPosition()) return; // Успех, выходим
+
+        attempts++;
+        if (attempts < maxAttempts) {
+          setTimeout(attemptPositioning, interval);
+        } else {
+          // Если после всех попыток не удалось позиционировать, все равно скрываем лоадер
+          setArrowPositioned(true);
+        }
+      };
+
+      // Начинаем попытки
+      attemptPositioning();
+    };
+
+    // Сбрасываем флаг позиционирования только при первой загрузке,
+    // но не при переключении между навыками
+    if (!arrowPositioned && (!selectedSkill || !teacher)) {
+      setArrowPositioned(false);
+    }
+
+    // Всегда обновляем позицию стрелки при изменении навыка
+    tryPositioningMultipleTimes();
+
+    // Также обновляем позицию при изменении размера окна
+    const handleResize = () => {
+      updateArrowPosition();
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [selectedSkill, teacher, arrowPositioned]);
+
+  // Специальный эффект для обработки загрузки страницы
+  useEffect(() => {
+    // Если флаг уже установлен или нет навыка, не продолжаем
+    if (arrowPositioned || !selectedSkill) return;
+
+    const handleLoad = () => {
+      // Делаем отложенное обновление после полной загрузки страницы
+      setTimeout(() => {
+        const description = skillDescriptionRef.current;
+        if (!description) return;
+
+        const index = teacher?.skills.findIndex(
+          (skill) => skill.category_name === selectedSkill.category_name
+        );
+
+        if (index === undefined || index < 0) return;
+
+        const badge = skillBadgeRefs.current[index];
+        if (!badge) return;
+
+        const badgeRect = badge.getBoundingClientRect();
+        const descriptionRect = description.getBoundingClientRect();
+        const offset =
+          badgeRect.left - descriptionRect.left + badgeRect.width / 2;
+        description.style.setProperty("--arrow-position", `${offset}px`);
+        setArrowPositioned(true);
+      }, 300);
+    };
+
+    // Если страница уже загружена, выполняем сразу
+    if (document.readyState === "complete") {
+      handleLoad();
+    } else {
+      // Иначе ждем загрузки страницы
+      window.addEventListener("load", handleLoad);
+      return () => {
+        window.removeEventListener("load", handleLoad);
+      };
+    }
+  }, [selectedSkill, teacher, arrowPositioned]);
+
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
 
-  if (loading || loadingAvatar) return <Loader />;
+  // Обновляем условие отображения лоадера
+  if (loading || loadingAvatar || !arrowPositioned) return <Loader />;
   if (!teacher) return <h1>error</h1>;
 
   return (
@@ -145,7 +246,48 @@ export default function TeacherProfilePage() {
                 <SkillBadge
                   category_name={skill.category_name}
                   key={index}
-                  onClick={() => setSelectedSkill(skill)}
+                  onClick={() => {
+                    // Устанавливаем новый выбранный навык без сброса флага позиционирования
+                    setSelectedSkill(skill);
+
+                    // Функция для обновления позиции стрелки
+                    const updatePosition = () => {
+                      const description = skillDescriptionRef.current;
+                      const badge = skillBadgeRefs.current[index];
+                      if (!description || !badge) return false;
+
+                      // Проверяем, что элементы имеют размеры
+                      const badgeRect = badge.getBoundingClientRect();
+                      const descriptionRect =
+                        description.getBoundingClientRect();
+                      if (badgeRect.width === 0 || descriptionRect.width === 0)
+                        return false;
+
+                      const offset =
+                        badgeRect.left -
+                        descriptionRect.left +
+                        badgeRect.width / 2;
+                      description.style.setProperty(
+                        "--arrow-position",
+                        `${offset}px`
+                      );
+                      return true;
+                    };
+
+                    // Пробуем несколько раз с увеличивающимися интервалами
+                    let attempts = 0;
+                    const tryUpdate = () => {
+                      if (updatePosition()) return;
+
+                      attempts++;
+                      if (attempts < 5) {
+                        setTimeout(tryUpdate, 50 * attempts); // Увеличиваем интервал с каждой попыткой
+                      }
+                    };
+
+                    // Начинаем попытки сразу после изменения состояния
+                    setTimeout(tryUpdate, 10);
+                  }}
                   isActive={
                     selectedSkill?.category_name === skill.category_name
                   }
@@ -199,13 +341,17 @@ export default function TeacherProfilePage() {
             isExpanded ? styles.reviewsExpanded : ""
           }`}
         >
-          <div className={styles.reviewsGrid}>
-            {(isExpanded ? reviews : reviews.slice(0, 6)).map(
-              (review, index) => (
-                <ReviewItem key={`${review.id}-${index}`} review={review} />
-              )
-            )}
-          </div>
+          {reviews.length > 0 ? (
+            <div className={styles.reviewsGrid}>
+              {(isExpanded ? reviews : reviews.slice(0, 6)).map(
+                (review, index) => (
+                  <ReviewItem key={`${review.id}-${index}`} review={review} />
+                )
+              )}
+            </div>
+          ) : (
+            <p className={styles.noReviews}>Пока нет отзывов</p>
+          )}
         </section>
         {reviews.length > 6 && (
           <button onClick={toggleExpand} className={styles.expandButton}>
@@ -242,7 +388,13 @@ export default function TeacherProfilePage() {
         </div>
 
         <div className={styles.buttons}>
-          <button>Book lesson</button>
+          <button
+            onClick={() =>
+              (window.location.href = `/book?teacherId=${teacherId}`)
+            }
+          >
+            Book lesson
+          </button>
           <button>Contact teacher</button>
         </div>
       </div>

@@ -1,3 +1,5 @@
+@use "../../styles/variables.scss" as *;
+
 .teacherItemLink {
   text-decoration: none;
   color: inherit;
@@ -8,17 +10,19 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   width: 100%;
-  padding: 12px 16px;
-  border-radius: 8px;
-  background-color: #ffffff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s ease;
-}
+  padding: $container-padding;
+  border-radius: $border-radius-md;
+  background-color: $color-background-primary;
+  box-shadow: $shadow-sm;
+  transition: transform $transition-fast, box-shadow $transition-fast;
 
-.teacherItem:hover {
-  background-color: #f9f9f9;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+    background-color: $color-background-secondary;
+  }
 }
 
 .teacherItem__image {
@@ -29,40 +33,50 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .teacherItem__names {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
 }
 
 .teacherItem__skills {
   display: flex;
-  gap: 5px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .skillBadge {
-  background-color: #e0e0e0;
-  color: #333;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  background-color: $color-background-tertiary;
+  color: $color-text-secondary;
+  padding: 4px 8px;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $color-primary-light;
+    color: $color-text-primary;
+  }
 }
 
 .teacherItem__rating {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 4px;
+  gap: 6px;
+  margin-left: 16px;
 }
 
 .ratingValue {
-  font-size: 1rem;
-  font-weight: bold;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
   display: flex;
   align-items: center;
+  color: $color-text-primary;
 }
 
 .star {
@@ -71,6 +85,13 @@
 }
 
 .finishedLessons {
-  font-size: 0.9rem;
-  color: #666;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.skillDescription {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin: 4px 0 0 0;
+  line-height: 1.4;
 }

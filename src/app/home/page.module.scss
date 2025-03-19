@@ -229,9 +229,11 @@ a.secondary {
 }
 
 .sectionTitle {
-  font-size: 1.25rem;
-  margin-bottom: 10px;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
   color: $color-text-primary;
+  border-bottom: none;
+  padding-bottom: 12px;
 }
 
 .lessonDetails,
@@ -402,6 +404,7 @@ a.secondary {
 .columns {
   display: flex;
   gap: 16px;
+  width: 100%;
 }
 
 .leftColumn {
@@ -418,7 +421,7 @@ a.secondary {
   gap: 16px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: $breakpoint-md) {
   .columns {
     flex-direction: column;
   }
@@ -473,8 +476,89 @@ a.secondary {
 
 .search-teacher {
   cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: $color-background-primary;
+  border: 1px solid $color-border-light;
+  padding: 20px 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: rgba($color-primary, 0.03);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+
+    .searchIcon {
+      transform: scale(1.1);
+      color: $color-primary;
+    }
+
+    h3 {
+      color: $color-primary;
+    }
+  }
 
   h3 {
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 0;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
+    font-size: 16px;
+    transition: color 0.2s ease;
+  }
+}
+
+.searchIcon {
+  color: $color-text-secondary;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.noLessonsMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 12px;
+  background-color: $color-background-secondary;
+  border: none;
+  border-radius: $border-radius-md;
+  text-align: center;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    color: $color-text-secondary;
+    margin-bottom: 8px;
+    opacity: 0.5;
+  }
+
+  p {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    margin-bottom: 8px;
+  }
+
+  .findTeacherButton {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: transparent;
+    color: $color-primary;
+    border: 1px solid $color-primary;
+    border-radius: $border-radius-md;
+    text-decoration: none;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    transition: background-color $transition-fast;
+    margin-top: 4px;
+
+    &:hover {
+      background-color: rgba($color-primary, 0.1);
+      transform: none;
+    }
   }
 }
