@@ -274,76 +274,88 @@ const TeachingPage = () => {
         </Link>
       </div>
 
-      <div className={styles.skillsSection}>
-        <h2>Your Skills</h2>
-        <div className={styles.skillsList}>
-          {teacher.skills.map((skill) => (
-            <div key={skill.skill_id} className={styles.skillCard}>
-              <h3>{skill.category_name}</h3>
-              <p>
-                {skill.about.length > 100
-                  ? `${skill.about.substring(0, 100)}...`
-                  : skill.about}
-              </p>
-              <div className={styles.skillRating}>
-                <span className={styles.ratingValue}>
-                  {skill.rate.toFixed(1)}
-                </span>
-                <span className={styles.star}>★</span>
-              </div>
-            </div>
-          ))}
-          <Link href="/for-teachers/add-skill" className={styles.addSkillCard}>
-            <div className={styles.addIcon}>+</div>
-            <p>Add New Skill</p>
-          </Link>
-        </div>
-      </div>
-
       {loading ? (
         <Loader />
       ) : (
-        <>
-          <section className={styles.lessonsSection}>
-            <h2>Upcoming Lessons</h2>
-            {upcomingLessons.length > 0 ? (
-              <div className={styles.lessonsList}>
-                {upcomingLessons.map((lesson) => (
-                  <LessonItem
-                    key={lesson.lesson_id}
-                    lesson={lesson}
-                    isTeacher={true}
-                  />
-                ))}
-              </div>
-            ) : (
-              <p className={styles.emptyListMessage}>
-                You don`&apos;`t have any scheduled lessons yet.
-                <Link href="/for-teachers/add-time">Add available time</Link>
-                so students can book lessons with you.
-              </p>
-            )}
-          </section>
+        <div className={styles.dashboardLayout}>
+          {/* Основной контент (левая колонка с соотношением 2:1) */}
+          <div className={styles.mainColumn}>
+            <section className={styles.lessonsSection}>
+              <h2>Upcoming Lessons</h2>
+              {upcomingLessons.length > 0 ? (
+                <div className={styles.lessonsList}>
+                  {upcomingLessons.map((lesson) => (
+                    <LessonItem
+                      key={lesson.lesson_id}
+                      lesson={lesson}
+                      isTeacher={true}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p className={styles.emptyListMessage}>
+                  You don`&apos;`t have any scheduled lessons yet.
+                  <Link href="/for-teachers/add-time">
+                    {" "}
+                    Add available time
+                  </Link>{" "}
+                  so students can book lessons with you.
+                </p>
+              )}
+            </section>
 
-          <section className={styles.lessonsSection}>
-            <h2>Past Lessons</h2>
-            {pastLessons.length > 0 ? (
-              <div className={styles.lessonsList}>
-                {pastLessons.map((lesson) => (
-                  <LessonItem
-                    key={lesson.lesson_id}
-                    lesson={lesson}
-                    isTeacher={true}
-                  />
+            <section className={styles.lessonsSection}>
+              <h2>Past Lessons</h2>
+              {pastLessons.length > 0 ? (
+                <div className={styles.lessonsList}>
+                  {pastLessons.map((lesson) => (
+                    <LessonItem
+                      key={lesson.lesson_id}
+                      lesson={lesson}
+                      isTeacher={true}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p className={styles.emptyListMessage}>
+                  You don`&apos;`t have any completed lessons yet
+                </p>
+              )}
+            </section>
+          </div>
+
+          {/* Боковая панель (правая колонка с соотношением 1:2) */}
+          <div className={styles.sideColumn}>
+            <div className={styles.skillsSection}>
+              <h2>Your Skills</h2>
+              <div className={styles.skillsList}>
+                {teacher.skills.map((skill) => (
+                  <div key={skill.skill_id} className={styles.skillCard}>
+                    <h3>{skill.category_name}</h3>
+                    <p>
+                      {skill.about.length > 100
+                        ? `${skill.about.substring(0, 100)}...`
+                        : skill.about}
+                    </p>
+                    <div className={styles.skillRating}>
+                      <span className={styles.ratingValue}>
+                        {skill.rate.toFixed(1)}
+                      </span>
+                      <span className={styles.star}>★</span>
+                    </div>
+                  </div>
                 ))}
+                <Link
+                  href="/for-teachers/add-skill"
+                  className={styles.addSkillCard}
+                >
+                  <div className={styles.addIcon}>+</div>
+                  <p>Add New Skill</p>
+                </Link>
               </div>
-            ) : (
-              <p className={styles.emptyListMessage}>
-                You don`&apos;`t have any completed lessons yet
-              </p>
-            )}
-          </section>
-        </>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

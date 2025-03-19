@@ -2,9 +2,28 @@
 @use "sass:color" as color;
 
 .pageContainer {
-  max-width: $container-max-width;
-  margin: 0 auto;
-  padding: 24px;
+  width: 100%;
+  padding: 0;
+}
+
+.dashboardLayout {
+  display: flex;
+  gap: 16px;
+
+  @media (max-width: $breakpoint-lg) {
+    flex-direction: column;
+  }
+}
+
+.mainColumn {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sideColumn {
+  flex: 1;
 }
 
 .title {
@@ -22,7 +41,6 @@
   margin-bottom: 32px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
 }
 
 .statistics {
@@ -206,7 +224,6 @@
 }
 
 .lessonsSection {
-  margin-bottom: 32px;
   padding: 24px;
   background-color: $color-background-primary;
   border-radius: $border-radius-md;
@@ -255,31 +272,35 @@
 
 /* Стили для страницы "Стать преподавателем" */
 .becomeTeacherCard {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 32px;
   background-color: $color-background-primary;
   border-radius: $border-radius-lg;
+  padding: 32px;
   box-shadow: $shadow-md;
+  max-width: 800px;
+  margin: 40px auto;
   text-align: center;
 }
 
 .stepsContainer {
   display: flex;
+  flex-direction: column;
   gap: 24px;
-  margin: 40px 0;
-
-  @media (max-width: $breakpoint-md) {
-    flex-direction: column;
-  }
+  margin: 32px 0;
 }
 
 .step {
-  flex: 1;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
+  text-align: left;
+  background-color: $color-background-secondary;
+  padding: 20px;
+  border-radius: $border-radius-md;
+  transition: transform $transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
 }
 
 .stepNumber {
@@ -289,10 +310,11 @@
   width: 40px;
   height: 40px;
   background-color: $color-primary;
+  border-radius: 50%;
   color: $color-text-light;
   font-size: $font-size-lg;
   font-weight: $font-weight-bold;
-  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .stepContent {
@@ -305,24 +327,25 @@
   }
 
   p {
-    font-size: $font-size-sm;
+    font-size: $font-size-base;
     color: $color-text-secondary;
+    margin: 0;
     line-height: 1.5;
   }
 }
 
 .becomeTeacherButton {
   display: inline-block;
-  padding: 14px 24px;
-  font-size: $font-size-lg;
-  font-weight: $font-weight-bold;
-  color: $color-text-light;
+  padding: 14px 32px;
   background-color: $color-primary;
+  color: $color-text-light;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
   border: none;
   border-radius: $border-radius-md;
   cursor: pointer;
-  transition: background-color $transition-fast;
   text-decoration: none;
+  transition: background-color $transition-fast;
 
   &:hover {
     background-color: $color-primary-dark;

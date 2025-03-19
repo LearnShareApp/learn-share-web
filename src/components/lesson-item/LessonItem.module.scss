@@ -4,15 +4,23 @@
   display: flex;
   gap: 16px;
   padding: $container-padding;
-  background-color: $color-background-primary;
+  background-color: $color-background-secondary;
   border-radius: $border-radius-md;
   box-shadow: $shadow-sm;
-  margin-bottom: 16px;
   transition: transform $transition-fast, box-shadow $transition-fast;
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: $shadow-md;
+  }
+}
+
+.pastLesson {
+  opacity: 0.85;
+  border-left: 3px solid $color-border-dark;
+
+  &:hover {
+    transform: none;
   }
 }
 
@@ -27,6 +35,16 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.actionWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  padding-left: 16px;
+  border-left: 1px solid $color-border-light;
+  align-self: stretch;
 }
 
 .lessonInfo h3 {
@@ -48,8 +66,6 @@
 }
 
 .joinButton {
-  align-self: flex-start;
-  margin-top: 8px;
   padding: 8px 16px;
   background-color: $color-primary;
   color: $color-text-light;
@@ -58,18 +74,34 @@
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   cursor: pointer;
-  transition: background-color $transition-fast;
+  transition: background-color $transition-fast, transform $transition-fast;
+  width: 100px;
+  text-align: center;
+  white-space: nowrap;
 
   &:hover {
     background-color: $color-primary-dark;
+    transform: translateY(-2px);
   }
+}
+
+.completedStatus {
+  padding: 6px 12px;
+  background-color: $color-background-tertiary;
+  color: $color-text-secondary;
+  border-radius: $border-radius-md;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  text-align: center;
+  width: 100px;
+  white-space: nowrap;
 }
 
 .categoryBadge {
   display: inline-flex;
   align-items: center;
   padding: 4px 8px;
-  background-color: $color-background-secondary;
+  background-color: $color-background-primary;
   border-radius: $border-radius-sm;
   font-size: $font-size-xs;
   color: $color-text-secondary;

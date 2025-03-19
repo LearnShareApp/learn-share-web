@@ -16,19 +16,22 @@ const LessonItem: React.FC<LessonItemProps> = ({
   const { avatarSource } = useAvatar(lesson.category_name); //TODO: add lesson.student-avatar or lesson.teacher-avatar
   const lessonDate = new Date(lesson.datetime);
 
-  // Форматирование даты и времени
-  const formattedDate = lessonDate.toLocaleDateString("ru-RU", {
+  // Check if the lesson is in the past
+  const isPastLesson = lessonDate < new Date();
+
+  // Format date and time
+  const formattedDate = lessonDate.toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
     year: "numeric",
   });
 
-  const formattedTime = lessonDate.toLocaleTimeString("ru-RU", {
+  const formattedTime = lessonDate.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
   });
 
-  // Вычисление оставшегося времени до урока
+  // Calculate time remaining until the lesson
   const timeLeft = Math.max(0, lessonDate.getTime() - Date.now());
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
   const hours = Math.floor(
@@ -36,19 +39,23 @@ const LessonItem: React.FC<LessonItemProps> = ({
   );
   const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
 
-  // Форматирование оставшегося времени в удобочитаемом виде
+  // Format time remaining in a readable format
   let timeLeftString = "";
   if (days > 0) {
-    timeLeftString = `${days} д. ${hours} ч.`;
+    timeLeftString = `${days} day${days > 1 ? "s" : ""} ${hours} hour${
+      hours > 1 ? "s" : ""
+    }`;
   } else if (hours > 0) {
-    timeLeftString = `${hours} ч. ${minutes} мин.`;
+    timeLeftString = `${hours} hour${hours > 1 ? "s" : ""} ${minutes} minute${
+      minutes > 1 ? "s" : ""
+    }`;
   } else if (minutes > 0) {
-    timeLeftString = `${minutes} мин.`;
+    timeLeftString = `${minutes} minute${minutes > 1 ? "s" : ""}`;
   } else {
-    timeLeftString = "Скоро начнется";
+    timeLeftString = "Starting soon";
   }
 
-  // Определение имени участника урока
+  // Determine participant name
   const participantName = isTeacher
     ? `${(lesson as TeacherLesson).student_name} ${
         (lesson as TeacherLesson).student_surname
@@ -58,7 +65,11 @@ const LessonItem: React.FC<LessonItemProps> = ({
       }`;
 
   return (
-    <div className={styles.lessonItem}>
+    <div
+      className={`${styles.lessonItem} ${
+        isPastLesson ? styles.pastLesson : ""
+      }`}
+    >
       <div className={styles.avatarWrapper}>
         <Avatar src={avatarSource} size={60} />
       </div>
@@ -69,11 +80,19 @@ const LessonItem: React.FC<LessonItemProps> = ({
         </div>
         <div className={styles.timeInfo}>
           <p>
-            {formattedDate} в {formattedTime}
+            {formattedDate} at {formattedTime}
           </p>
         </div>
-        <p>Осталось: {timeLeftString}</p>
-        <button className={styles.joinButton}>Присоединиться к уроку</button>
+
+        {!isPastLesson && <p>Remaining: {timeLeftString}</p>}
+      </div>
+
+      <div className={styles.actionWrapper}>
+        {!isPastLesson ? (
+          <button className={styles.joinButton}>Join Lesson</button>
+        ) : (
+          <span className={styles.completedStatus}>Completed</span>
+        )}
       </div>
     </div>
   );
