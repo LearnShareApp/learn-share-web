@@ -13,7 +13,11 @@ const LessonItem: React.FC<LessonItemProps> = ({
   lesson,
   isTeacher = false,
 }) => {
-  const { avatarSource } = useAvatar(lesson.category_name); //TODO: add lesson.student-avatar or lesson.teacher-avatar
+  const { avatarSource } = useAvatar(
+    isTeacher
+      ? (lesson as TeacherLesson).student_avatar
+      : (lesson as Lesson).teacher_avatar
+  );
   const lessonDate = new Date(lesson.datetime);
 
   // Check if the lesson is in the past
