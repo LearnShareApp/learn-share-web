@@ -26,7 +26,7 @@ const TeachingPage = () => {
         const sortedLessons = response.sort((a, b) => {
           const dateA = new Date(a.datetime);
           const dateB = new Date(b.datetime);
-          return dateA.getTime() - dateB.getTime();
+          return dateB.getTime() - dateA.getTime();
         });
 
         const now = new Date();
@@ -183,7 +183,7 @@ const TeachingPage = () => {
           </span>
           Add Time
         </Link>
-        <Link href="/for-teachers/lesson-requests" className={styles.button}>
+        <Link href="/for-teachers/requests" className={styles.button}>
           <span className={styles.buttonIcon}>
             <svg
               width="20"

@@ -3,7 +3,7 @@
 .pageContainer {
   max-width: $container-max-width;
   margin: 0 auto;
-  padding: 24px;
+  padding: 0 24px;
 }
 
 .header {
@@ -11,6 +11,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  padding-top: 24px;
 
   @media (max-width: $breakpoint-md) {
     flex-direction: column;
@@ -44,6 +45,7 @@
   border-radius: $border-radius-lg;
   padding: 24px;
   box-shadow: $shadow-md;
+  min-height: 500px;
 }
 
 .tabsContainer {
@@ -52,6 +54,7 @@
   margin-bottom: 24px;
   border-bottom: 1px solid $color-border;
   padding-bottom: 16px;
+  flex-wrap: wrap;
 }
 
 .tab {
@@ -94,6 +97,7 @@
   .emptyStateIcon {
     font-size: 48px;
     margin-bottom: 16px;
+    color: $color-text-secondary;
   }
 
   h3 {
@@ -121,8 +125,9 @@
   padding: 20px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   transition: transform $transition-fast, box-shadow $transition-fast;
+  min-height: 120px;
 
   &:hover {
     transform: translateY(-2px);
@@ -138,6 +143,7 @@
 
 .requestInfo {
   flex: 1;
+  padding-right: 16px;
 }
 
 .studentName {
@@ -171,23 +177,26 @@
     color: #92400e;
   }
 
+  &[data-status="cancelled"] {
+    background-color: #fee2e2;
+    color: #b91c1c;
+  }
+
   &[data-status="approved"] {
     background-color: #dcfce7;
     color: #15803d;
-  }
-
-  &[data-status="rejected"] {
-    background-color: #fee2e2;
-    color: #b91c1c;
   }
 }
 
 .requestActions {
   display: flex;
   gap: 8px;
+  align-self: flex-start;
+  margin-top: 4px;
 
   @media (max-width: $breakpoint-md) {
     width: 100%;
+    margin-top: 8px;
   }
 }
 
@@ -199,6 +208,7 @@
   border-radius: $border-radius-md;
   cursor: pointer;
   transition: background-color $transition-fast, transform $transition-fast;
+  white-space: nowrap;
 
   &:hover {
     transform: translateY(-1px);
