@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@livekit/components-react": "^2.8.1",
+    "@livekit/components-styles": "^1.1.4",
     "axios": "^1.8.3",
     "date-fns": "^4.1.0",
+    "livekit-client": "^2.9.8",
     "next": "15.2.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

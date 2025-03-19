@@ -324,9 +324,15 @@ class ApiService {
     return response.data;
   }
 
-  async getRoomToken(lessonId: string): Promise<{ token: string }> {
-    const response = await this.api.get(`/api/lesson/${lessonId}/token`);
-    return response.data;
+  async getRoomToken(lessonId: string | number): Promise<{ token: string }> {
+    try {
+      const response = await this.api.get(`/api/lessons/${lessonId}/join`);
+
+      return { token: response.data.token };
+    } catch (error) {
+      console.error("Ошибка при получении токена комнаты:", error);
+      throw error;
+    }
   }
 }
 
