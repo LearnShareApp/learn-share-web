@@ -102,7 +102,7 @@
   background: linear-gradient(
     145deg,
     $color-primary,
-    darken($color-primary, 10%)
+    color.adjust($color-primary, $lightness: -10%)
   );
   background-repeat: no-repeat;
   background-size: cover;
@@ -257,7 +257,7 @@
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: darken($color-primary, 10%);
+    background-color: color.adjust($color-primary, $lightness: -10%);
     transform: translateY(-3px);
     box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
   }
@@ -343,7 +343,7 @@
     text-decoration: underline;
 
     &:hover {
-      color: darken($color-primary, 10%);
+      color: color.adjust($color-primary, $lightness: -10%);
     }
   }
 }
