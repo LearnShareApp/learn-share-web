@@ -24,50 +24,98 @@
 
 .customControlBar {
   display: flex;
-  gap: 10px;
-  padding: 12px 20px;
-  background-color: rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
-  backdrop-filter: blur(8px);
+  justify-content: center;
+  gap: 16px;
+  padding: 15px;
+  background-color: rgba(29, 36, 52, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
 }
 
 .controlButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  border-radius: 50%;
   border: none;
-  border-radius: 6px;
-  padding: 10px 16px;
-  font-size: 14px;
+  color: white;
   font-weight: 500;
   cursor: pointer;
+  position: relative;
   transition: all 0.2s ease;
-  background-color: #2c2c2c;
-  color: white;
+  background-color: #2c3e50;
 
   &:hover {
-    background-color: #3a3a3a;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
 
   &.active {
-    background-color: #4285f4;
+    background-color: #3498db;
 
     &:hover {
-      background-color: #3367d6;
+      background-color: #2980b9;
     }
   }
 
   &.inactive {
-    background-color: #2c2c2c;
+    background-color: #7f8c8d;
 
     &:hover {
-      background-color: #3a3a3a;
+      background-color: #95a5a6;
     }
   }
 
   &.leaveButton {
-    background-color: #e53935;
+    background-color: #e74c3c;
 
     &:hover {
-      background-color: #c62828;
+      background-color: #c0392b;
     }
+  }
+}
+
+.buttonIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+}
+
+.buttonText {
+  font-size: 12px;
+  text-align: center;
+}
+
+// Мобильная адаптация
+@media (max-width: 768px) {
+  .customControlBar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .controlButton {
+    width: 45px;
+    height: 45px;
+  }
+
+  .buttonIcon svg {
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -206,13 +254,19 @@
 }
 
 .connectionStatus {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(29, 36, 52, 0.8);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  white-space: nowrap;
   display: flex;
   align-items: center;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-right: 10px;
-  padding: 0 10px;
-  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
   &::before {
     content: "";

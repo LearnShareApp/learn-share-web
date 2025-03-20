@@ -81,17 +81,17 @@ const LessonItem: React.FC<LessonItemProps> = ({
       setIsLoading(true);
       // Получаем токен для подключения к уроку
       const token = await apiService.getLessonToken(lesson.lesson_id);
-      console.log("Получен токен для урока:", token);
+      console.log("Received token for lesson:", token);
 
       if (!token) {
-        throw new Error("Не удалось получить токен для урока");
+        throw new Error("Failed to get token for the lesson");
       }
 
       // Переход на страницу урока с токеном
       router.push(`/lessons/${token}`);
     } catch (error) {
-      console.error("Ошибка при присоединении к уроку:", error);
-      alert("Не удалось присоединиться к уроку. Попробуйте позже.");
+      console.error("Error joining lesson:", error);
+      alert("Failed to join the lesson. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -101,25 +101,25 @@ const LessonItem: React.FC<LessonItemProps> = ({
   const startLesson = async () => {
     try {
       setIsLoading(true);
-      console.log("Начинаем урок с ID:", lesson.lesson_id);
+      console.log("Starting lesson with ID:", lesson.lesson_id);
 
       // Запускаем урок на сервере
       await apiService.lessonStart(lesson.lesson_id);
-      console.log("Урок успешно запущен на сервере");
+      console.log("Lesson successfully started on server");
 
       // Получаем токен для подключения к уроку
       const token = await apiService.getLessonToken(lesson.lesson_id);
-      console.log("Получен токен для начатого урока:", token);
+      console.log("Received token for started lesson:", token);
 
       if (!token) {
-        throw new Error("Не удалось получить токен для урока");
+        throw new Error("Failed to get token for the lesson");
       }
 
       // Перенаправляем учителя на страницу урока с токеном
       router.push(`/lessons/${token}`);
     } catch (error) {
-      console.error("Ошибка при начале урока:", error);
-      alert("Не удалось начать урок. Попробуйте позже.");
+      console.error("Error starting lesson:", error);
+      alert("Failed to start the lesson. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -151,7 +151,7 @@ const LessonItem: React.FC<LessonItemProps> = ({
       <div className={styles.actionWrapper}>
         {!isPastLesson ? (
           isTeacher ? (
-            // Для учителя показываем кнопку "Начать урок", если до начала урока осталось менее 5 минут
+            // For teachers, show "Start lesson" button if the lesson is starting soon (less than 5 minutes)
             lessonStartingSoon ? (
               <button
                 className={`${styles.joinButton} ${
@@ -160,15 +160,15 @@ const LessonItem: React.FC<LessonItemProps> = ({
                 onClick={startLesson}
                 disabled={isLoading}
               >
-                {isLoading ? "Загрузка..." : "Начать урок"}
+                {isLoading ? "Loading..." : "Start lesson"}
               </button>
             ) : (
               <span className={styles.waitingTime}>
-                Ожидание: {timeLeftString}
+                Waiting: {timeLeftString}
               </span>
             )
           ) : (
-            // Для студента просто показываем кнопку "Присоединиться к уроку"
+            // For students, simply show "Join lesson" button
             <button
               className={`${styles.joinButton} ${
                 isLoading ? styles.loading : ""
@@ -176,7 +176,7 @@ const LessonItem: React.FC<LessonItemProps> = ({
               onClick={joinLesson}
               disabled={isLoading}
             >
-              {isLoading ? "Загрузка..." : "Присоединиться к уроку"}
+              {isLoading ? "Loading..." : "Join lesson"}
             </button>
           )
         ) : (

@@ -330,7 +330,7 @@ class ApiService {
 
       return { token: response.data.token };
     } catch (error) {
-      console.error("Ошибка при получении токена комнаты:", error);
+      console.error("Error getting room token:", error);
       throw error;
     }
   }

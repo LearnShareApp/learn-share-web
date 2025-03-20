@@ -75,7 +75,7 @@
   font-weight: $font-weight-medium;
   cursor: pointer;
   transition: background-color $transition-fast, transform $transition-fast;
-  width: 100px;
+  min-width: 200px;
   text-align: center;
   white-space: nowrap;
 
@@ -122,7 +122,7 @@
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   text-align: center;
-  width: 100px;
+  min-width: 200px;
   white-space: nowrap;
 }
 
