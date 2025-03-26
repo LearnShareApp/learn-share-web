@@ -12,7 +12,7 @@ export const useTeacher = () => {
       const data = await apiService.getTeacherProfile();
       setTeacher(data);
       setError(null);
-    } catch (err) {
+    } catch {
       setError("Failed to fetch teacher profile");
     } finally {
       setLoading(false);
