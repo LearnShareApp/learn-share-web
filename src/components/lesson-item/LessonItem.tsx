@@ -103,9 +103,26 @@ const LessonItem: React.FC<LessonItemProps> = ({
       setIsLoading(true);
       console.log("Starting lesson with ID:", lesson.lesson_id);
 
-      // Запускаем урок на сервере
-      await apiService.lessonStart(lesson.lesson_id);
-      console.log("Lesson successfully started on server");
+      // Проверяем, находится ли урок уже в статусе "started"
+      if (lesson.status !== "ongoing") {
+        // Запускаем урок на сервере только если он еще не запущен
+        try {
+          await apiService.lessonStart(lesson.lesson_id);
+          console.log("Lesson successfully started on server");
+        } catch (startError: unknown) {
+          // Проверяем, не является ли ошибка 403, что может означать, что урок уже запущен
+          const error = startError as { response?: { status?: number } };
+          if (error?.response?.status === 403) {
+            console.log("Lesson is already started or not allowed to start, proceeding to join");
+            // Продолжаем выполнение и пытаемся присоединиться
+          } else {
+            // Если ошибка не 403, пробрасываем её дальше
+            throw startError;
+          }
+        }
+      } else {
+        console.log("Lesson already in started status, proceeding to join");
+      }
 
       // Получаем токен для подключения к уроку
       const token = await apiService.getLessonToken(lesson.lesson_id);
