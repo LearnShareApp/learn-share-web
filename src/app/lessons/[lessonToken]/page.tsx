@@ -13,6 +13,7 @@ import { Track, Room, ConnectionState, RoomEvent } from "livekit-client";
 import "@livekit/components-styles";
 import styles from "./page.module.scss";
 import { use } from "react";
+import ChatPanel from "@/components/ChatPanel";
 
 // Определяем тип для params с типизацией
 type PageParams = {
@@ -39,6 +40,23 @@ export default function LessonRoomPage({ params }: { params: PageParams }) {
   const [mediaDevicesAvailable, setMediaDevicesAvailable] =
     useState<boolean>(false);
   const [isConnected, setIsConnected] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  // Добавим useEffect для создания чата только при необходимости
+  const [isChatMounted, setIsChatMounted] = useState(false);
+
+  useEffect(() => {
+    if (isChatOpen) {
+      setIsChatMounted(true);
+    } else {
+      // Задержка для анимации выхода
+      const timer = setTimeout(() => {
+        setIsChatMounted(false);
+      }, 300); // Должно соответствовать времени анимации CSS
+
+      return () => clearTimeout(timer);
+    }
+  }, [isChatOpen]);
 
   // Вынесем проверку медиа-устройств в отдельную функцию для возможности повторного вызова
   const checkMediaDevices = useCallback(async () => {
@@ -320,11 +338,27 @@ export default function LessonRoomPage({ params }: { params: PageParams }) {
           dynacast: true, // Динамическая трансляция для экономии ресурсов
         }}
       >
-        <div className={styles.videoContainer}>
+        <div
+          className={`${styles.videoContainer} ${
+            isChatOpen ? styles.withChat : ""
+          }`}
+        >
           <ImprovedVideoGrid />
         </div>
+
+        <div
+          className={`${styles.chatContainer} ${
+            isChatOpen ? styles.visible : ""
+          }`}
+        >
+          {isChatMounted && <ChatPanel setIsChatOpen={setIsChatOpen} />}
+        </div>
+
         <div className={styles.controlsContainer}>
-          <CustomControlBar />
+          <CustomControlBar
+            isChatOpen={isChatOpen}
+            setIsChatOpen={setIsChatOpen}
+          />
         </div>
         {/* Используем условный рендеринг для RoomAudioRenderer, чтобы избежать проблем с AudioContext */}
         {isConnected && <RoomAudioRenderer />}
@@ -379,7 +413,13 @@ function ImprovedVideoGrid() {
   );
 }
 
-function CustomControlBar() {
+function CustomControlBar({
+  isChatOpen,
+  setIsChatOpen,
+}: {
+  isChatOpen: boolean;
+  setIsChatOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const { localParticipant } = useLocalParticipant();
   const [roomInstance, setRoomInstance] = useState<Room | null>(null);
   const router = useRouter();
@@ -483,6 +523,10 @@ function CustomControlBar() {
         );
       }
     }
+  };
+
+  const toggleChat = () => {
+    setIsChatOpen(!isChatOpen);
   };
 
   const handleLeaveRoom = () => {
@@ -650,6 +694,29 @@ function CustomControlBar() {
             >
               <path
                 d="M20 18C21.1 18 21.99 17.1 21.99 16L22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V16C2 17.1 2.9 18 4 18H0V20H24V18H20ZM4 6H20V16H4V6Z"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+        </button>
+
+        <button
+          className={`${styles.controlButton} ${
+            isChatOpen ? styles.active : styles.inactive
+          }`}
+          onClick={toggleChat}
+          title={isChatOpen ? "Закрыть чат" : "Открыть чат"}
+        >
+          <span className={styles.buttonIcon}>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.17L4 17.17V4H20V16Z"
                 fill="currentColor"
               />
             </svg>
