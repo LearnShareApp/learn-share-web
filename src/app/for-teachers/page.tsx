@@ -29,12 +29,14 @@ const TeachingPage = () => {
           return dateB.getTime() - dateA.getTime();
         });
 
-        const now = new Date();
         setPastLessons(
-          sortedLessons.filter((lesson) => new Date(lesson.datetime) < now)
+          sortedLessons.filter((lesson) => lesson.status === "finished")
         );
         setUpcomingLessons(
-          sortedLessons.filter((lesson) => new Date(lesson.datetime) >= now)
+          sortedLessons.filter(
+            (lesson) =>
+              lesson.status !== "finished" && lesson.status !== "cancelled"
+          )
         );
         setError(null);
       } catch (err) {

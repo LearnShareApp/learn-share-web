@@ -24,7 +24,7 @@ const LessonItem: React.FC<LessonItemProps> = ({
   const lessonDate = new Date(lesson.datetime);
 
   // Check if the lesson is in the past
-  const isPastLesson = lessonDate < new Date();
+  const isPastLesson = lesson.status === "finished";
 
   // Check if lesson is starting soon (less than 5 minutes)
   const lessonStartingSoon =
