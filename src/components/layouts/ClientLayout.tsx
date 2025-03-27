@@ -10,17 +10,18 @@ export default function ClientLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const isAuthPage = pathname === "/auth";
+  const isEmptyPage =
+    pathname.startsWith("/auth") || pathname.startsWith("/lessons/");
 
   return (
     <>
-      {!isAuthPage && (
+      {!isEmptyPage && (
         <div id="header-container">
           <Header />
         </div>
       )}
-      <main className={!isAuthPage ? "container" : ""}>{children}</main>
-      {!isAuthPage && <Footer />}
+      <main className={!isEmptyPage ? "container" : ""}>{children}</main>
+      {!isEmptyPage && <Footer />}
     </>
   );
 }

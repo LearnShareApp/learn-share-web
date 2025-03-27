@@ -360,7 +360,7 @@ a.secondary {
   border: none;
 
   &:hover {
-    background-color: darken($color-primary, 10%);
+    background-color: color.adjust($color-primary, $lightness: -10%);
     transform: translateY(-2px);
   }
 }

@@ -71,7 +71,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher, category }) => {
                 </span>
               ))
             ) : (
-              <span className={styles.skillBadge}>Без навыков</span>
+              <span className={styles.skillBadge}>No skills</span>
             )}
           </div>
           {skillToShow?.about && (

@@ -350,12 +350,12 @@ export default function TeacherProfilePage() {
               )}
             </div>
           ) : (
-            <p className={styles.noReviews}>Пока нет отзывов</p>
+            <p className={styles.noReviews}>No reviews yet</p>
           )}
         </section>
         {reviews.length > 6 && (
           <button onClick={toggleExpand} className={styles.expandButton}>
-            {isExpanded ? "Скрыть отзывы" : "Показать все отзывы"}
+            {isExpanded ? "Hide reviews" : "Show all reviews"}
           </button>
         )}
       </div>
