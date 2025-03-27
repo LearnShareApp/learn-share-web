@@ -11,7 +11,9 @@ export default function ClientLayout({
 }>) {
   const pathname = usePathname();
   const isEmptyPage =
-    pathname.startsWith("/auth") || pathname.startsWith("/lessons/");
+    pathname.startsWith("/auth") ||
+    pathname.startsWith("/lessons/") ||
+    pathname.startsWith("/admin");
 
   return (
     <>
