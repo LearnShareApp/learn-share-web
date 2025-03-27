@@ -386,6 +386,21 @@
   }
 }
 
+.complaintActionsSection {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  flex-shrink: 0;
+
+  .actionButton {
+    width: auto;
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
 .actionButton {
   padding: 12px;
   border-radius: $border-radius-md;
@@ -420,7 +435,7 @@
   color: $color-text-light;
 
   &:hover:not(:disabled) {
-    background-color: $color-danger-dark;
+    background-color: darken($color-danger, 10%);
   }
 }
 
@@ -431,6 +446,22 @@
 
   &:hover:not(:disabled) {
     background-color: $color-background-tertiary;
+  }
+}
+
+.viewButton {
+  background-color: $color-primary;
+  color: white;
+  &:hover {
+    background-color: darken($color-primary, 10%);
+  }
+}
+
+.blockButton {
+  background-color: $color-danger;
+  color: white;
+  &:hover {
+    background-color: darken($color-danger, 10%);
   }
 }
 
@@ -501,7 +532,7 @@
   color: $color-text-light;
 
   &:hover:not(:disabled) {
-    background-color: $color-success-dark;
+    background-color: darken($color-success, 10%);
   }
 }
 

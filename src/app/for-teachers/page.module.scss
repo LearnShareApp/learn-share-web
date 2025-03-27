@@ -116,6 +116,7 @@
   flex: 1;
   text-decoration: none;
   text-align: center;
+  position: relative;
 
   &:hover {
     background-color: $color-primary-dark;
@@ -125,6 +126,36 @@
 
 .buttonIcon {
   font-size: $font-size-lg;
+}
+
+.newRequestsBadge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: $color-primary;
+  color: $color-text-light;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .skillsSection {

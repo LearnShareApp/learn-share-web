@@ -5,6 +5,7 @@ import styles from "./page.module.scss";
 import Loader from "@/components/loader/Loader";
 import Avatar from "@/components/avatar/Avatar";
 import Badge from "@/components/badge/Badge";
+import Link from "next/link";
 
 interface TeacherApplication {
   id: number;
@@ -62,17 +63,17 @@ export default function AdminPage() {
     null
   );
 
-  // Получаем выбранную заявку
+  // Get the selected application
   const selectedApplication = applications.find(
     (app) => app.id === selectedApplicationId
   );
 
-  // Получаем выбранную жалобу
+  // Get the selected complaint
   const selectedComplaint = complaints.find(
     (complaint) => complaint.id === selectedComplaintId
   );
 
-  // Функция для перехода к следующей заявке
+  // Function to navigate to the next application
   const goToNextApplication = () => {
     if (!selectedApplicationId || applications.length === 0) return;
 
@@ -80,7 +81,7 @@ export default function AdminPage() {
       if (applicationTab === "pending") return app.status === "pending";
       if (applicationTab === "approved") return app.status === "approved";
       if (applicationTab === "rejected") return app.status === "rejected";
-      return true; // Для вкладки "all"
+      return true; // For "all" tab
     });
 
     const filteredIndex = filteredApps.findIndex(
@@ -96,7 +97,7 @@ export default function AdminPage() {
     }
   };
 
-  // Функция для перехода к следующей жалобе
+  // Function to navigate to the next complaint
   const goToNextComplaint = () => {
     if (!selectedComplaintId || complaints.length === 0) return;
 
@@ -118,29 +119,29 @@ export default function AdminPage() {
     }
   };
 
-  // Эта функция будет вызываться в useEffect
+  // This function will be called in useEffect
   const fetchData = async () => {
     try {
       setLoading(true);
-      // TODO: Заменить на реальные вызовы API
+      // TODO: Replace with real API calls
       // const [applicationsResponse, complaintsResponse] = await Promise.all([
       //   apiService.getTeacherApplications(),
       //   apiService.getComplaints()
       // ]);
 
-      // Временные тестовые данные
+      // Temporary test data
       const mockApplications: TeacherApplication[] = [
         {
           id: 1,
           user_id: 101,
-          name: "Иван",
-          surname: "Петров",
+          name: "Ivan",
+          surname: "Petrov",
           email: "ivan@example.com",
           avatar: null,
           skill: {
             category_id: 1,
-            category_name: "Программирование",
-            about: "Опытный разработчик с 5-летним стажем в React и JavaScript",
+            category_name: "Programming",
+            about: "Experienced developer with 5 years in React and JavaScript",
             video_card_link: "dQw4w9WgXcQ",
           },
           created_at: "2023-10-15T14:30:00Z",
@@ -149,15 +150,14 @@ export default function AdminPage() {
         {
           id: 2,
           user_id: 102,
-          name: "Анна",
-          surname: "Смирнова",
+          name: "Anna",
+          surname: "Smirnova",
           email: "anna@example.com",
           avatar: null,
           skill: {
             category_id: 2,
-            category_name: "Английский язык",
-            about:
-              "Сертифицированный преподаватель английского с опытом работы более 3 лет",
+            category_name: "English Language",
+            about: "Certified English teacher with over 3 years of experience",
             video_card_link: "dQw4w9WgXcQ",
           },
           created_at: "2023-10-16T09:45:00Z",
@@ -169,33 +169,33 @@ export default function AdminPage() {
         {
           id: 1,
           reporter_id: 201,
-          reporter_name: "Алексей",
-          reporter_surname: "Иванов",
+          reporter_name: "Alexey",
+          reporter_surname: "Ivanov",
           reporter_email: "alex@example.com",
           reported_id: 101,
-          reported_name: "Иван",
-          reported_surname: "Петров",
+          reported_name: "Ivan",
+          reported_surname: "Petrov",
           reported_email: "ivan@example.com",
           reported_type: "teacher",
-          reason: "Некорректное поведение",
+          reason: "Inappropriate behavior",
           description:
-            "Преподаватель грубо отвечал на вопросы и не выполнял свои обязательства",
+            "The teacher was rude when answering questions and didn't fulfill their obligations",
           status: "pending",
           created_at: "2024-03-27T10:30:00Z",
         },
         {
           id: 2,
           reporter_id: 202,
-          reporter_name: "Мария",
-          reporter_surname: "Сидорова",
+          reporter_name: "Maria",
+          reporter_surname: "Sidorova",
           reporter_email: "maria@example.com",
           reported_id: 301,
-          reported_name: "Петр",
-          reported_surname: "Смирнов",
+          reported_name: "Peter",
+          reported_surname: "Smirnov",
           reported_email: "petr@example.com",
           reported_type: "student",
-          reason: "Спам",
-          description: "Студент отправляет нежелательные сообщения",
+          reason: "Spam",
+          description: "The student is sending unwanted messages",
           status: "pending",
           created_at: "2024-03-27T11:15:00Z",
         },
@@ -204,7 +204,7 @@ export default function AdminPage() {
       setApplications(mockApplications);
       setComplaints(mockComplaints);
 
-      // Устанавливаем первый элемент как выбранный при загрузке
+      // Set the first item as selected when loading
       if (mockApplications.length > 0) {
         setSelectedApplicationId(mockApplications[0].id);
       }
@@ -212,8 +212,8 @@ export default function AdminPage() {
         setSelectedComplaintId(mockComplaints[0].id);
       }
     } catch (err) {
-      console.error("Ошибка при получении данных:", err);
-      setError("Не удалось загрузить данные");
+      console.error("Error fetching data:", err);
+      setError("Failed to load data");
     } finally {
       setLoading(false);
     }
@@ -223,7 +223,7 @@ export default function AdminPage() {
     fetchData();
   }, []);
 
-  // Устанавливаем первый элемент в отфильтрованном списке как выбранный при изменении фильтра
+  // Set the first element in the filtered list as selected when changing the filter
   useEffect(() => {
     if (complaintTab === "pending") {
       const filteredComplaints = complaints.filter(
@@ -246,7 +246,7 @@ export default function AdminPage() {
         if (applicationTab === "pending") return app.status === "pending";
         if (applicationTab === "approved") return app.status === "approved";
         if (applicationTab === "rejected") return app.status === "rejected";
-        return true; // Для вкладки "all"
+        return true; // For "all" tab
       });
 
       if (filteredApps.length > 0) {
@@ -270,15 +270,14 @@ export default function AdminPage() {
     selectedComplaintId,
   ]);
 
-  // Фильтрация заявок по активной вкладке
+  // Apply complaint and application filtering based on tabs
   const filteredApplications = applications.filter((app) => {
     if (applicationTab === "pending") return app.status === "pending";
     if (applicationTab === "approved") return app.status === "approved";
     if (applicationTab === "rejected") return app.status === "rejected";
-    return true; // Для вкладки "all"
+    return true; // For "all" tab
   });
 
-  // Фильтрация жалоб по активной вкладке
   const filteredComplaints = complaints.filter((complaint) => {
     if (complaintTab === "pending") return complaint.status === "pending";
     if (complaintTab === "resolved") return complaint.status === "resolved";
@@ -286,102 +285,78 @@ export default function AdminPage() {
     return true;
   });
 
-  // Обработка одобрения заявки
+  // Handling the approval of a teacher application
   const handleApprove = async (applicationId: number) => {
     try {
       setProcessingId(applicationId);
-      // TODO: Заменить на реальный вызов API
+      // TODO: Replace with a real API call
       // await apiService.approveTeacherApplication(applicationId);
 
-      // Обновляем состояние локально
+      // Update state locally
       setApplications(
         applications.map((app) =>
           app.id === applicationId ? { ...app, status: "approved" } : app
         )
       );
 
-      // Имитация задержки сети
+      // Simulate network delay
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Переходим к следующей заявке
+      // Move to the next application
       goToNextApplication();
     } catch (err) {
-      console.error("Ошибка при одобрении заявки:", err);
-      setError("Не удалось одобрить заявку");
+      console.error("Error approving application:", err);
+      setError("Failed to approve application");
     } finally {
       setProcessingId(null);
     }
   };
 
-  // Обработка отклонения заявки
+  // Handling the rejection of a teacher application
   const handleReject = async (applicationId: number) => {
     try {
       setProcessingId(applicationId);
-      // TODO: Заменить на реальный вызов API
+      // TODO: Replace with a real API call
       // await apiService.rejectTeacherApplication(applicationId);
 
-      // Обновляем состояние локально
+      // Update state locally
       setApplications(
         applications.map((app) =>
           app.id === applicationId ? { ...app, status: "rejected" } : app
         )
       );
 
-      // Имитация задержки сети
+      // Simulate network delay
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Переходим к следующей заявке
+      // Move to the next application
       goToNextApplication();
     } catch (err) {
-      console.error("Ошибка при отклонении заявки:", err);
-      setError("Не удалось отклонить заявку");
+      console.error("Error rejecting application:", err);
+      setError("Failed to reject application");
     } finally {
       setProcessingId(null);
     }
   };
 
-  // Обработка пропуска заявки
+  // Handling skipping an application
   const handleSkip = () => {
     goToNextApplication();
   };
 
-  // Обработка разрешения жалобы
-  const handleResolveComplaint = async (complaintId: number) => {
-    try {
-      setProcessingId(complaintId);
-      // TODO: Заменить на реальный вызов API
-      // await apiService.resolveComplaint(complaintId);
-
-      // Обновляем состояние локально
-      setComplaints(
-        complaints.map((complaint) =>
-          complaint.id === complaintId
-            ? { ...complaint, status: "resolved" }
-            : complaint
-        )
-      );
-
-      // Имитация задержки сети
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // Переходим к следующей жалобе
-      goToNextComplaint();
-    } catch (err) {
-      console.error("Ошибка при разрешении жалобы:", err);
-      setError("Не удалось разрешить жалобу");
-    } finally {
-      setProcessingId(null);
-    }
+  // Handling skipping a complaint
+  const handleSkipComplaint = () => {
+    goToNextComplaint();
   };
 
-  // Обработка отклонения жалобы
+  // Handling rejecting a complaint
   const handleRejectComplaint = async (complaintId: number) => {
     try {
       setProcessingId(complaintId);
-      // TODO: Заменить на реальный вызов API
+      // TODO: Replace with a real API call
       // await apiService.rejectComplaint(complaintId);
 
-      // Обновляем состояние локально
+      // Update state locally
       setComplaints(
         complaints.map((complaint) =>
           complaint.id === complaintId
@@ -390,22 +365,39 @@ export default function AdminPage() {
         )
       );
 
-      // Имитация задержки сети
+      // Simulate network delay
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Переходим к следующей жалобе
+      // Move to the next complaint
       goToNextComplaint();
     } catch (err) {
-      console.error("Ошибка при отклонении жалобы:", err);
-      setError("Не удалось отклонить жалобу");
+      console.error("Error rejecting complaint:", err);
+      setError("Failed to reject complaint");
     } finally {
       setProcessingId(null);
     }
   };
 
-  // Обработка пропуска жалобы
-  const handleSkipComplaint = () => {
-    goToNextComplaint();
+  // Handling blocking a user
+  const handleBlockUser = async (userId: number) => {
+    try {
+      setProcessingId(userId);
+      // TODO: Replace with a real API call
+      // await apiService.blockUser(userId);
+
+      console.log(`User ${userId} blocked`);
+
+      // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // Move to the next complaint
+      goToNextComplaint();
+    } catch (err) {
+      console.error("Error blocking user:", err);
+      setError("Failed to block user");
+    } finally {
+      setProcessingId(null);
+    }
   };
 
   if (loading) {
@@ -433,7 +425,7 @@ export default function AdminPage() {
                 setSelectedComplaintId(null);
               }}
             >
-              Заявки на преподавателей
+              Teacher Applications
             </button>
             <button
               className={`${styles.sectionButton} ${
@@ -444,7 +436,7 @@ export default function AdminPage() {
                 setSelectedApplicationId(null);
               }}
             >
-              Жалобы пользователей
+              User Complaints
             </button>
           </div>
 
@@ -457,7 +449,7 @@ export default function AdminPage() {
                   }`}
                   onClick={() => setComplaintTab("pending")}
                 >
-                  Ожидают рассмотрения
+                  Pending
                 </button>
                 <button
                   className={`${styles.tabButton} ${
@@ -465,7 +457,7 @@ export default function AdminPage() {
                   }`}
                   onClick={() => setComplaintTab("resolved")}
                 >
-                  Разрешенные
+                  Resolved
                 </button>
                 <button
                   className={`${styles.tabButton} ${
@@ -473,7 +465,7 @@ export default function AdminPage() {
                   }`}
                   onClick={() => setComplaintTab("rejected")}
                 >
-                  Отклоненные
+                  Rejected
                 </button>
               </div>
 
@@ -496,19 +488,19 @@ export default function AdminPage() {
                         {complaint.reporter_name} {complaint.reporter_surname}
                       </div>
                       <div className={styles.applicationListItemSkill}>
-                        Жалоба на{" "}
+                        Complaint about{" "}
                         {complaint.reported_type === "teacher"
-                          ? "преподавателя"
-                          : "студента"}
+                          ? "teacher"
+                          : "student"}
                       </div>
                     </div>
                     <div
                       className={styles.statusBadgeSmall}
                       data-status={complaint.status}
                     >
-                      {complaint.status === "pending" && "Ожидает"}
-                      {complaint.status === "resolved" && "Разрешено"}
-                      {complaint.status === "rejected" && "Отклонено"}
+                      {complaint.status === "pending" && "Pending"}
+                      {complaint.status === "resolved" && "Resolved"}
+                      {complaint.status === "rejected" && "Rejected"}
                     </div>
                   </div>
                 ))}
@@ -523,7 +515,7 @@ export default function AdminPage() {
                   }`}
                   onClick={() => setApplicationTab("pending")}
                 >
-                  Ожидают
+                  Pending
                 </button>
                 <button
                   className={`${styles.tabButton} ${
@@ -531,7 +523,7 @@ export default function AdminPage() {
                   }`}
                   onClick={() => setApplicationTab("approved")}
                 >
-                  Одобренные
+                  Approved
                 </button>
                 <button
                   className={`${styles.tabButton} ${
@@ -539,7 +531,7 @@ export default function AdminPage() {
                   }`}
                   onClick={() => setApplicationTab("rejected")}
                 >
-                  Отклоненные
+                  Rejected
                 </button>
                 <button
                   className={`${styles.tabButton} ${
@@ -547,7 +539,7 @@ export default function AdminPage() {
                   }`}
                   onClick={() => setApplicationTab("all")}
                 >
-                  Все
+                  All
                 </button>
               </div>
 
@@ -577,9 +569,9 @@ export default function AdminPage() {
                       className={styles.statusBadgeSmall}
                       data-status={application.status}
                     >
-                      {application.status === "pending" && "Ожидает"}
-                      {application.status === "approved" && "Одобрено"}
-                      {application.status === "rejected" && "Отклонено"}
+                      {application.status === "pending" && "Pending"}
+                      {application.status === "approved" && "Approved"}
+                      {application.status === "rejected" && "Rejected"}
                     </div>
                   </div>
                 ))}
@@ -609,16 +601,15 @@ export default function AdminPage() {
                     className={styles.statusBadge}
                     data-status={selectedComplaint.status}
                   >
-                    {selectedComplaint.status === "pending" &&
-                      "На рассмотрении"}
-                    {selectedComplaint.status === "resolved" && "Разрешено"}
-                    {selectedComplaint.status === "rejected" && "Отклонено"}
+                    {selectedComplaint.status === "pending" && "Under Review"}
+                    {selectedComplaint.status === "resolved" && "Resolved"}
+                    {selectedComplaint.status === "rejected" && "Rejected"}
                   </div>
                 </div>
 
                 <div className={styles.complaintInfo}>
                   <div className={styles.complaintSection}>
-                    <h3>На кого подана жалоба</h3>
+                    <h3>Reported User</h3>
                     <div>
                       {selectedComplaint.reported_name}{" "}
                       {selectedComplaint.reported_surname}
@@ -630,8 +621,8 @@ export default function AdminPage() {
                       <Badge
                         title={
                           selectedComplaint.reported_type === "teacher"
-                            ? "Преподаватель"
-                            : "Студент"
+                            ? "Teacher"
+                            : "Student"
                         }
                         isSkill={false}
                       />
@@ -639,26 +630,38 @@ export default function AdminPage() {
                   </div>
 
                   <div className={styles.complaintSection}>
-                    <h3>Причина жалобы</h3>
+                    <h3>Reason for Complaint</h3>
                     <p>{selectedComplaint.reason}</p>
                   </div>
 
                   <div className={styles.complaintSection}>
-                    <h3>Описание</h3>
+                    <h3>Description</h3>
                     <p>{selectedComplaint.description}</p>
                   </div>
                 </div>
 
                 <div className={styles.videoAndActions}>
-                  <div className={styles.actionsSection}>
+                  <div className={styles.complaintActionsSection}>
+                    <Link
+                      href={`/profile/${selectedComplaint.reporter_id}`}
+                      className={`${styles.actionButton} ${styles.viewButton}`}
+                      target="_blank"
+                    >
+                      View Reporter Profile
+                    </Link>
+                    <Link
+                      href={`/profile/${selectedComplaint.reported_id}`}
+                      className={`${styles.actionButton} ${styles.viewButton}`}
+                      target="_blank"
+                    >
+                      View Reported Profile
+                    </Link>
                     <button
-                      className={`${styles.actionButton} ${styles.resolveButton}`}
-                      onClick={() =>
-                        handleResolveComplaint(selectedComplaint.id)
-                      }
+                      className={`${styles.actionButton} ${styles.skipButton}`}
+                      onClick={handleSkipComplaint}
                       disabled={processingId === selectedComplaint.id}
                     >
-                      Разрешить
+                      Skip Complaint
                     </button>
                     <button
                       className={`${styles.actionButton} ${styles.rejectButton}`}
@@ -667,14 +670,16 @@ export default function AdminPage() {
                       }
                       disabled={processingId === selectedComplaint.id}
                     >
-                      Отклонить
+                      Reject Complaint
                     </button>
                     <button
-                      className={`${styles.actionButton} ${styles.skipButton}`}
-                      onClick={handleSkipComplaint}
-                      disabled={processingId === selectedComplaint.id}
+                      className={`${styles.actionButton} ${styles.blockButton}`}
+                      onClick={() =>
+                        handleBlockUser(selectedComplaint.reported_id)
+                      }
+                      disabled={processingId === selectedComplaint.reported_id}
                     >
-                      Пропустить
+                      Block User
                     </button>
                   </div>
                 </div>
@@ -682,11 +687,11 @@ export default function AdminPage() {
             ) : (
               <div className={styles.emptyState}>
                 <div className={styles.emptyIcon}>📝</div>
-                <p>Выберите жалобу для просмотра</p>
+                <p>Select a complaint to view</p>
                 <p className={styles.emptySubtitle}>
                   {filteredComplaints.length === 0
-                    ? "Нет жалоб для отображения"
-                    : "Выберите жалобу из списка слева"}
+                    ? "No complaints to display"
+                    : "Select a complaint from the list on the left"}
                 </p>
               </div>
             )
@@ -708,10 +713,9 @@ export default function AdminPage() {
                   className={styles.statusBadge}
                   data-status={selectedApplication.status}
                 >
-                  {selectedApplication.status === "pending" &&
-                    "На рассмотрении"}
-                  {selectedApplication.status === "approved" && "Одобрено"}
-                  {selectedApplication.status === "rejected" && "Отклонено"}
+                  {selectedApplication.status === "pending" && "Under Review"}
+                  {selectedApplication.status === "approved" && "Approved"}
+                  {selectedApplication.status === "rejected" && "Rejected"}
                 </div>
               </div>
 
@@ -744,21 +748,21 @@ export default function AdminPage() {
                     onClick={() => handleApprove(selectedApplication.id)}
                     disabled={processingId === selectedApplication.id}
                   >
-                    Одобрить
+                    Approve
                   </button>
                   <button
                     className={`${styles.actionButton} ${styles.rejectButton}`}
                     onClick={() => handleReject(selectedApplication.id)}
                     disabled={processingId === selectedApplication.id}
                   >
-                    Отклонить
+                    Reject
                   </button>
                   <button
                     className={`${styles.actionButton} ${styles.skipButton}`}
                     onClick={handleSkip}
                     disabled={processingId === selectedApplication.id}
                   >
-                    Пропустить
+                    Skip
                   </button>
                 </div>
               </div>
@@ -766,11 +770,11 @@ export default function AdminPage() {
           ) : (
             <div className={styles.emptyState}>
               <div className={styles.emptyIcon}>📝</div>
-              <p>Выберите заявку для просмотра</p>
+              <p>Select an application to view</p>
               <p className={styles.emptySubtitle}>
                 {filteredApplications.length === 0
-                  ? "Нет заявок для отображения"
-                  : "Выберите заявку из списка слева"}
+                  ? "No applications to display"
+                  : "Select an application from the list on the left"}
               </p>
             </div>
           )}

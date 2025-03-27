@@ -13,6 +13,7 @@ const TeachingPage = () => {
 
   const [pastLessons, setPastLessons] = useState<TeacherLesson[]>([]);
   const [upcomingLessons, setUpcomingLessons] = useState<TeacherLesson[]>([]);
+  const [newRequests, setNewRequests] = useState<TeacherLesson[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,6 +38,9 @@ const TeachingPage = () => {
             (lesson) =>
               lesson.status !== "finished" && lesson.status !== "cancelled"
           )
+        );
+        setNewRequests(
+          sortedLessons.filter((lesson) => lesson.status === "waiting")
         );
         setError(null);
       } catch (err) {
@@ -239,6 +243,11 @@ const TeachingPage = () => {
             </svg>
           </span>
           Lesson Requests
+          {newRequests.length > 0 && (
+            <span className={styles.newRequestsBadge}>
+              {newRequests.length}
+            </span>
+          )}
         </Link>
         <Link href="/for-teachers/statistics" className={styles.button}>
           <span className={styles.buttonIcon}>
