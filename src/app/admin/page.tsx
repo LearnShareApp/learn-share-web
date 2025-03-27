@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./page.module.scss";
 import Loader from "@/components/loader/Loader";
 import Avatar from "@/components/avatar/Avatar";
+import Badge from "@/components/badge/Badge";
 
 interface TeacherApplication {
   id: number;
@@ -218,17 +219,6 @@ export default function AdminPage() {
     goToNextApplication();
   };
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("ru-RU", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
   if (loading) {
     return (
       <div className={styles.adminPageContainer}>
@@ -248,7 +238,6 @@ export default function AdminPage() {
       {error && <div className={styles.errorMessage}>{error}</div>}
 
       <div className={styles.adminLayout}>
-        {/* Левая колонка - список заявок */}
         <div className={styles.leftColumn}>
           <div className={styles.tabsContainer}>
             <button
@@ -257,7 +246,7 @@ export default function AdminPage() {
               }`}
               onClick={() => setActiveTab("pending")}
             >
-              Ожидающие
+              Ожидают
             </button>
             <button
               className={`${styles.tabButton} ${
@@ -281,114 +270,58 @@ export default function AdminPage() {
               }`}
               onClick={() => setActiveTab("all")}
             >
-              Все заявки
+              Все
             </button>
           </div>
 
-          {filteredApplications.length === 0 ? (
-            <div className={styles.emptyState}>
-              <svg
-                className={styles.emptyIcon}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+          <div className={styles.applicationsList}>
+            {filteredApplications.map((application) => (
+              <div
+                key={application.id}
+                className={`${styles.applicationListItem} ${
+                  application.id === selectedApplicationId
+                    ? styles.activeApplication
+                    : ""
+                }`}
+                onClick={() => setSelectedApplicationId(application.id)}
               >
-                <path d="M18 6L6 18M6 6l12 12"></path>
-              </svg>
-              <p>Нет заявок для отображения</p>
-              <p className={styles.emptySubtitle}>
-                {activeTab === "pending"
-                  ? "Все заявки уже рассмотрены"
-                  : activeTab === "approved"
-                  ? "Нет одобренных заявок"
-                  : activeTab === "rejected"
-                  ? "Нет отклоненных заявок"
-                  : "Заявки отсутствуют"}
-              </p>
-            </div>
-          ) : (
-            <div className={styles.applicationsList}>
-              {filteredApplications.map((application) => (
-                <div
-                  key={application.id}
-                  className={`${styles.applicationListItem} ${
-                    selectedApplicationId === application.id
-                      ? styles.activeApplication
-                      : ""
-                  }`}
-                  onClick={() => setSelectedApplicationId(application.id)}
-                >
-                  <div className={styles.applicationListItemAvatar}>
-                    <Avatar src={application.avatar} size={40} />
+                <div className={styles.applicationListItemAvatar}>
+                  <Avatar src={application.avatar} size={40} />
+                </div>
+                <div className={styles.applicationListItemInfo}>
+                  <div className={styles.applicationListItemName}>
+                    {application.name} {application.surname}
                   </div>
-                  <div className={styles.applicationListItemInfo}>
-                    <div className={styles.applicationListItemName}>
-                      {application.name} {application.surname}
-                    </div>
-                    <div className={styles.applicationListItemSkill}>
-                      {application.skill.category_name}
-                    </div>
-                  </div>
-                  <div
-                    className={styles.statusBadgeSmall}
-                    data-status={application.status}
-                  >
-                    {application.status === "pending" && "Ожидает"}
-                    {application.status === "approved" && "Одобрено"}
-                    {application.status === "rejected" && "Отклонено"}
+                  <div className={styles.applicationListItemSkill}>
+                    {application.skill.category_name}
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+                <div
+                  className={styles.statusBadgeSmall}
+                  data-status={application.status}
+                >
+                  {application.status === "pending" && "Ожидает"}
+                  {application.status === "approved" && "Одобрено"}
+                  {application.status === "rejected" && "Отклонено"}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Правая колонка - детальный просмотр заявки */}
         <div className={styles.rightColumn}>
-          {!selectedApplication ? (
-            <div className={styles.emptyState}>
-              <svg
-                className={styles.emptyIcon}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
-                <path d="M13 2v7h7"></path>
-                <circle cx="12" cy="15" r="2"></circle>
-                <path d="M10 10h4"></path>
-              </svg>
-              <p>Выберите заявку из списка слева</p>
-              <p className={styles.emptySubtitle}>
-                Здесь будет отображаться информация о выбранной заявке
-              </p>
-            </div>
-          ) : (
-            <div className={styles.applicationDetail}>
+          {selectedApplication ? (
+            <div className={styles.applicationDetails}>
               <div className={styles.applicationHeader}>
-                <div className={styles.userInfo}>
-                  <div className={styles.avatarContainer}>
-                    <Avatar src={selectedApplication.avatar} size={80} />
+                <div className={styles.applicationAvatar}>
+                  <Avatar src={selectedApplication.avatar} size={48} />
+                </div>
+                <div className={styles.applicationInfo}>
+                  <div className={styles.applicationName}>
+                    {selectedApplication.name} {selectedApplication.surname}
                   </div>
-                  <div className={styles.userDetails}>
-                    <h3 className={styles.userName}>
-                      {selectedApplication.name} {selectedApplication.surname}
-                    </h3>
-                    <p className={styles.userEmail}>
-                      {selectedApplication.email}
-                    </p>
-                    <p className={styles.applicationDate}>
-                      Заявка подана:{" "}
-                      {formatDate(selectedApplication.created_at)}
-                    </p>
+                  <div className={styles.applicationEmail}>
+                    {selectedApplication.email}
                   </div>
                 </div>
                 <div
@@ -402,56 +335,63 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              <div className={styles.skillInfo}>
-                <div className={styles.skillHeader}>
-                  <h4 className={styles.categoryName}>
-                    {selectedApplication.skill.category_name}
-                  </h4>
+              <div className={styles.applicationCategory}>
+                <Badge title={selectedApplication.skill.category_name} />
+              </div>
+
+              <div className={styles.applicationAbout}>
+                {selectedApplication.skill.about}
+              </div>
+
+              <div className={styles.videoAndActions}>
+                <div className={styles.videoSection}>
+                  <div className={styles.videoContainer}>
+                    <div className={styles.videoWrapper}>
+                      <iframe
+                        className={styles.video}
+                        src={`https://www.youtube.com/embed/${selectedApplication.skill.video_card_link}`}
+                        title="Video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  </div>
                 </div>
-                <p className={styles.skillDescription}>
-                  {selectedApplication.skill.about}
-                </p>
-              </div>
 
-              <div className={styles.videoContainer}>
-                <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${selectedApplication.skill.video_card_link}`}
-                  title="Demonstration Video"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className={styles.videoFrame}
-                ></iframe>
-              </div>
-
-              {selectedApplication.status === "pending" && (
-                <div className={styles.actionButtons}>
+                <div className={styles.actionsSection}>
                   <button
-                    className={styles.approveButton}
+                    className={`${styles.actionButton} ${styles.approveButton}`}
                     onClick={() => handleApprove(selectedApplication.id)}
                     disabled={processingId === selectedApplication.id}
                   >
-                    {processingId === selectedApplication.id
-                      ? "Обработка..."
-                      : "Одобрить"}
+                    Одобрить
                   </button>
                   <button
-                    className={styles.skipButton}
+                    className={`${styles.actionButton} ${styles.rejectButton}`}
+                    onClick={() => handleReject(selectedApplication.id)}
+                    disabled={processingId === selectedApplication.id}
+                  >
+                    Отклонить
+                  </button>
+                  <button
+                    className={`${styles.actionButton} ${styles.skipButton}`}
                     onClick={handleSkip}
                     disabled={processingId === selectedApplication.id}
                   >
                     Пропустить
                   </button>
-                  <button
-                    className={styles.rejectButton}
-                    onClick={() => handleReject(selectedApplication.id)}
-                    disabled={processingId === selectedApplication.id}
-                  >
-                    {processingId === selectedApplication.id
-                      ? "Обработка..."
-                      : "Отклонить"}
-                  </button>
                 </div>
-              )}
+              </div>
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              <div className={styles.emptyIcon}>📝</div>
+              <p>Выберите заявку для просмотра</p>
+              <p className={styles.emptySubtitle}>
+                {filteredApplications.length === 0
+                  ? "Нет заявок для отображения"
+                  : "Выберите заявку из списка слева"}
+              </p>
             </div>
           )}
         </div>
