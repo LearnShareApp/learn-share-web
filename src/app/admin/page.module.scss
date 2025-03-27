@@ -1,12 +1,10 @@
 @use "../../styles/variables.scss" as *;
 
 .adminPageContainer {
+  padding: 24px;
+  min-height: 100vh;
   margin: 0 auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  max-width: 1200px;
-  width: 100%;
+  background-color: #f5f5f5;
 }
 
 .pageTitle {
@@ -26,46 +24,60 @@
 .adminLayout {
   display: flex;
   gap: 24px;
-  flex: 1;
-  height: calc(100vh - 240px);
-  overflow: hidden;
-
-  @media (max-width: $breakpoint-md) {
-    flex-direction: column;
-    height: auto;
-    overflow: visible;
-  }
+  height: calc(100vh - 48px);
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .leftColumn {
-  flex: 1;
-  max-width: 380px;
+  flex: 0 0 380px;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  gap: 16px;
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   overflow: hidden;
+}
 
-  @media (max-width: $breakpoint-md) {
-    max-width: 100%;
-    height: 400px;
+.sectionSelector {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.sectionButton {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #666;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  &.activeSection {
+    background: white;
+    color: #1a1a1a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
 }
 
 .rightColumn {
-  flex: 2;
-  min-width: 600px;
-  max-width: 800px;
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-
-  @media (max-width: $breakpoint-md) {
-    flex: 1;
-    min-width: 0;
-    max-width: 100%;
-    height: 600px;
-  }
 }
 
 .tabsContainer {
@@ -76,10 +88,11 @@
   padding-bottom: 12px;
   border-bottom: 1px solid $color-border;
   flex-shrink: 0;
+  min-height: 48px;
 }
 
 .tabButton {
-  padding: 8px 12px;
+  padding: 8px 16px;
   border-radius: $border-radius-md;
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
@@ -88,6 +101,9 @@
   color: $color-text-secondary;
   cursor: pointer;
   transition: all $transition-fast;
+  min-width: 120px;
+  text-align: center;
+  white-space: nowrap;
 
   &:hover {
     background-color: $color-background-tertiary;
@@ -431,6 +447,78 @@
   }
 
   &[data-status="approved"] {
+    background-color: $color-success-light;
+    color: $color-success;
+  }
+
+  &[data-status="rejected"] {
+    background-color: $color-danger-light;
+    color: $color-danger;
+  }
+}
+
+.complaintInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 24px;
+  background: $color-background-secondary;
+  padding: 20px;
+  border-radius: $border-radius-lg;
+}
+
+.complaintSection {
+  h3 {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: $font-size-base;
+    color: $color-text-primary;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  div {
+    font-size: $font-size-base;
+    color: $color-text-primary;
+    line-height: 1.6;
+  }
+}
+
+.complaintEmail {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  display: block;
+  margin: 4px 0;
+}
+
+.resolveButton {
+  background-color: $color-success;
+  color: $color-text-light;
+
+  &:hover:not(:disabled) {
+    background-color: $color-success-dark;
+  }
+}
+
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: $border-radius-full;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  flex-shrink: 0;
+
+  &[data-status="pending"] {
+    background-color: $color-warning-light;
+    color: $color-warning;
+  }
+
+  &[data-status="approved"],
+  &[data-status="resolved"] {
     background-color: $color-success-light;
     color: $color-success;
   }
