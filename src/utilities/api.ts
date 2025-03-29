@@ -276,6 +276,13 @@ class ApiService {
     return response.data;
   }
 
+  async getUserProfileById(id: string | number): Promise<UserProfile> {
+    const response = await this.api.get<UserProfile>(
+      `/api/users/${id}/profile`
+    );
+    return response.data;
+  }
+
   async getTeacherProfile(): Promise<TeacherProfile> {
     const response = await this.api.get<TeacherProfile>("/api/teacher");
     return response.data;
