@@ -2,27 +2,74 @@
 
 // import { apiService } from "../../utilities/api";
 import { useEffect, useState } from "react";
-import { apiService, TeacherProfile } from "../../utilities/api";
+import { apiService, TeacherProfile, Category } from "../../utilities/api";
 import styles from "./page.module.scss";
 import TeacherItem from "@/components/teacher-item/TeacherItem";
+import TeacherVideo from "@/components/teacher-video/TeacherVideo";
 
 export default function TeachersPage() {
   const [teachers, setTeachers] = useState<TeacherProfile[]>([]);
+  const [allTeachers, setAllTeachers] = useState<TeacherProfile[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [hoveredTeacher, setHoveredTeacher] = useState<TeacherProfile | null>(
+    null
+  );
 
   useEffect(() => {
-    async function fetchTeachers() {
+    async function fetchData() {
       try {
+        setLoading(true);
+        // Загружаем категории
+        const categoriesData = await apiService.getCategories();
+        setCategories(categoriesData);
+
+        // Загружаем учителей
         const teachersData = await apiService.getTeachers();
+        setAllTeachers(teachersData);
         setTeachers(teachersData);
       } catch (err) {
-        console.error("Ошибка при получении учителей:", err);
+        console.error("Ошибка при получении данных:", err);
       } finally {
         setLoading(false);
       }
     }
-    fetchTeachers();
+    fetchData();
   }, []);
+
+  // Фильтрация учителей по выбранной категории
+  useEffect(() => {
+    if (!selectedCategory || selectedCategory === "") {
+      setTeachers(allTeachers);
+      return;
+    }
+
+    const categoryId = parseInt(selectedCategory);
+    const filteredTeachers = allTeachers.filter(
+      (teacher) =>
+        teacher.skills &&
+        teacher.skills.some((skill) => skill.category_id === categoryId)
+    );
+
+    setTeachers(filteredTeachers);
+  }, [selectedCategory, allTeachers]);
+
+  // Обработчик наведения мыши на карточку учителя
+  const handleTeacherHover = (teacher: TeacherProfile) => {
+    setHoveredTeacher(teacher);
+  };
+
+  // Обработчик изменения категории
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(e.target.value);
+  };
+
+  // Сброс всех фильтров
+  const handleResetFilters = () => {
+    setSelectedCategory("");
+    setTeachers(allTeachers);
+  };
 
   return (
     <div className={styles.content}>
@@ -71,41 +118,20 @@ export default function TeachersPage() {
                   d="M4 6h.01M4 10h.01M4 14h.01M4 18h.01M8 6h.01M8 10h.01M8 14h.01M8 18h.01M12 6h.01M12 10h.01M12 14h.01M12 18h.01M16 6h.01M16 10h.01M16 14h.01M16 18h.01M20 6h.01M20 10h.01M20 14h.01M20 18h.01"
                 />
               </svg>
-              <select className={styles.filter}>
-                <option value="">All Categories</option>
-                <option value="matematika">Mathematics</option>
-                <option value="fizika">Physics</option>
-                <option value="himiya">Chemistry</option>
-                {/* Можно добавить другие категории */}
-              </select>
-            </div>
-            <div className={styles.filterWrapper}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={styles.filterIcon}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+              <select
+                className={styles.filter}
+                value={selectedCategory}
+                onChange={handleCategoryChange}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 2v2m0 16v2m9-11h-2M4 12H2m15.364-6.364l-1.414 1.414M6.05 17.95l-1.414 1.414m12.728 0l-1.414-1.414M6.05 6.05L4.636 7.464"
-                />
-              </svg>
-              <select className={styles.filter}>
-                <option value="">Price</option>
-                <option value="asc">Ascending</option>
-                <option value="desc">Descending</option>
+                <option value="">Все категории</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
             </div>
+
             <div className={styles.filterWrapper}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -128,10 +154,10 @@ export default function TeachersPage() {
                 />
               </svg>
               <select className={styles.filter}>
-                <option value="">Language</option>
-                <option value="ru">Russian</option>
-                <option value="en">English</option>
-                <option value="es">Spanish</option>
+                <option value="">Язык</option>
+                <option value="ru">Русский</option>
+                <option value="en">Английский</option>
+                <option value="es">Испанский</option>
               </select>
             </div>
             <div className={styles.filterWrapper}>
@@ -156,9 +182,9 @@ export default function TeachersPage() {
                 />
               </svg>
               <select className={styles.filter}>
-                <option value="">Teachers from</option>
-                <option value="local">Local</option>
-                <option value="foreign">Foreign</option>
+                <option value="">Откуда учителя</option>
+                <option value="local">Местные</option>
+                <option value="foreign">Иностранные</option>
               </select>
             </div>
             <div className={styles.filterWrapper}>
@@ -177,13 +203,17 @@ export default function TeachersPage() {
                 />
               </svg>
               <select className={styles.filter}>
-                <option value="">All Teachers</option>
-                <option value="professional">Professional</option>
-                <option value="non-professional">Non-professional</option>
+                <option value="">Все учителя</option>
+                <option value="professional">Профессиональные</option>
+                <option value="non-professional">Непрофессиональные</option>
               </select>
             </div>
-            <button type="reset" className={styles.resetButton}>
-              Reset Filters
+            <button
+              type="button"
+              className={styles.resetButton}
+              onClick={handleResetFilters}
+            >
+              Сбросить фильтры
             </button>
           </div>
         </form>
@@ -192,13 +222,24 @@ export default function TeachersPage() {
         <div className={`${styles.teachersList}`}>
           {loading ? (
             <p>Загрузка...</p>
-          ) : (
+          ) : teachers.length > 0 ? (
             teachers.map((teacher) => (
-              <TeacherItem key={teacher.teacher_id} teacher={teacher} />
+              <div
+                key={teacher.teacher_id}
+                onMouseEnter={() => handleTeacherHover(teacher)}
+              >
+                <TeacherItem teacher={teacher} category={selectedCategory} />
+              </div>
             ))
+          ) : (
+            <p className={styles.noResults}>
+              Учителя по выбранным критериям не найдены
+            </p>
           )}
         </div>
-        <div className={styles.info}></div>
+        <div className={styles.info}>
+          <TeacherVideo teacher={hoveredTeacher} />
+        </div>
       </section>
     </div>
   );
