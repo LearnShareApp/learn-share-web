@@ -1,0 +1,328 @@
+@use "../../../styles/variables.scss" as *;
+
+.pageContainer {
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+.title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+.backLink {
+  color: $color-primary;
+  text-decoration: none;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Новый стиль для адаптивного разделения контента
+.contentLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (min-width: $breakpoint-lg) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.mainContent {
+  width: 100%;
+
+  @media (min-width: $breakpoint-lg) {
+    flex: 2;
+  }
+}
+
+.sideContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (min-width: $breakpoint-lg) {
+    flex: 1;
+  }
+}
+
+.card {
+  background-color: $color-background-primary;
+  border-radius: $border-radius-lg;
+  padding: 24px;
+  box-shadow: $shadow-md;
+  margin-bottom: 24px;
+
+  @media (min-width: $breakpoint-lg) {
+    margin-bottom: 0;
+    height: 100%;
+  }
+
+  h2 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+}
+
+.instructions {
+  margin-bottom: 24px;
+
+  p {
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+}
+
+.steps {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: 12px 16px;
+    background-color: $color-background-secondary;
+    margin-bottom: 8px;
+    border-radius: $border-radius-md;
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+    position: relative;
+    padding-left: 32px;
+
+    &:before {
+      content: "✓";
+      position: absolute;
+      left: 12px;
+      color: $color-primary;
+      font-weight: $font-weight-bold;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+  }
+}
+
+.input {
+  padding: 12px 16px;
+  flex: 1;
+  width: auto;
+  border: 2px solid $color-border;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  color: $color-text-primary;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
+
+  &:hover {
+    border-color: $color-border-dark;
+  }
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+
+  @media (min-width: $breakpoint-lg) {
+    min-height: 150px;
+  }
+}
+
+.helperText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-top: 4px;
+}
+
+.submitButton {
+  padding: 14px 20px;
+  background-color: $color-primary;
+  color: $color-text-light;
+  border: none;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+  margin-top: 8px;
+
+  &:hover {
+    background-color: $color-primary-dark;
+  }
+
+  &:disabled {
+    background-color: $color-background-tertiary;
+    cursor: not-allowed;
+  }
+}
+
+.errorMessage {
+  padding: 12px 16px;
+  background-color: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid #ef4444;
+  border-radius: $border-radius-sm;
+  color: $color-text-error;
+  font-size: $font-size-base;
+}
+
+.successMessage {
+  padding: 12px 16px;
+  background-color: rgba(34, 197, 94, 0.1);
+  border-left: 4px solid #22c55e;
+  border-radius: $border-radius-sm;
+  color: #15803d;
+  font-size: $font-size-base;
+}
+
+.tips {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tip {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 16px;
+  background-color: $color-background-secondary;
+  border-radius: $border-radius-md;
+  transition: transform $transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.tipIcon {
+  font-size: 24px;
+  color: $color-primary;
+}
+
+.tipContent {
+  h3 {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+    line-height: 1.5;
+    margin: 0;
+  }
+}
+
+// Стили для предпросмотра видео
+.videoPreviewContainer {
+  margin-top: 16px;
+  // background-color: $color-background-secondary;
+  // padding: 16px;
+  border-radius: $border-radius-md;
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+  }
+}
+
+.videoPreview {
+  position: relative;
+  padding-bottom: 56.25%; // Соотношение сторон 16:9
+  height: 0;
+  overflow: hidden;
+  border-radius: $border-radius-sm;
+  background-color: $color-background-tertiary;
+  box-shadow: $shadow-sm;
+}
+
+.videoFrame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: $border-radius-sm;
+}
+
+// Стили для контейнера ввода видео-ссылки
+.videoInputContainer {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.previewButton {
+  padding: 0 16px;
+  background-color: $color-background-secondary;
+  color: $color-text-primary;
+  border: 2px solid $color-border;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all $transition-fast;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: $color-background-tertiary;
+    border-color: $color-border-dark;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
