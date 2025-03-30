@@ -2,23 +2,28 @@
 
 import Loader from "@/components/loader/Loader";
 import { useAvatar } from "@/hooks/avatar-hook";
-import {
-  apiService,
-  TeacherSkill,
-  TeacherProfile,
-  Review,
-} from "@/utilities/api";
+import { apiService, TeacherSkill, Review } from "@/utilities/api";
 import { useParams } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import Avatar from "@/components/avatar/Avatar";
 import styles from "./page.module.scss";
 import SkillBadge from "@/components/skill-badge/SkillBadge";
 import ReviewItem from "@/components/review-item/ReviewItem";
+import { useTeacher } from "@/hooks/useTeacher";
 
 export default function TeacherProfilePage() {
   const { teacherId } = useParams();
-  const [teacher, setTeacher] = useState<TeacherProfile>();
-  const [loading, setLoading] = useState(true);
+  const validTeacherId = Array.isArray(teacherId) ? teacherId[0] : teacherId;
+
+  // Используем хук useTeacher вместо прямого вызова API
+  const { teacher, loadingTeacher, errorTeacher } = useTeacher({
+    teacherId: validTeacherId,
+  });
+
+  // Важно: вызываем useAvatar до условного рендеринга
+  const { avatarSource, loadingAvatar } = useAvatar(teacher?.avatar || null);
+
+  const [loading, setLoading] = useState(false);
   const [arrowPositioned, setArrowPositioned] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<TeacherSkill | null>(null);
   const skillBadgeRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -26,55 +31,39 @@ export default function TeacherProfilePage() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  useEffect(() => {
-    async function fetchTeachers() {
-      try {
-        const validTeacherId = Array.isArray(teacherId)
-          ? teacherId[0]
-          : teacherId;
-        if (!validTeacherId) {
-          console.error("teacherId не определён");
-          setLoading(false);
-          return;
-        }
-        const teachersData = await apiService.getTeacherById(validTeacherId);
-        setTeacher(teachersData);
-      } catch (err) {
-        console.error("Ошибка при получении учителей:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchTeachers();
-  }, [teacherId]);
-
-  useEffect(() => {
-    async function fetchReviews() {
-      try {
-        const validTeacherId = Array.isArray(teacherId)
-          ? teacherId[0]
-          : teacherId;
-        if (!validTeacherId) {
-          console.error("teacherId не определён");
-          return;
-        }
-        const reviewsData = await apiService.getTeacherReviews(validTeacherId);
-        setReviews(reviewsData);
-      } catch (err) {
-        console.error("Ошибка при получении отзывов:", err);
-      }
-    }
-    fetchReviews();
-  }, [teacherId]);
-
-  const { avatarSource, loadingAvatar } = useAvatar(teacher?.avatar || null);
-
+  // Эффект для установки начального навыка
   useEffect(() => {
     if (teacher && teacher.skills.length > 0) {
       setSelectedSkill(teacher.skills[0]);
     }
   }, [teacher]);
 
+  // Эффект для позиционирования стрелки
+  useEffect(() => {
+    if (!selectedSkill || !skillDescriptionRef.current) return;
+    setArrowPositioned(true);
+  }, [selectedSkill]);
+
+  // Загружаем отзывы, когда данные преподавателя загружены
+  useEffect(() => {
+    async function fetchReviews() {
+      if (!validTeacherId || !teacher) return;
+
+      setLoading(true);
+      try {
+        const reviewsData = await apiService.getTeacherReviews(validTeacherId);
+        setReviews(reviewsData);
+      } catch (err) {
+        console.error("Ошибка при получении отзывов:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchReviews();
+  }, [validTeacherId, teacher]);
+
+  // Эффект для расчета позиции стрелки
   useEffect(() => {
     // Функция для расчета и установки позиции стрелки
     const updateArrowPosition = () => {
@@ -197,9 +186,18 @@ export default function TeacherProfilePage() {
     setIsExpanded(!isExpanded);
   };
 
-  // Обновляем условие отображения лоадера
-  if (loading || loadingAvatar || !arrowPositioned) return <Loader />;
-  if (!teacher) return <h1>error</h1>;
+  // Обновляем условие отображения лоадера, включая проверку loading
+  if (loadingTeacher || loadingAvatar || loading) return <Loader />;
+
+  // Обработка ошибок
+  if (errorTeacher || !teacher) {
+    return (
+      <div className={styles.errorContainer}>
+        <h1>Ошибка при загрузке профиля преподавателя</h1>
+        <p>{errorTeacher || "Преподаватель не найден"}</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

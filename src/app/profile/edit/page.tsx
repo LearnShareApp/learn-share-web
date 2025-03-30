@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.scss";
 import { apiService } from "../../../utilities/api";
-import useProfile from "../../../hooks/useProfile";
+import { useProfileContext } from "../../../providers/ProfileProvider";
 import { useAvatar } from "@/hooks/avatar-hook";
 import * as zod from "zod";
 import Loader from "@/components/loader/Loader";
@@ -39,7 +39,7 @@ const validateProfileData = (data: {
 
 const EditProfilePage = () => {
   const router = useRouter();
-  const { profile, loadingProfile } = useProfile();
+  const { profile, loadingProfile, refreshProfile } = useProfileContext();
   const { avatarSource, loadingAvatar } = useAvatar(profile?.avatar || null);
 
   const [name, setName] = useState("");
@@ -89,6 +89,10 @@ const EditProfilePage = () => {
         birthdate: formattedBirthdate,
         ...(newAvatar ? { avatar: newAvatar } : {}),
       });
+
+      // Обновляем данные профиля после успешного сохранения
+      await refreshProfile();
+
       setSuccessMessage("Profile updated successfully");
 
       // Redirect to profile page after a short delay

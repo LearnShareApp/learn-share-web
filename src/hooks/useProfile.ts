@@ -1,39 +1,26 @@
-import { useState, useEffect } from "react";
-import { apiService, UserProfile } from "../utilities/api";
+import { useCallback } from "react";
+import useUserProfile from "./useUserProfile";
 
 const useProfile = () => {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loadingProfile, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<unknown>(null);
+  // Используем новый хук useUserProfile для единого подхода
+  const {
+    userProfile,
+    loadingUserProfile,
+    errorUserProfile,
+    refetchUserProfile,
+  } = useUserProfile();
 
-  useEffect(() => {
-    let isCancelled = false;
+  // Сохраняем обратную совместимость с предыдущей версией
+  const refreshProfile = useCallback(() => {
+    return refetchUserProfile();
+  }, [refetchUserProfile]);
 
-    const fetchProfile = async () => {
-      try {
-        const data = await apiService.getUserProfile();
-        if (!isCancelled) {
-          setProfile(data);
-        }
-      } catch (err) {
-        if (!isCancelled) {
-          setError(err);
-        }
-      } finally {
-        if (!isCancelled) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchProfile();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
-
-  return { profile, loadingProfile, error };
+  return {
+    profile: userProfile,
+    loadingProfile: loadingUserProfile,
+    error: errorUserProfile,
+    refreshProfile,
+  };
 };
 
 export default useProfile;

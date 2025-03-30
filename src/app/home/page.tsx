@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.scss";
-import useProfile from "../../hooks/useProfile";
+import { useProfileContext } from "../../providers/ProfileProvider";
 import { useAvatar } from "../../hooks/avatar-hook";
 import Loader from "@/components/loader/Loader";
 import Avatar from "@/components/avatar/Avatar";
@@ -13,7 +13,7 @@ import TeacherItem from "@/components/teacher-item/TeacherItem";
 import LessonItem from "@/components/lesson-item/LessonItem";
 
 export default function HomePage() {
-  const { profile, loadingProfile } = useProfile();
+  const { profile, loadingProfile } = useProfileContext();
   const { avatarSource, loadingAvatar } = useAvatar(profile?.avatar || null);
   const [teachers, setTeachers] = useState<TeacherProfile[]>([]);
   const [nextLesson, setNextLesson] = useState<Lesson | null>(null);

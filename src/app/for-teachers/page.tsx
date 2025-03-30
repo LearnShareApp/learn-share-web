@@ -7,58 +7,62 @@ import LessonItem from "../../components/lesson-item/LessonItem";
 import styles from "./page.module.scss";
 import Link from "next/link";
 import Loader from "@/components/loader/Loader";
+import { useProfileContext } from "@/providers/ProfileProvider";
 
 const TeachingPage = () => {
-  const { teacher, loadingTeacher } = useTeacher();
+  const { profile, loadingProfile } = useProfileContext();
+
+  const { teacher, loadingTeacher } = useTeacher({
+    skipProfileCheck: true,
+  });
 
   const [pastLessons, setPastLessons] = useState<TeacherLesson[]>([]);
   const [upcomingLessons, setUpcomingLessons] = useState<TeacherLesson[]>([]);
   const [newRequests, setNewRequests] = useState<TeacherLesson[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchLessons = async () => {
-      if (!teacher) return;
+    if (profile?.is_teacher && teacher && !loadingTeacher) {
+      const fetchLessons = async () => {
+        try {
+          setLoading(true);
+          const response = await apiService.getTeacherLessons();
+          const sortedLessons = response.sort((a, b) => {
+            const dateA = new Date(a.datetime);
+            const dateB = new Date(b.datetime);
+            return dateB.getTime() - dateA.getTime();
+          });
 
-      try {
-        setLoading(true);
-        const response = await apiService.getTeacherLessons();
-        const sortedLessons = response.sort((a, b) => {
-          const dateA = new Date(a.datetime);
-          const dateB = new Date(b.datetime);
-          return dateB.getTime() - dateA.getTime();
-        });
+          setPastLessons(
+            sortedLessons.filter((lesson) => lesson.status === "finished")
+          );
+          setUpcomingLessons(
+            sortedLessons.filter(
+              (lesson) =>
+                lesson.status !== "finished" && lesson.status !== "cancelled"
+            )
+          );
+          setNewRequests(
+            sortedLessons.filter((lesson) => lesson.status === "waiting")
+          );
+          setError(null);
+        } catch (err) {
+          console.error("Error loading lessons:", err);
+          setError("Failed to load lesson data");
+        } finally {
+          setLoading(false);
+        }
+      };
 
-        setPastLessons(
-          sortedLessons.filter((lesson) => lesson.status === "finished")
-        );
-        setUpcomingLessons(
-          sortedLessons.filter(
-            (lesson) =>
-              lesson.status !== "finished" && lesson.status !== "cancelled"
-          )
-        );
-        setNewRequests(
-          sortedLessons.filter((lesson) => lesson.status === "waiting")
-        );
-        setError(null);
-      } catch (err) {
-        console.error("Error details:", err);
-        setError("Failed to load lesson data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (teacher) {
       fetchLessons();
     }
-  }, [teacher]);
+  }, [teacher, profile, loadingTeacher]);
 
-  if (loadingTeacher) return <Loader />;
+  if (loadingProfile || (profile?.is_teacher && loadingTeacher))
+    return <Loader />;
 
-  if (!teacher || error)
+  if (!teacher || !profile?.is_teacher || error)
     return (
       <div className={styles.becomeTeacherCard}>
         <h1 className={styles.title}>Become a Teacher</h1>

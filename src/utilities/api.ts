@@ -92,6 +92,7 @@ export interface UserProfile {
   verification_lessons: number;
   finished_lessons: number;
   registration_date: Date;
+  is_teacher: boolean;
 }
 
 export interface TeacherSkill {

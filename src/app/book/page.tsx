@@ -2,17 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  apiService,
-  DateTime,
-  TeacherProfile,
-  TeacherSkill,
-} from "@/utilities/api";
+import { apiService, DateTime, TeacherSkill } from "@/utilities/api";
 import styles from "./page.module.scss";
 import Link from "next/link";
 import { useAvatar } from "@/hooks/avatar-hook";
 import Avatar from "@/components/avatar/Avatar";
 import Loader from "@/components/loader/Loader";
+import { useTeacher } from "@/hooks/useTeacher";
 
 export default function BookPage() {
   const router = useRouter();
@@ -22,49 +18,38 @@ export default function BookPage() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [timeSlots, setTimeSlots] = useState<DateTime[]>([]);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [teacher, setTeacher] = useState<TeacherProfile | null>(null);
+
+  // Используем хук useTeacher с ID вместо прямых вызовов API
+  const { teacher, loadingTeacher, errorTeacher } = useTeacher(
+    teacherId ? { teacherId } : undefined
+  );
 
   const { avatarSource, loadingAvatar } = useAvatar(teacher?.avatar || null);
 
-  // Load teacher data
-  useEffect(() => {
-    async function fetchTeacher() {
-      if (!teacherId) return;
-
-      try {
-        const teacherData = await apiService.getTeacherById(teacherId);
-        setTeacher(teacherData);
-      } catch (err) {
-        console.error("Error fetching teacher data:", err);
-        setError("Failed to load teacher data");
-      }
-    }
-
-    fetchTeacher();
-  }, [teacherId]);
-
-  // Load teacher's available time slots
+  // Загружаем доступные временные слоты для выбранного преподавателя
   useEffect(() => {
     async function fetchTimeSlots() {
-      if (!teacherId) return;
+      if (!teacherId || !teacher) return;
 
       try {
-        const timeSlotsData = await apiService.getTimeById(teacherId);
-        setTimeSlots(timeSlotsData);
+        setLoading(true);
+        const times = await apiService.getTimeById(teacherId);
+        setTimeSlots(times);
+        setError(null);
       } catch (err) {
-        console.error("Error fetching schedule:", err);
-        setError("Failed to load teacher's schedule");
+        console.error("Error fetching time slots:", err);
+        setError("Failed to load available time slots");
       } finally {
         setLoading(false);
       }
     }
 
     fetchTimeSlots();
-  }, [teacherId]);
+  }, [teacherId, teacher]);
 
   // Group time slots by date for calendar display
   const groupedTimeSlots = timeSlots.reduce((acc, slot) => {
@@ -142,18 +127,18 @@ export default function BookPage() {
       name: skill.category_name,
     })) || [];
 
-  if (loading || loadingAvatar) return <Loader />;
+  // Показываем загрузку, если данные преподавателя или временные слоты загружаются
+  if (loadingTeacher || loadingAvatar || loading) return <Loader />;
 
-  if (!teacherId) {
+  // Показываем ошибку, если не удалось загрузить данные преподавателя
+  if (errorTeacher || !teacher) {
     return (
-      <div className={styles.pageContainer}>
-        <div className={styles.errorCard}>
-          <h2>Error</h2>
-          <p>Teacher ID is not specified. Please select a teacher.</p>
-          <Link href="/teachers" className={styles.button}>
-            Go to Teachers
-          </Link>
-        </div>
+      <div className={styles.errorContainer}>
+        <h2>Error</h2>
+        <p>{errorTeacher || "Teacher not found"}</p>
+        <button onClick={() => router.back()} className={styles.backButton}>
+          Go Back
+        </button>
       </div>
     );
   }
