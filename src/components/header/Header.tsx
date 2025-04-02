@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import styles from "./Header.module.scss";
-import useProfile from "@/hooks/useProfile";
+import useUserProfile from "@/hooks/useUserProfile";
 import { useAvatar } from "@/hooks/avatar-hook";
 import { useState, useEffect, useRef } from "react";
 import Avatar from "@/components/avatar/Avatar";
@@ -73,8 +73,8 @@ const Header = () => {
   const [showFixedHeader, setShowFixedHeader] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const mainHeaderRef = useRef<HTMLDivElement>(null);
-  const { profile } = useProfile();
-  const { avatarSource } = useAvatar(profile?.avatar || null);
+  const { userProfile } = useUserProfile();
+  const { avatarSource } = useAvatar(userProfile?.avatar || null);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const avatarContainerRef = useRef<HTMLDivElement>(null);
@@ -486,7 +486,7 @@ const Header = () => {
                   <Avatar src={avatarSource} size={40} />
                   <div className={styles.userInfo}>
                     <div className={styles.userName}>
-                      {profile?.name} {profile?.surname}
+                      {userProfile?.name} {userProfile?.surname}
                     </div>
                     <div className={styles.userRole}>Student</div>
                   </div>
@@ -569,7 +569,7 @@ const Header = () => {
             <div className={styles.mobileMenuHeader}>
               <div className={styles.mobileUserInfo}>
                 <div className={styles.userName}>
-                  {profile?.name} {profile?.surname}
+                  {userProfile?.name} {userProfile?.surname}
                 </div>
                 <div className={styles.userRole}>Student</div>
               </div>

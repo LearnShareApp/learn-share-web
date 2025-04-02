@@ -1,13 +1,13 @@
 "use client";
 
 import React, { createContext, useContext, ReactNode } from "react";
-import useProfile from "@/hooks/useProfile";
+import useUserProfile from "@/hooks/useUserProfile";
 import { UserProfile } from "@/utilities/api";
 
 interface ProfileContextType {
   profile: UserProfile | null;
   loadingProfile: boolean;
-  error: unknown;
+  error: string | null;
   refreshProfile: () => Promise<void>;
 }
 
@@ -30,7 +30,19 @@ interface ProfileProviderProps {
 export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   children,
 }) => {
-  const profileData = useProfile();
+  const {
+    userProfile,
+    loadingUserProfile,
+    errorUserProfile,
+    refetchUserProfile,
+  } = useUserProfile();
+
+  const profileData = {
+    profile: userProfile,
+    loadingProfile: loadingUserProfile,
+    error: errorUserProfile,
+    refreshProfile: refetchUserProfile,
+  };
 
   return (
     <ProfileContext.Provider value={profileData}>

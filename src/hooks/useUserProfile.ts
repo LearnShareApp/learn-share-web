@@ -25,6 +25,14 @@ export const useUserProfile = (options?: UseUserProfileOptions) => {
         data = await apiService.getUserProfileById(options.userId);
       } else {
         // Иначе получаем профиль текущего пользователя
+        // Проверяем наличие токена перед запросом
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+          setUserProfile(null);
+          setError(null);
+          setLoading(false);
+          return; // Не делаем запрос, если нет токена
+        }
         data = await apiService.getUserProfile();
       }
 
