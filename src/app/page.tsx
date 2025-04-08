@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./page.module.scss";
 
 export default function LandingPage() {
@@ -10,15 +11,13 @@ export default function LandingPage() {
         <div className={styles.heroContent}>
           <div className={styles.heroHeadline}>
             <h1>
-              <span>Welcome to Learn&Share</span>
-              <span className={styles.highlight}>
-                Learn. Teach. Grow Together
-              </span>
+              <span className={styles.highlight}>Learn&Share,</span>
+              <span>Grow Together</span>
             </h1>
 
             <p>
-              The first educational platform where everyone can be both a
-              student and a teacher
+              Become a part of our community of knowledge and experience
+              sharing, whether you want to learn or share your skills.
             </p>
 
             <div className={styles.heroButtons}>
@@ -47,189 +46,18 @@ export default function LandingPage() {
           </div>
 
           <div className={styles.heroVisual}>
-            <div className={styles.heroIllustration}>
-              <svg viewBox="0 0 512 512" width="100%" height="100%">
-                <defs>
-                  <linearGradient
-                    id="grad1"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="100%"
-                  >
-                    <stop
-                      offset="0%"
-                      stopColor="var(--color-primary)"
-                      stopOpacity="0.1"
-                    />
-                    <stop
-                      offset="100%"
-                      stopColor="var(--color-secondary)"
-                      stopOpacity="0.2"
-                    />
-                  </linearGradient>
-                  <linearGradient
-                    id="grad2"
-                    x1="100%"
-                    y1="0%"
-                    x2="0%"
-                    y2="100%"
-                  >
-                    <stop
-                      offset="0%"
-                      stopColor="var(--color-accent)"
-                      stopOpacity="0.15"
-                    />
-                    <stop
-                      offset="100%"
-                      stopColor="var(--color-primary)"
-                      stopOpacity="0.05"
-                    />
-                  </linearGradient>
-                </defs>
-
-                {/* Фоновые элементы */}
-                <rect
-                  width="512"
-                  height="512"
-                  fill="url(#grad1)"
-                  opacity="0.1"
-                />
-
-                {/* Стол */}
-                <path
-                  fill="var(--color-primary)"
-                  d="M96 320h320v32H96z"
-                  opacity="0.15"
-                />
-                <path
-                  fill="var(--color-secondary)"
-                  d="M96 352h320v16H96z"
-                  opacity="0.1"
-                />
-
-                {/* Ноутбуки */}
-                <g transform="translate(120, 280)">
-                  <rect
-                    width="160"
-                    height="100"
-                    rx="8"
-                    fill="var(--color-primary)"
-                    opacity="0.2"
-                  />
-                  <rect
-                    x="8"
-                    y="8"
-                    width="144"
-                    height="84"
-                    rx="4"
-                    fill="var(--color-accent)"
-                    opacity="0.15"
-                  />
-                </g>
-                <g transform="translate(232, 280)">
-                  <rect
-                    width="160"
-                    height="100"
-                    rx="8"
-                    fill="var(--color-secondary)"
-                    opacity="0.2"
-                  />
-                  <rect
-                    x="8"
-                    y="8"
-                    width="144"
-                    height="84"
-                    rx="4"
-                    fill="var(--color-accent)"
-                    opacity="0.15"
-                  />
-                </g>
-
-                {/* Люди */}
-                <g transform="translate(160, 200)">
-                  {/* Голова */}
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="20"
-                    fill="var(--color-primary)"
-                    opacity="0.25"
-                  />
-                  {/* Тело */}
-                  <path
-                    fill="var(--color-secondary)"
-                    d="M20 40v60h-20v20h40v-20h-20z"
-                    opacity="0.2"
-                  />
-                  {/* Руки */}
-                  <path
-                    fill="var(--color-accent)"
-                    d="M-10 60h60v10h-60z"
-                    opacity="0.15"
-                  />
-                </g>
-
-                <g transform="translate(272, 200)">
-                  {/* Голова */}
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="20"
-                    fill="var(--color-secondary)"
-                    opacity="0.25"
-                  />
-                  {/* Тело */}
-                  <path
-                    fill="var(--color-primary)"
-                    d="M20 40v60h-20v20h40v-20h-20z"
-                    opacity="0.2"
-                  />
-                  {/* Руки */}
-                  <path
-                    fill="var(--color-accent)"
-                    d="M-10 60h60v10h-60z"
-                    opacity="0.15"
-                  />
-                </g>
-
-                {/* Символы обмена знаниями */}
-                <g transform="translate(256, 256)">
-                  <path
-                    fill="var(--color-primary)"
-                    d="M-40-40h20v20h-20z"
-                    opacity="0.3"
-                  />
-                  <path
-                    fill="var(--color-secondary)"
-                    d="M20-40h20v20h-20z"
-                    opacity="0.3"
-                  />
-                  <path
-                    fill="var(--color-accent)"
-                    d="M-40 20h20v20h-20z"
-                    opacity="0.3"
-                  />
-                  <path
-                    fill="var(--color-primary)"
-                    d="M20 20h20v20h-20z"
-                    opacity="0.3"
-                  />
-                </g>
-
-                {/* Соединительные линии */}
-                <path
-                  stroke="var(--color-accent)"
-                  strokeWidth="4"
-                  d="M160 260h192M256 200v120"
-                  opacity="0.2"
-                />
-              </svg>
-            </div>
+            <Image
+              src="/images/hero-image.jpg"
+              alt="Learn&Share Platform"
+              className={styles.heroImage}
+              width={500}
+              height={400}
+              priority
+            />
           </div>
         </div>
 
-        <div className={styles.keyFeatures}>
+        {/* <div className={styles.keyFeatures}>
           <div className={styles.keyFeature}>
             <svg viewBox="0 0 24 24" width="24" height="24">
               <path
@@ -269,7 +97,7 @@ export default function LandingPage() {
             </svg>
             <span>Real knowledge</span>
           </div>
-        </div>
+        </div> */}
       </section>
 
       <section className={styles.howItWorks}>
@@ -379,22 +207,28 @@ export default function LandingPage() {
       </section>
 
       <section className={styles.testimonials}>
-        <h2>User testimonials</h2>
-
+        <h2>User Testimonials</h2>
         <div className={styles.testimonialCards}>
           <div className={styles.testimonialCard}>
             <div className={styles.testimonialContent}>
               <p>
-                &ldquo;Thanks to the platform, I was able to find students and
-                start teaching programming without having a teaching
-                degree.&rdquo;
+                &ldquo;The platform has completely transformed my approach to
+                learning. Now I can not only gain knowledge but also share my
+                experience with others. An excellent opportunity for
+                professional growth!&rdquo;
               </p>
             </div>
             <div className={styles.testimonialAuthor}>
-              <div className={styles.avatarPlaceholder}>AK</div>
-              <div>
+              <Image
+                src="/images/person1.jpg"
+                alt="Alexander K."
+                width={80}
+                height={80}
+                className={styles.authorAvatar}
+              />
+              <div className={styles.authorInfo}>
                 <p className={styles.authorName}>Alexander K.</p>
-                <p className={styles.authorRole}>JavaScript Teacher</p>
+                <p className={styles.authorRole}>JavaScript Instructor</p>
               </div>
             </div>
           </div>
@@ -402,16 +236,45 @@ export default function LandingPage() {
           <div className={styles.testimonialCard}>
             <div className={styles.testimonialContent}>
               <p>
-                &ldquo;In just 2 months, I mastered the basics of design and
-                found my first clients. The learning format perfectly fit my
-                schedule.&rdquo;
+                &ldquo;Thanks to Learn&Share, I found the perfect design
+                instructor. The convenient interface, flexible schedule, and
+                individual approach made learning extremely effective.&rdquo;
               </p>
             </div>
             <div className={styles.testimonialAuthor}>
-              <div className={styles.avatarPlaceholder}>MS</div>
-              <div>
+              <Image
+                src="/images/person1.jpg"
+                alt="Maria S."
+                width={80}
+                height={80}
+                className={styles.authorAvatar}
+              />
+              <div className={styles.authorInfo}>
                 <p className={styles.authorName}>Maria S.</p>
                 <p className={styles.authorRole}>Student, Web Designer</p>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.testimonialCard}>
+            <div className={styles.testimonialContent}>
+              <p>
+                &ldquo;As an English teacher, I appreciate the opportunity to
+                work with motivated students. The platform provides all the
+                necessary tools for effective teaching.&rdquo;
+              </p>
+            </div>
+            <div className={styles.testimonialAuthor}>
+              <Image
+                src="/images/person1.jpg"
+                alt="Elena M."
+                width={80}
+                height={80}
+                className={styles.authorAvatar}
+              />
+              <div className={styles.authorInfo}>
+                <p className={styles.authorName}>Elena M.</p>
+                <p className={styles.authorRole}>English Teacher</p>
               </div>
             </div>
           </div>
