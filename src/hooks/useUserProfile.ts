@@ -26,7 +26,7 @@ export const useUserProfile = (options?: UseUserProfileOptions) => {
       } else {
         // Иначе получаем профиль текущего пользователя
         // Проверяем наличие токена перед запросом
-        const token = localStorage.getItem("accessToken");
+        const token = localStorage.getItem("userToken");
         if (!token) {
           setUserProfile(null);
           setError(null);
