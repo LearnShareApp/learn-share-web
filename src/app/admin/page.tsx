@@ -6,6 +6,8 @@ import Loader from "@/components/loader/Loader";
 import Avatar from "@/components/avatar/Avatar";
 import Badge from "@/components/badge/Badge";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { apiService, Complaint as ApiComplaint } from "@/utilities/api";
 
 interface TeacherApplication {
   id: number;
@@ -24,21 +26,11 @@ interface TeacherApplication {
   status: "pending" | "approved" | "rejected";
 }
 
-interface Complaint {
-  id: number;
-  reporter_id: number;
-  reporter_name: string;
-  reporter_surname: string;
-  reporter_email: string;
-  reported_id: number;
-  reported_name: string;
-  reported_surname: string;
-  reported_email: string;
-  reported_type: "teacher" | "student";
-  reason: string;
-  description: string;
+// Новый локальный интерфейс, расширяющий импортированный
+interface Complaint extends ApiComplaint {
+  // Добавляем поля, которых нет в ApiComplaint, но которые нужны для UI
   status: "pending" | "resolved" | "rejected";
-  created_at: string;
+  reported_type: "teacher" | "student";
 }
 
 export default function AdminPage() {
@@ -62,6 +54,9 @@ export default function AdminPage() {
   const [selectedComplaintId, setSelectedComplaintId] = useState<number | null>(
     null
   );
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdminLoading, setIsAdminLoading] = useState(true);
+  const router = useRouter();
 
   // Get the selected application
   const selectedApplication = applications.find(
@@ -70,7 +65,7 @@ export default function AdminPage() {
 
   // Get the selected complaint
   const selectedComplaint = complaints.find(
-    (complaint) => complaint.id === selectedComplaintId
+    (complaint) => complaint.complaint_id === selectedComplaintId
   );
 
   // Function to navigate to the next application
@@ -103,33 +98,39 @@ export default function AdminPage() {
 
     const filteredComplaints = complaints.filter((complaint) => {
       if (complaintTab === "pending") return complaint.status === "pending";
+      if (complaintTab === "resolved") return complaint.status === "resolved";
+      if (complaintTab === "rejected") return complaint.status === "rejected";
       return true;
     });
 
     const filteredIndex = filteredComplaints.findIndex(
-      (complaint) => complaint.id === selectedComplaintId
+      (complaint) => complaint.complaint_id === selectedComplaintId
     );
 
     if (filteredIndex < filteredComplaints.length - 1) {
-      setSelectedComplaintId(filteredComplaints[filteredIndex + 1].id);
+      setSelectedComplaintId(
+        filteredComplaints[filteredIndex + 1].complaint_id
+      );
     } else if (filteredComplaints.length > 0) {
-      setSelectedComplaintId(filteredComplaints[0].id);
+      setSelectedComplaintId(filteredComplaints[0].complaint_id);
     } else {
       setSelectedComplaintId(null);
     }
   };
 
-  // This function will be called in useEffect
+  // This function will be called in useEffect after admin check
   const fetchData = async () => {
     try {
       setLoading(true);
-      // TODO: Replace with real API calls
-      // const [applicationsResponse, complaintsResponse] = await Promise.all([
-      //   apiService.getTeacherApplications(),
-      //   apiService.getComplaints()
-      // ]);
+      setError(null);
 
-      // Temporary test data
+      // TODO: Заменить на реальный API вызов для заявок
+      // const applicationsResponse = await apiService.getTeacherApplications();
+
+      // Вызов API для получения жалоб
+      const complaintsResponse = await apiService.getComplaints();
+
+      // Временные тестовые данные для заявок (оставляем пока)
       const mockApplications: TeacherApplication[] = [
         {
           id: 1,
@@ -165,51 +166,27 @@ export default function AdminPage() {
         },
       ];
 
-      const mockComplaints: Complaint[] = [
-        {
-          id: 1,
-          reporter_id: 201,
-          reporter_name: "Alexey",
-          reporter_surname: "Ivanov",
-          reporter_email: "alex@example.com",
-          reported_id: 101,
-          reported_name: "Ivan",
-          reported_surname: "Petrov",
-          reported_email: "ivan@example.com",
-          reported_type: "teacher",
-          reason: "Inappropriate behavior",
-          description:
-            "The teacher was rude when answering questions and didn't fulfill their obligations",
-          status: "pending",
-          created_at: "2024-03-27T10:30:00Z",
-        },
-        {
-          id: 2,
-          reporter_id: 202,
-          reporter_name: "Maria",
-          reporter_surname: "Sidorova",
-          reporter_email: "maria@example.com",
-          reported_id: 301,
-          reported_name: "Peter",
-          reported_surname: "Smirnov",
-          reported_email: "petr@example.com",
-          reported_type: "student",
-          reason: "Spam",
-          description: "The student is sending unwanted messages",
-          status: "pending",
-          created_at: "2024-03-27T11:15:00Z",
-        },
-      ];
+      // Удаляем mockComplaints
+      // const mockComplaints: Complaint[] = [...];
 
       setApplications(mockApplications);
-      setComplaints(mockComplaints);
+      // Добавляем обработку ответа API для жалоб
+      const processedComplaints: Complaint[] = complaintsResponse.map((c) => ({
+        ...(c as ApiComplaint), // Приводим к базовому типу API
+        // Добавляем недостающие поля
+        reported_type: (c.reported_id > 200 ? "student" : "teacher") as
+          | "student"
+          | "teacher", // Заглушка
+        status: "pending" as "pending" | "resolved" | "rejected", // Заглушка
+      }));
+      setComplaints(processedComplaints);
 
       // Set the first item as selected when loading
-      if (mockApplications.length > 0) {
+      if (mockApplications.length > 0 && !selectedApplicationId) {
         setSelectedApplicationId(mockApplications[0].id);
       }
-      if (mockComplaints.length > 0) {
-        setSelectedComplaintId(mockComplaints[0].id);
+      if (processedComplaints.length > 0 && !selectedComplaintId) {
+        setSelectedComplaintId(processedComplaints[0].complaint_id);
       }
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -219,9 +196,35 @@ export default function AdminPage() {
     }
   };
 
+  // Добавлено: Проверка прав администратора при загрузке
   useEffect(() => {
-    fetchData();
-  }, []);
+    const checkAdminStatus = async () => {
+      try {
+        const isAdminUser = await apiService.getIsAdmin();
+        if (isAdminUser) {
+          setIsAdmin(true);
+        } else {
+          router.push("/");
+        }
+      } catch (err) {
+        console.error("Error checking admin status:", err);
+        setError("Failed to verify admin status.");
+        router.push("/");
+      } finally {
+        setIsAdminLoading(false);
+      }
+    };
+
+    checkAdminStatus();
+  }, [router]);
+
+  // Изменено: Загрузка данных только если пользователь - админ
+  useEffect(() => {
+    if (isAdmin) {
+      fetchData();
+    }
+    // Зависимость от isAdmin гарантирует, что fetchData вызовется после установки isAdmin в true
+  }, [isAdmin]);
 
   // Set the first element in the filtered list as selected when changing the filter
   useEffect(() => {
@@ -232,11 +235,11 @@ export default function AdminPage() {
 
       if (filteredComplaints.length > 0) {
         const currentIsInFiltered = filteredComplaints.some(
-          (complaint) => complaint.id === selectedComplaintId
+          (complaint) => complaint.complaint_id === selectedComplaintId
         );
 
         if (!currentIsInFiltered) {
-          setSelectedComplaintId(filteredComplaints[0].id);
+          setSelectedComplaintId(filteredComplaints[0].complaint_id);
         }
       } else {
         setSelectedComplaintId(null);
@@ -254,8 +257,24 @@ export default function AdminPage() {
           (app) => app.id === selectedApplicationId
         );
 
-        if (!currentIsInFiltered) {
-          setSelectedApplicationId(filteredApps[0].id);
+        if (!currentIsInFiltered && applicationTab !== "all") {
+          const firstFiltered = filteredApps.find((app) => {
+            if (applicationTab === "pending") return app.status === "pending";
+            if (applicationTab === "approved") return app.status === "approved";
+            if (applicationTab === "rejected") return app.status === "rejected";
+            return false; // Не выбираем первый, если вкладка 'all'
+          });
+          if (firstFiltered) {
+            setSelectedApplicationId(firstFiltered.id);
+          }
+        } else if (applicationTab === "all" && !currentIsInFiltered) {
+          // Если вкладка 'all' и текущий не в ней (т.е. список пуст или изменился)
+          // устанавливаем первый из *всех* заявок
+          if (applications.length > 0) {
+            setSelectedApplicationId(applications[0].id);
+          } else {
+            setSelectedApplicationId(null);
+          }
         }
       } else {
         setSelectedApplicationId(null);
@@ -359,7 +378,7 @@ export default function AdminPage() {
       // Update state locally
       setComplaints(
         complaints.map((complaint) =>
-          complaint.id === complaintId
+          complaint.complaint_id === complaintId
             ? { ...complaint, status: "rejected" }
             : complaint
         )
@@ -400,6 +419,23 @@ export default function AdminPage() {
     }
   };
 
+  // Добавлено: Показать загрузчик во время проверки прав админа
+  if (isAdminLoading) {
+    return (
+      <div className={styles.adminPageContainer}>
+        <div className={styles.loaderContainer}>
+          <Loader />
+        </div>
+      </div>
+    );
+  }
+
+  // Добавлено: Если не админ (хотя должно было произойти перенаправление), не рендерить ничего
+  if (!isAdmin) {
+    return null;
+  }
+
+  // Существующая проверка загрузки данных
   if (loading) {
     return (
       <div className={styles.adminPageContainer}>
@@ -472,20 +508,23 @@ export default function AdminPage() {
               <div className={styles.applicationsList}>
                 {filteredComplaints.map((complaint) => (
                   <div
-                    key={complaint.id}
+                    key={complaint.complaint_id}
                     className={`${styles.applicationListItem} ${
-                      complaint.id === selectedComplaintId
+                      complaint.complaint_id === selectedComplaintId
                         ? styles.activeApplication
                         : ""
                     }`}
-                    onClick={() => setSelectedComplaintId(complaint.id)}
+                    onClick={() =>
+                      setSelectedComplaintId(complaint.complaint_id)
+                    }
                   >
                     <div className={styles.applicationListItemAvatar}>
-                      <Avatar src={null} size={40} />
+                      <Avatar src={complaint.complainer_avatar} size={40} />
                     </div>
                     <div className={styles.applicationListItemInfo}>
                       <div className={styles.applicationListItemName}>
-                        {complaint.reporter_name} {complaint.reporter_surname}
+                        {complaint.complainer_name}{" "}
+                        {complaint.complainer_surname}
                       </div>
                       <div className={styles.applicationListItemSkill}>
                         Complaint about{" "}
@@ -586,15 +625,18 @@ export default function AdminPage() {
               <div className={styles.applicationDetails}>
                 <div className={styles.applicationHeader}>
                   <div className={styles.applicationAvatar}>
-                    <Avatar src={null} size={48} />
+                    <Avatar
+                      src={selectedComplaint.complainer_avatar}
+                      size={48}
+                    />
                   </div>
                   <div className={styles.applicationInfo}>
                     <div className={styles.applicationName}>
-                      {selectedComplaint.reporter_name}{" "}
-                      {selectedComplaint.reporter_surname}
+                      {selectedComplaint.complainer_name}{" "}
+                      {selectedComplaint.complainer_surname}
                     </div>
                     <div className={styles.applicationEmail}>
-                      {selectedComplaint.reporter_email}
+                      {selectedComplaint.complainer_email}
                     </div>
                   </div>
                   <div
@@ -643,7 +685,7 @@ export default function AdminPage() {
                 <div className={styles.videoAndActions}>
                   <div className={styles.complaintActionsSection}>
                     <Link
-                      href={`/profile/${selectedComplaint.reporter_id}`}
+                      href={`/profile/${selectedComplaint.complainer_id}`}
                       className={`${styles.actionButton} ${styles.viewButton}`}
                       target="_blank"
                     >
@@ -659,16 +701,16 @@ export default function AdminPage() {
                     <button
                       className={`${styles.actionButton} ${styles.skipButton}`}
                       onClick={handleSkipComplaint}
-                      disabled={processingId === selectedComplaint.id}
+                      disabled={processingId === selectedComplaint.complaint_id}
                     >
                       Skip Complaint
                     </button>
                     <button
                       className={`${styles.actionButton} ${styles.rejectButton}`}
                       onClick={() =>
-                        handleRejectComplaint(selectedComplaint.id)
+                        handleRejectComplaint(selectedComplaint.complaint_id)
                       }
-                      disabled={processingId === selectedComplaint.id}
+                      disabled={processingId === selectedComplaint.complaint_id}
                     >
                       Reject Complaint
                     </button>

@@ -152,6 +152,33 @@ export interface LessonResponse {
   lessons: Lesson[];
 }
 
+export interface ComplaintData {
+  description: string;
+  reason: string;
+  reported_id: number;
+}
+
+export interface Complaint {
+  complainer_avatar: string;
+  complainer_email: string;
+  complainer_id: number;
+  complainer_name: string;
+  complainer_surname: string;
+  complaint_id: number;
+  date: string;
+  description: string;
+  reason: string;
+  reported_avatar: string;
+  reported_email: string;
+  reported_id: number;
+  reported_name: string;
+  reported_surname: string;
+}
+
+export interface ComplaintResponse {
+  complaints: Complaint[];
+}
+
 export interface TeachersResponse {
   teachers: TeacherProfile[];
 }
@@ -282,6 +309,30 @@ class ApiService {
       `/api/users/${id}/profile`
     );
     return response.data;
+  }
+
+  async getIsAdmin(): Promise<boolean> {
+    const response = await this.api.get<boolean>(`/api/user/is-admin`);
+    return response.data;
+  }
+
+  async getComplaints(): Promise<Complaint[]> {
+    const response = await this.api.get<ComplaintResponse>(
+      `/api/admin/complaints`
+    );
+    return response.data.complaints;
+  }
+
+  async approveTeacherSkill(id: number): Promise<string> {
+    const response = await this.api.put<ComplaintResponse>(
+      `/api/admin/skills/${id}/approve`
+    );
+    return response.statusText;
+  }
+
+  async sendComplaint(data: ComplaintData): Promise<string> {
+    const response = await this.api.post("/api/complaint", data);
+    return response.statusText;
   }
 
   async getTeacherProfile(): Promise<TeacherProfile> {
