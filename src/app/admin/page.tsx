@@ -7,7 +7,8 @@ import Avatar from "@/components/avatar/Avatar";
 import Badge from "@/components/badge/Badge";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { apiService, Complaint as ApiComplaint } from "@/utilities/api";
+import { apiService } from "@/utilities/api";
+import { Complaint as ApiComplaint } from "@/types/types";
 
 interface TeacherApplication {
   id: number;

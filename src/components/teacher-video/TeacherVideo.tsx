@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { TeacherProfile } from "../../utilities/api";
+import { TeacherProfile } from "../../types/types";
 import styles from "./TeacherVideo.module.scss";
 import { useRouter } from "next/navigation";
 

@@ -2,7 +2,8 @@
 
 // import { apiService } from "../../utilities/api";
 import { useEffect, useState } from "react";
-import { apiService, TeacherProfile, Category } from "../../utilities/api";
+import { apiService } from "../../utilities/api";
+import { TeacherProfile, Category } from "../../types/types";
 import styles from "./page.module.scss";
 import TeacherItem from "@/components/teacher-item/TeacherItem";
 import TeacherVideo from "@/components/teacher-video/TeacherVideo";

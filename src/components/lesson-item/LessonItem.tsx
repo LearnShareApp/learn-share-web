@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Lesson, TeacherLesson, apiService } from "../../utilities/api";
+import { apiService } from "../../utilities/api";
 import { useAvatar } from "../../hooks/avatar-hook";
 import Avatar from "../avatar/Avatar";
+import { Lesson, TeacherLesson } from "../../types/types";
 import styles from "./LessonItem.module.scss";
 import { useRouter } from "next/navigation";
 
@@ -113,7 +114,9 @@ const LessonItem: React.FC<LessonItemProps> = ({
           // Проверяем, не является ли ошибка 403, что может означать, что урок уже запущен
           const error = startError as { response?: { status?: number } };
           if (error?.response?.status === 403) {
-            console.log("Lesson is already started or not allowed to start, proceeding to join");
+            console.log(
+              "Lesson is already started or not allowed to start, proceeding to join"
+            );
             // Продолжаем выполнение и пытаемся присоединиться
           } else {
             // Если ошибка не 403, пробрасываем её дальше

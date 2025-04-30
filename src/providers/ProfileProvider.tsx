@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, ReactNode } from "react";
 import useUserProfile from "@/hooks/useUserProfile";
-import { UserProfile } from "@/utilities/api";
+import { UserProfile } from "@/types/types";
 
 interface ProfileContextType {
   profile: UserProfile | null;

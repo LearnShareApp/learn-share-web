@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { apiService, UserProfile } from "../utilities/api";
+import { apiService } from "../utilities/api";
+import { UserProfile } from "../types/types";
 
 interface UseUserProfileOptions {
   userId?: string | number;

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { apiService, TeacherProfile } from "../utilities/api";
+import { apiService } from "../utilities/api";
+import { TeacherProfile } from "../types/types";
 import { useProfileContext } from "../providers/ProfileProvider";
 
 interface UseTeacherOptions {

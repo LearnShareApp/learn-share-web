@@ -8,7 +8,8 @@ import { useAvatar } from "../../hooks/avatar-hook";
 import Loader from "@/components/loader/Loader";
 import Avatar from "@/components/avatar/Avatar";
 import { useEffect, useState } from "react";
-import { apiService, TeacherProfile, Lesson } from "../../utilities/api";
+import { apiService } from "../../utilities/api";
+import { TeacherProfile, Lesson } from "../../types/types";
 import TeacherItem from "@/components/teacher-item/TeacherItem";
 import LessonItem from "@/components/lesson-item/LessonItem";
 

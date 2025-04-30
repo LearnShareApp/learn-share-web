@@ -2,7 +2,8 @@
 
 import Loader from "@/components/loader/Loader";
 import { useAvatar } from "@/hooks/avatar-hook";
-import { apiService, TeacherSkill, Review } from "@/utilities/api";
+import { apiService } from "@/utilities/api";
+import { TeacherSkill, Review } from "../../../types/types";
 import { useParams } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import Avatar from "@/components/avatar/Avatar";

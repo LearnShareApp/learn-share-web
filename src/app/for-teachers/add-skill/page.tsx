@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { apiService, AddSkillData, Category } from "../../../utilities/api";
+import { apiService } from "../../../utilities/api";
+import { AddSkillData, Category } from "../../../types/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.scss";

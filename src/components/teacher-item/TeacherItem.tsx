@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { TeacherProfile } from "../../utilities/api";
+import { TeacherProfile } from "../../types/types";
 import styles from "./TeacherItem.module.scss";
 import { useAvatar } from "../../hooks/avatar-hook";
 import Avatar from "../avatar/Avatar";

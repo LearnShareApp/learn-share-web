@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { apiService, DateTime, TeacherSkill } from "@/utilities/api";
+import { apiService } from "@/utilities/api";
+import { DateTime, TeacherSkill } from "../../types/types";
 import styles from "./page.module.scss";
 import Link from "next/link";
 import { useAvatar } from "@/hooks/avatar-hook";

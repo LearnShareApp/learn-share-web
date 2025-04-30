@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./ReviewItem.module.scss";
-import { Review } from "@/utilities/api";
+import { Review } from "@/types/types";
 import Avatar from "../avatar/Avatar";
 import { useAvatar } from "@/hooks/avatar-hook";
 

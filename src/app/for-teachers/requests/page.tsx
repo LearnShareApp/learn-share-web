@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import styles from "./page.module.scss";
 import Link from "next/link";
 import Loader from "@/components/loader/Loader";
-import { apiService, TeacherLesson } from "@/utilities/api";
+import { apiService } from "@/utilities/api";
+import { TeacherLesson } from "../../../types/types";
 import { useTeacher } from "@/hooks/useTeacher";
 
 export default function LessonRequestsPage() {
