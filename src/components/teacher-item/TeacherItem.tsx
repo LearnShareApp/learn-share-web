@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { TeacherProfile } from "../../types/types";
 import styles from "./TeacherItem.module.scss";
-import { useAvatar } from "../../hooks/avatar-hook";
 import Avatar from "../avatar/Avatar";
 
 interface TeacherItemProps {
@@ -25,9 +24,6 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher, category }) => {
   const teacherLink =
     `/teachers/${teacher.teacher_id}` +
     (skillToShow ? `?category=${skillToShow.category_id}` : "");
-
-  // Получение аватара учителя
-  const { avatarSource } = useAvatar(teacher.avatar);
 
   // Форматирование рейтинга
   const formattedRating =
@@ -54,7 +50,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher, category }) => {
     <Link href={teacherLink} className={styles.teacherItemLink}>
       <div className={styles.teacherItem}>
         <div className={styles.teacherItem__image}>
-          <Avatar src={avatarSource} size={100} />
+          <Avatar avatarId={teacher.avatar} size={100} />
         </div>
         <div className={styles.teacherItem__info}>
           <div className={styles.teacherItem__names}>

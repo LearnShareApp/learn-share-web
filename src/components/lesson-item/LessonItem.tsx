@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { apiService } from "../../utilities/api";
-import { useAvatar } from "../../hooks/avatar-hook";
 import Avatar from "../avatar/Avatar";
 import { Lesson, TeacherLesson } from "../../types/types";
 import styles from "./LessonItem.module.scss";
@@ -17,11 +16,6 @@ const LessonItem: React.FC<LessonItemProps> = ({
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { avatarSource } = useAvatar(
-    isTeacher
-      ? (lesson as TeacherLesson).student_avatar
-      : (lesson as Lesson).teacher_avatar
-  );
   const lessonDate = new Date(lesson.datetime);
 
   // Check if the lesson is in the past
@@ -152,7 +146,14 @@ const LessonItem: React.FC<LessonItemProps> = ({
       }`}
     >
       <div className={styles.avatarWrapper}>
-        <Avatar src={avatarSource} size={60} />
+        <Avatar
+          avatarId={
+            isTeacher
+              ? (lesson as TeacherLesson).student_avatar
+              : (lesson as Lesson).teacher_avatar
+          }
+          size={60}
+        />
       </div>
       <div className={styles.lessonInfo}>
         <h3>{participantName}</h3>

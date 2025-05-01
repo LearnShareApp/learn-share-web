@@ -6,7 +6,6 @@ import { apiService } from "@/utilities/api";
 import { DateTime, TeacherSkill } from "../../types/types";
 import styles from "./page.module.scss";
 import Link from "next/link";
-import { useAvatar } from "@/hooks/avatar-hook";
 import Avatar from "@/components/avatar/Avatar";
 import Loader from "@/components/loader/Loader";
 import { useTeacher } from "@/hooks/useTeacher";
@@ -28,8 +27,6 @@ export default function BookPage() {
   const { teacher, loadingTeacher, errorTeacher } = useTeacher(
     teacherId ? { teacherId } : undefined
   );
-
-  const { avatarSource, loadingAvatar } = useAvatar(teacher?.avatar || null);
 
   // Загружаем доступные временные слоты для выбранного преподавателя
   useEffect(() => {
@@ -129,7 +126,7 @@ export default function BookPage() {
     })) || [];
 
   // Показываем загрузку, если данные преподавателя или временные слоты загружаются
-  if (loadingTeacher || loadingAvatar || loading) return <Loader />;
+  if (loadingTeacher || loading) return <Loader />;
 
   // Показываем ошибку, если не удалось загрузить данные преподавателя
   if (errorTeacher || !teacher) {
@@ -159,7 +156,7 @@ export default function BookPage() {
           <div className={styles.card}>
             {teacher && (
               <div className={styles.teacherInfo}>
-                <Avatar size={60} src={avatarSource} />
+                <Avatar size={60} avatarId={teacher.avatar} />
                 <div>
                   <h2>
                     {teacher.name} {teacher.surname}

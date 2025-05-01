@@ -1,18 +1,18 @@
 import Image from "next/image";
 import React from "react";
+import { useAvatar } from "@/hooks/avatar-hook";
 
 interface AvatarProps {
   size: number;
-  src: string | null | undefined;
+  avatarId: string | null | undefined;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ size, src }) => {
-  // Используем дефолтную аватарку, если src пустая строка или null
-  const avatarSrc = src && src.trim() !== "" ? src : "/default-avatar.png";
+const Avatar: React.FC<AvatarProps> = ({ size, avatarId }) => {
+  const { avatarSource } = useAvatar(avatarId ?? null);
 
   return (
     <Image
-      src={avatarSrc}
+      src={avatarSource}
       alt="User Avatar"
       width={size}
       height={size}

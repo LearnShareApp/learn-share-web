@@ -1,9 +1,8 @@
 "use client";
 
 import Loader from "@/components/loader/Loader";
-import { useAvatar } from "@/hooks/avatar-hook";
 import { apiService } from "@/utilities/api";
-import { TeacherSkill, Review } from "../../../types/types";
+import { TeacherSkill, Review, ComplaintData } from "../../../types/types";
 import { useParams } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import Avatar from "@/components/avatar/Avatar";
@@ -20,9 +19,6 @@ export default function TeacherProfilePage() {
   const { teacher, loadingTeacher, errorTeacher } = useTeacher({
     teacherId: validTeacherId,
   });
-
-  // Важно: вызываем useAvatar до условного рендеринга
-  const { avatarSource, loadingAvatar } = useAvatar(teacher?.avatar || null);
 
   const [loading, setLoading] = useState(false);
   const [arrowPositioned, setArrowPositioned] = useState(false);
@@ -187,8 +183,38 @@ export default function TeacherProfilePage() {
     setIsExpanded(!isExpanded);
   };
 
+  // Обработчик для отправки жалобы
+  const handleReport = async () => {
+    const reason = prompt("Укажите причину жалобы:");
+    if (!reason) {
+      alert("Причина жалобы не указана.");
+      return;
+    }
+    const description = prompt("Опишите подробнее (необязательно):") || "";
+
+    if (teacher?.teacher_id && validTeacherId) {
+      const complaintData: ComplaintData = {
+        reported_id: teacher.teacher_id,
+        reason: reason,
+        description: description,
+      };
+      try {
+        setLoading(true); // Показываем лоадер на время отправки
+        await apiService.sendComplaint(complaintData);
+        alert("Жалоба успешно отправлена.");
+      } catch (error) {
+        console.error("Ошибка при отправке жалобы:", error);
+        alert("Не удалось отправить жалобу. Попробуйте позже.");
+      } finally {
+        setLoading(false); // Скрываем лоадер
+      }
+    } else {
+      alert("Не удалось определить ID преподавателя для жалобы.");
+    }
+  };
+
   // Обновляем условие отображения лоадера, включая проверку loading
-  if (loadingTeacher || loadingAvatar || loading) return <Loader />;
+  if (loadingTeacher || loading) return <Loader />;
 
   // Обработка ошибок
   if (errorTeacher || !teacher) {
@@ -205,7 +231,7 @@ export default function TeacherProfilePage() {
       <div className={`${styles.left}`}>
         <section className={`${styles.section} card`}>
           <div className={styles.avatar}>
-            <Avatar size={100} src={avatarSource} />
+            <Avatar size={100} avatarId={teacher.avatar} />
             <div className={styles.nameDate}>
               <h2>
                 {teacher?.name} {teacher?.surname}
@@ -220,6 +246,9 @@ export default function TeacherProfilePage() {
                   : "Registration date unknown"}
               </p>
             </div>
+            <button onClick={handleReport} className={styles.reportButton}>
+              Пожаловаться
+            </button>
           </div>
           <div className={styles.profileDescription}>
             <h3>About me</h3>

@@ -2,19 +2,16 @@ import React from "react";
 import styles from "./ReviewItem.module.scss";
 import { Review } from "@/types/types";
 import Avatar from "../avatar/Avatar";
-import { useAvatar } from "@/hooks/avatar-hook";
 
 interface ReviewItemProps {
   review: Review;
 }
 
 const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
-  const { avatarSource } = useAvatar(review.student_avatar);
-
   return (
     <div className={styles.reviewItem}>
       <div className={styles.reviewHeader}>
-        <Avatar src={avatarSource} size={32} />
+        <Avatar avatarId={review.student_avatar} size={32} />
         <div>
           <h4>
             {review.student_name} {review.student_surname}

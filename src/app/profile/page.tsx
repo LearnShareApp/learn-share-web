@@ -4,7 +4,6 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.scss";
 import { useProfileContext } from "../../providers/ProfileProvider";
-import { useAvatar } from "../../hooks/avatar-hook";
 import Loader from "@/components/loader/Loader";
 import Avatar from "@/components/avatar/Avatar";
 import { format } from "date-fns";
@@ -106,7 +105,6 @@ const EditIcon = () => (
 const ProfilePage = () => {
   const router = useRouter();
   const { profile, loadingProfile } = useProfileContext();
-  const { avatarSource, loadingAvatar } = useAvatar(profile?.avatar || null);
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return "Not specified";
@@ -150,14 +148,14 @@ const ProfilePage = () => {
     router.push("/lessons");
   };
 
-  if (loadingProfile || loadingAvatar) return <Loader />;
+  if (loadingProfile) return <Loader />;
 
   return (
     <div className={styles.profileContainer}>
       <div className={styles.profileHeader}>
         <div className={styles.profileInfo}>
           <div className={styles.avatarWrapper}>
-            <Avatar src={avatarSource} size={120} />
+            <Avatar avatarId={profile?.avatar} size={120} />
           </div>
           <div className={styles.userInfo}>
             <h1 className={styles.userName}>

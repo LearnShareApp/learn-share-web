@@ -520,7 +520,10 @@ export default function AdminPage() {
                     }
                   >
                     <div className={styles.applicationListItemAvatar}>
-                      <Avatar src={complaint.complainer_avatar} size={40} />
+                      <Avatar
+                        avatarId={complaint.complainer_avatar}
+                        size={40}
+                      />
                     </div>
                     <div className={styles.applicationListItemInfo}>
                       <div className={styles.applicationListItemName}>
@@ -595,7 +598,7 @@ export default function AdminPage() {
                     onClick={() => setSelectedApplicationId(application.id)}
                   >
                     <div className={styles.applicationListItemAvatar}>
-                      <Avatar src={application.avatar} size={40} />
+                      <Avatar avatarId={application.avatar} size={40} />
                     </div>
                     <div className={styles.applicationListItemInfo}>
                       <div className={styles.applicationListItemName}>
@@ -627,7 +630,7 @@ export default function AdminPage() {
                 <div className={styles.applicationHeader}>
                   <div className={styles.applicationAvatar}>
                     <Avatar
-                      src={selectedComplaint.complainer_avatar}
+                      avatarId={selectedComplaint.complainer_avatar}
                       size={48}
                     />
                   </div>
@@ -742,7 +745,7 @@ export default function AdminPage() {
             <div className={styles.applicationDetails}>
               <div className={styles.applicationHeader}>
                 <div className={styles.applicationAvatar}>
-                  <Avatar src={selectedApplication.avatar} size={48} />
+                  <Avatar avatarId={selectedApplication.avatar} size={48} />
                 </div>
                 <div className={styles.applicationInfo}>
                   <div className={styles.applicationName}>

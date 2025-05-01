@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import styles from "./page.module.scss";
 import { apiService } from "../../../utilities/api";
 import { useProfileContext } from "../../../providers/ProfileProvider";
-import { useAvatar } from "@/hooks/avatar-hook";
 import * as zod from "zod";
 import Loader from "@/components/loader/Loader";
 import Avatar from "@/components/avatar/Avatar";
@@ -40,7 +39,6 @@ const validateProfileData = (data: {
 const EditProfilePage = () => {
   const router = useRouter();
   const { profile, loadingProfile, refreshProfile } = useProfileContext();
-  const { avatarSource, loadingAvatar } = useAvatar(profile?.avatar || null);
 
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -135,14 +133,14 @@ const EditProfilePage = () => {
 
   const getAvatarSrc = () => {
     if (newAvatar) return newAvatar;
-    return avatarSource;
+    return profile?.avatar;
   };
 
   const handleCancel = () => {
     router.push("/profile");
   };
 
-  if (loadingProfile || loadingAvatar) return <Loader />;
+  if (loadingProfile) return <Loader />;
 
   return (
     <div className={styles.container}>
@@ -153,7 +151,7 @@ const EditProfilePage = () => {
           <div className={styles.profileLayout}>
             <div className={styles.avatarSection}>
               <div className={styles.avatarPreview}>
-                <Avatar src={getAvatarSrc()} size={120} />
+                <Avatar avatarId={getAvatarSrc()} size={120} />
               </div>
               <div className={styles.avatarControls}>
                 <label className={styles.fileInputLabel}>

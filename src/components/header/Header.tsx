@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import styles from "./Header.module.scss";
 import useUserProfile from "@/hooks/useUserProfile";
-import { useAvatar } from "@/hooks/avatar-hook";
 import { useState, useEffect, useRef } from "react";
 import Avatar from "@/components/avatar/Avatar";
 
@@ -74,7 +73,6 @@ const Header = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const mainHeaderRef = useRef<HTMLDivElement>(null);
   const { userProfile } = useUserProfile();
-  const { avatarSource } = useAvatar(userProfile?.avatar || null);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const avatarContainerRef = useRef<HTMLDivElement>(null);
@@ -476,14 +474,14 @@ const Header = () => {
               aria-haspopup="true"
               aria-label="Open user menu"
             >
-              <Avatar src={avatarSource} size={36} />
+              <Avatar avatarId={userProfile?.avatar} size={36} />
             </button>
 
             {/* Для десктопных устройств добавляем меню прямо здесь, управляемое через CSS */}
             {!isMobile && (
               <div className={styles.dropdownMenu}>
                 <div className={styles.userProfile}>
-                  <Avatar src={avatarSource} size={40} />
+                  <Avatar avatarId={userProfile?.avatar} size={40} />
                   <div className={styles.userInfo}>
                     <div className={styles.userName}>
                       {userProfile?.name} {userProfile?.surname}

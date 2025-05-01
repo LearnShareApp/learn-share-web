@@ -5,7 +5,6 @@ import { useParams } from "next/navigation";
 import styles from "./page.module.scss";
 import profileStyles from "../../profile/page.module.scss";
 import useUserProfile from "@/hooks/useUserProfile";
-import { useAvatar } from "@/hooks/avatar-hook";
 import Loader from "@/components/loader/Loader";
 import Avatar from "@/components/avatar/Avatar";
 import { format } from "date-fns";
@@ -94,9 +93,6 @@ const UserProfilePage = () => {
   const { userProfile, loadingUserProfile, errorUserProfile } = useUserProfile({
     userId,
   });
-  const { avatarSource, loadingAvatar } = useAvatar(
-    userProfile?.avatar || null
-  );
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return "Не указано";
@@ -115,7 +111,7 @@ const UserProfilePage = () => {
     ? formatDate(userProfile.birthdate)
     : "Не указано";
 
-  if (loadingUserProfile || loadingAvatar) return <Loader />;
+  if (loadingUserProfile) return <Loader />;
 
   if (errorUserProfile) {
     return (
@@ -134,7 +130,7 @@ const UserProfilePage = () => {
       <div className={profileStyles.profileHeader}>
         <div className={profileStyles.profileInfo}>
           <div className={profileStyles.avatarWrapper}>
-            <Avatar src={avatarSource} size={120} />
+            <Avatar avatarId={userProfile?.avatar} size={120} />
           </div>
           <div className={profileStyles.userInfo}>
             <h1 className={profileStyles.userName}>
