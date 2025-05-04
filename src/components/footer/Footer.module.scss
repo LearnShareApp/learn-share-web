@@ -1,30 +1,118 @@
 .footer {
-  text-align: center;
-  padding: 1rem;
   background-color: #f8f8f8;
+  padding: 3rem 2rem 1.5rem;
+  border-top: 1px solid #eaeaea;
 }
 
-.links {
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.brandSection {
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 1.5rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.tagline {
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.linksSection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+}
+
+.linkColumn {
+  min-width: 120px;
+}
+
+.linkColumn h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.linkColumn ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.linkColumn li {
   margin-bottom: 0.5rem;
 }
 
-.links a {
-  margin: 0 0.5rem;
+.linkColumn a {
   text-decoration: none;
-  color: #333;
+  color: #555;
+  font-size: 0.9rem;
+  transition: color 0.2s;
 }
 
-.social {
-  margin-bottom: 0.5rem;
+.linkColumn a:hover {
+  color: #000;
 }
 
-.social a {
-  margin: 0 0.5rem;
-  text-decoration: none;
-  color: #333;
+.footerBottom {
+  max-width: 1200px;
+  margin: 2rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eaeaea;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .copy {
   font-size: 0.875rem;
   color: #666;
+}
+
+.social {
+  display: flex;
+  gap: 1rem;
+}
+
+.social a {
+  color: #555;
+  font-size: 1.2rem;
+  transition: color 0.2s;
+}
+
+.social a:hover {
+  color: #000;
+}
+
+@media (max-width: 768px) {
+  .footerContent {
+    flex-direction: column;
+  }
+
+  .footerBottom {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .linksSection {
+    gap: 2rem;
+  }
 }
