@@ -1037,7 +1037,7 @@ a.secondary {
   width: 60px;
   height: 60px;
   border-radius: $border-radius-full;
-  background-color: lighten($color-primary, 30%);
+  background-color: color.adjust($color-primary, $lightness: 30%);
   color: $color-primary;
   transition: background-color $transition-normal, color $transition-normal;
 }
