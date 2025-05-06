@@ -13,7 +13,7 @@ import { Track, Room, ConnectionState, RoomEvent } from "livekit-client";
 import "@livekit/components-styles";
 import styles from "./page.module.scss";
 import { use } from "react";
-import ChatPanel from "@/components/ChatPanel";
+import ChatPanel from "@/features/ChatPanel";
 
 // Определяем тип для params с типизацией
 type PageParams = {

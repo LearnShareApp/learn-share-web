@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import Avatar from "@/components/avatar/Avatar";
 import styles from "./page.module.scss";
-import SkillBadge from "@/components/skill-badge/SkillBadge";
+import SkillBadge from "@/features/skill-badge/SkillBadge";
 import ReviewItem from "@/features/review-item/ReviewItem";
 import { useTeacher } from "@/hooks/useTeacher";
 

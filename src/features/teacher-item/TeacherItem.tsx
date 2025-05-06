@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { TeacherProfile } from "../../types/types";
 import styles from "./TeacherItem.module.scss";
-import Avatar from "../avatar/Avatar";
+import Avatar from "@/components/avatar/Avatar";
 
 interface TeacherItemProps {
   teacher: TeacherProfile;

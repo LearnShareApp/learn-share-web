@@ -4,7 +4,7 @@ import "@/styles/globals.scss";
 import LanguageProvider from "@/providers/LanguageProvider";
 import ProfileProvider from "@/providers/ProfileProvider";
 import AuthRedirector from "@/components/AuthRedirector";
-import ClientLayout from "@/components/layouts/ClientLayout";
+import ClientLayout from "@/layouts/ClientLayout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

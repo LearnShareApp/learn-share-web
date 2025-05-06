@@ -9,8 +9,8 @@ import Avatar from "@/components/avatar/Avatar";
 import { useEffect, useState } from "react";
 import { apiService } from "../../utilities/api";
 import { TeacherProfile, Lesson } from "../../types/types";
-import TeacherItem from "@/components/teacher-item/TeacherItem";
-import LessonItem from "@/components/lesson-item/LessonItem";
+import TeacherItem from "@/features/teacher-item/TeacherItem";
+import LessonItem from "@/features/lesson-item/LessonItem";
 
 export default function HomePage() {
   const { profile, loadingProfile } = useProfileContext();

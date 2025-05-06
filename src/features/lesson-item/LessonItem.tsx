@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { apiService } from "../../utilities/api";
-import Avatar from "../avatar/Avatar";
+import Avatar from "@/components/avatar/Avatar";
 import { Lesson, TeacherLesson } from "../../types/types";
 import styles from "./LessonItem.module.scss";
 import { useRouter } from "next/navigation";

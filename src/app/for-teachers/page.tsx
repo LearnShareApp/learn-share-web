@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useTeacher } from "../../hooks/useTeacher";
 import { apiService } from "../../utilities/api";
 import { TeacherLesson } from "../../types/types";
-import LessonItem from "../../components/lesson-item/LessonItem";
+import LessonItem from "@/features/lesson-item/LessonItem";
 import styles from "./page.module.scss";
 import Link from "next/link";
 import Loader from "@/components/loader/Loader";
