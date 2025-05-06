@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useLanguage } from "@/providers/LanguageProvider";
 import styles from "./page.module.scss";
-import { FaGlobe, FaCog, FaBell, FaLock, FaUserCircle } from "react-icons/fa";
+import { Settings, Bell, Lock, UserCircle, Globe } from "lucide-react";
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("general");
@@ -25,7 +25,7 @@ export default function SettingsPage() {
             }`}
             onClick={() => setActiveTab("general")}
           >
-            <FaCog />
+            <Settings />
             <span>Общие</span>
           </div>
           <div
@@ -34,7 +34,7 @@ export default function SettingsPage() {
             }`}
             onClick={() => setActiveTab("notifications")}
           >
-            <FaBell />
+            <Bell />
             <span>Уведомления</span>
           </div>
           <div
@@ -43,7 +43,7 @@ export default function SettingsPage() {
             }`}
             onClick={() => setActiveTab("security")}
           >
-            <FaLock />
+            <Lock />
             <span>Безопасность</span>
           </div>
           <div
@@ -52,7 +52,7 @@ export default function SettingsPage() {
             }`}
             onClick={() => setActiveTab("profile")}
           >
-            <FaUserCircle />
+            <UserCircle />
             <span>Профиль</span>
           </div>
         </div>
@@ -61,7 +61,7 @@ export default function SettingsPage() {
           {activeTab === "general" && (
             <div className={styles.section}>
               <h2 className={styles.sectionTitle}>
-                <FaGlobe className={styles.sectionIcon} />
+                <Globe className={styles.sectionIcon} />
                 Выбор языка
               </h2>
               <div className={styles.languageSelector}>

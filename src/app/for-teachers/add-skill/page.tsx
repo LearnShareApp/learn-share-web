@@ -6,6 +6,7 @@ import { AddSkillData, Category } from "../../../types/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.scss";
+import { Lightbulb, Video, CheckCircle, UserCheck } from "lucide-react";
 
 // Компонент для встраивания видео
 const VideoPreview = ({ url }: { url: string }) => {
@@ -219,174 +220,31 @@ export default function AddSkillPage() {
       <div className={styles.tips}>
         <div className={styles.tip}>
           <div className={styles.tipIcon}>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 2V6"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M12 18V22"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M4.93 4.93L7.76 7.76"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M16.24 16.24L19.07 19.07"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M2 12H6"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M18 12H22"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M4.93 19.07L7.76 16.24"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M16.24 7.76L19.07 4.93"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Lightbulb width={24} height={24} />
           </div>
-          <div className={styles.tipContent}>
-            <h3>Be Specific</h3>
-            <p>
-              Clearly describe what exactly you can teach. Being specific helps
-              attract students who are interested in this particular skill.
-            </p>
-          </div>
+          <h3>Be Clear and Concise</h3>
+          <p>Make your skill description and video easy to understand.</p>
         </div>
-
         <div className={styles.tip}>
           <div className={styles.tipIcon}>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M12 6V12L16 14"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Video width={24} height={24} />
           </div>
-          <div className={styles.tipContent}>
-            <h3>Introduction Video</h3>
-            <p>
-              A quality video where you talk about your experience significantly
-              increases student trust and the chances they&apos;ll choose you.
-            </p>
-          </div>
+          <h3>High-Quality Video</h3>
+          <p>Ensure your video has good lighting and clear audio.</p>
         </div>
-
         <div className={styles.tip}>
           <div className={styles.tipIcon}>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                x="3"
-                y="4"
-                width="18"
-                height="18"
-                rx="2"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M16 2V6"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M8 2V6"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M3 10H21"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M9 16L11 18L15 14"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <CheckCircle width={24} height={24} />
           </div>
-          <div className={styles.tipContent}>
-            <h3>Consistency</h3>
-            <p>
-              After adding a skill, don&apos;t forget to add available time for
-              lessons. Regular slots increase the chances students will choose
-              you.
-            </p>
+          <h3>Showcase Your Expertise</h3>
+          <p>Demonstrate your knowledge and teaching style effectively.</p>
+        </div>
+        <div className={styles.tip}>
+          <div className={styles.tipIcon}>
+            <UserCheck width={24} height={24} />
           </div>
+          <h3>Engage with Students</h3>
+          <p>Be responsive and create a positive learning environment.</p>
         </div>
       </div>
     </div>

@@ -14,6 +14,21 @@ import "@livekit/components-styles";
 import styles from "./page.module.scss";
 import { use } from "react";
 import ChatPanel from "@/features/ChatPanel";
+import {
+  AlertTriangle,
+  RefreshCw,
+  ArrowLeft,
+  Loader2,
+  Mic,
+  MicOff,
+  Video,
+  VideoOff,
+  ScreenShare,
+  ScreenShareOff,
+  MessageSquare,
+  XSquare,
+  PhoneOff,
+} from "lucide-react";
 
 // Определяем тип для params с типизацией
 type PageParams = {
@@ -215,7 +230,13 @@ export default function LessonRoomPage({ params }: { params: PageParams }) {
         {errorDetails && (
           <div className={styles.errorDetails}>
             <details>
-              <summary>Technical details</summary>
+              <summary>
+                <AlertTriangle
+                  size={16}
+                  style={{ marginRight: "8px", verticalAlign: "middle" }}
+                />
+                Technical details
+              </summary>
               <p>{errorDetails}</p>
             </details>
           </div>
@@ -225,12 +246,14 @@ export default function LessonRoomPage({ params }: { params: PageParams }) {
             onClick={handleRetry}
             className={`${styles.backButton} ${styles.retryButton}`}
           >
+            <RefreshCw size={16} style={{ marginRight: "8px" }} />
             Retry connection
           </button>
           <button
             onClick={() => router.push("/lessons")}
             className={styles.backButton}
           >
+            <ArrowLeft size={16} style={{ marginRight: "8px" }} />
             Back to lessons
           </button>
         </div>
@@ -241,7 +264,7 @@ export default function LessonRoomPage({ params }: { params: PageParams }) {
   if (!token || !mediaDevicesAvailable) {
     return (
       <div className={styles.loadingContainer}>
-        <div className={styles.loadingSpinner}></div>
+        <Loader2 className={styles.loadingSpinner} size={48} />
         <div>Connecting to the lesson...</div>
       </div>
     );
@@ -263,6 +286,7 @@ export default function LessonRoomPage({ params }: { params: PageParams }) {
           onClick={() => router.push("/lessons")}
           className={styles.backButton}
         >
+          <ArrowLeft size={16} style={{ marginRight: "8px" }} />
           Back to lessons
         </button>
       </div>
@@ -581,49 +605,7 @@ function CustomControlBar({
           }
         >
           <span className={styles.buttonIcon}>
-            {isMicrophoneEnabled ? (
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 14C13.66 14 15 12.66 15 11V5C15 3.34 13.66 2 12 2C10.34 2 9 3.34 9 5V11C9 12.66 10.34 14 12 14Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M17.91 11C17.91 11.41 17.87 11.8 17.81 12.19C17.76 12.54 18.04 12.85 18.39 12.9C18.42 12.91 18.45 12.91 18.48 12.91C18.79 12.91 19.06 12.68 19.11 12.36C19.18 11.91 19.22 11.46 19.22 11C19.22 10.45 18.77 10 18.22 10C17.67 10 17.22 10.45 17.22 11C17.22 11.12 17.21 11.23 17.2 11.35C17.16 11.66 17.38 11.94 17.69 11.98C17.71 11.98 17.74 11.99 17.76 11.99C18.03 11.99 18.27 11.79 18.3 11.52C18.3 11.35 18.31 11.17 18.31 11C18.31 10.95 18.31 10.9 18.31 10.85C18.35 10.42 18.06 10.05 17.63 10.01C17.2 9.97 16.83 10.25 16.79 10.69C16.78 10.79 16.77 10.9 16.77 11C16.77 11.08 16.77 11.16 16.78 11.23C16.82 11.66 17.19 11.95 17.62 11.91C18.05 11.87 18.33 11.5 18.29 11.07C18.29 11.05 18.29 11.02 18.29 11C18.29 10.55 18.74 10.1 19.19 10.1C19.64 10.1 20.09 10.55 20.09 11C20.09 11.48 20.04 11.95 19.96 12.41C19.86 12.96 20.21 13.5 20.77 13.59C20.83 13.6 20.9 13.61 20.96 13.61C21.44 13.61 21.87 13.26 21.95 12.77C22.04 12.24 22.09 11.69 22.09 11.14C22.09 9.46 20.71 8.09 19.03 8.09C17.35 8.09 15.97 9.47 15.97 11.14C15.97 11.44 16 11.73 16.05 12.02C16.14 12.54 16.65 12.89 17.17 12.8C17.7 12.71 18.04 12.2 17.95 11.67C17.92 11.45 17.9 11.23 17.9 11H17.91Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M12 15.5C8.49 15.5 5.64 18.28 5.5 21.76C5.48 22.31 5.92 22.77 6.47 22.8C6.49 22.8 6.5 22.8 6.52 22.8C7.04 22.8 7.47 22.39 7.5 21.87C7.59 19.46 9.59 17.5 12 17.5C14.41 17.5 16.41 19.46 16.5 21.87C16.53 22.4 16.97 22.8 17.49 22.8C17.5 22.8 17.52 22.8 17.53 22.8C18.08 22.78 18.52 22.31 18.5 21.76C18.36 18.27 15.5 15.5 12 15.5Z"
-                  fill="currentColor"
-                />
-              </svg>
-            ) : (
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M16.95 4.27L15.56 5.66C16.41 6.75 17 8.25 17 9.88V10H19V9.88C19 7.93 18.22 6.15 16.95 4.27Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M12 14C13.66 14 15 12.66 15 11V8.34L11.66 11.68C11.78 11.88 11.92 12 12 12V14Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M14 3.41L11.66 5.75L9 8.41L9 11C9 12.66 10.34 14 12 14C12.5 14 12.95 13.87 13.33 13.65L14 14.32C13.38 14.75 12.72 15 12 15C10.34 15 9 13.66 9 12H7C7 14.76 9.24 17 12 17C13.51 17 14.84 16.36 15.73 15.33L16.25 15.85C16.64 16.24 17.27 16.24 17.66 15.85C18.05 15.46 18.05 14.83 17.66 14.44L14 10.78L5.56 2.34C5.17 1.95 4.54 1.95 4.15 2.34C3.76 2.73 3.76 3.36 4.15 3.75L7.31 6.91L7.76 7.36C7.3 8.33 7 9.4 7 10.5V10.78L4.41 13.37C4.02 13.76 4.02 14.39 4.41 14.78C4.8 15.17 5.43 15.17 5.82 14.78L8.2 12.4C8.3 12.99 8.5 13.55 8.77 14.07L4.15 18.69C3.76 19.08 3.76 19.71 4.15 20.1C4.54 20.49 5.17 20.49 5.56 20.1L10.57 15.09C11.46 16.16 12.84 16.85 14.42 16.97L13.04 18.35C12.65 18.74 12.65 19.37 13.04 19.76C13.43 20.15 14.06 20.15 14.45 19.76L19.78 14.43C20.17 14.04 20.17 13.41 19.78 13.02C19.39 12.63 18.76 12.63 18.37 13.02L16.8 14.59C16.36 14.22 16 13.77 15.73 13.22L16.25 12.7C16.64 12.31 16.64 11.68 16.25 11.29C15.86 10.9 15.23 10.9 14.84 11.29L13.35 12.78C12.6 12.45 12.03 11.85 11.76 11.09L14 8.85V5C14 4.45 13.8 4 13.48 3.68L14 3.16C14.39 2.77 14.39 2.14 14 1.75C13.61 1.36 12.98 1.36 12.59 1.75L9.14 5.2L8.2 6.14C8.07 5.92 7.94 5.71 7.84 5.48L9 4.32V5C9 5.55 8.55 6 8 6C7.45 6 7 5.55 7 5V3.41C7 2.52 8.08 2.07 8.68 2.68L14 8L14.5 7.5L14 3.41Z"
-                  fill="currentColor"
-                />
-              </svg>
-            )}
+            {isMicrophoneEnabled ? <Mic size={24} /> : <MicOff size={24} />}
           </span>
         </button>
 
@@ -635,41 +617,7 @@ function CustomControlBar({
           title={isCameraEnabled ? "Turn off camera" : "Turn on camera"}
         >
           <span className={styles.buttonIcon}>
-            {isCameraEnabled ? (
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M15 8V16C15 16.55 14.55 17 14 17H3C2.45 17 2 16.55 2 16V8C2 7.45 2.45 7 3 7H14C14.55 7 15 7.45 15 8Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M23 9.5V14.5C23 14.78 22.84 15.04 22.57 15.15C22.5 15.18 22.42 15.19 22.35 15.19C22.14 15.19 21.94 15.09 21.82 14.91L19 10.91V13.08L21.82 9.08C21.98 8.86 22.23 8.74 22.5 8.77C22.77 8.79 23 9.07 23 9.35V9.5Z"
-                  fill="currentColor"
-                />
-              </svg>
-            ) : (
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M15 17H14.2L4.2 7H3C2.4 7 2 7.4 2 8V16C2 16.6 2.4 17 3 17H15Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M21.8 14.9L20.1 12.8L19 13.1V10.9L20.3 11.3L22.6 8.2C22.7 8 22.8 7.7 22.7 7.4C22.5 7.2 22.3 7 22 7H18.8L15.9 4.1C15.7 3.9 15.4 3.9 15.1 4.1C14.9 4.3 14.9 4.6 15.1 4.9L19.2 9H15.9L4.4 2.3C4.1 2.1 3.8 2.2 3.6 2.4C3.4 2.7 3.5 3 3.8 3.2L5.7 4.3L4.4 3.2C4 2.9 3.8 2.6 3.2 2.2L2.8 1.8C2.6 1.6 2.3 1.6 2 1.8C1.8 2 1.8 2.3 2 2.6L4.8 5.4L6.5 6.5L17.5 17.5L21 21C21.2 21.2 21.5 21.2 21.8 21C22 20.8 22 20.5 21.8 20.2L21.4 19.8C21 19.4 20.7 19.2 20.4 18.8L18.9 17.3L19.7 17H22C22.3 17 22.5 16.8 22.7 16.6C22.8 16.3 22.7 16 22.5 15.8L21.8 14.9ZM6.3 10.9V13.08L8.6 11.76L6.3 10.9Z"
-                  fill="currentColor"
-                />
-              </svg>
-            )}
+            {isCameraEnabled ? <Video size={24} /> : <VideoOff size={24} />}
           </span>
         </button>
 
@@ -685,18 +633,11 @@ function CustomControlBar({
           }
         >
           <span className={styles.buttonIcon}>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20 18C21.1 18 21.99 17.1 21.99 16L22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V16C2 17.1 2.9 18 4 18H0V20H24V18H20ZM4 6H20V16H4V6Z"
-                fill="currentColor"
-              />
-            </svg>
+            {isScreenShareEnabled ? (
+              <ScreenShareOff size={24} />
+            ) : (
+              <ScreenShare size={24} />
+            )}
           </span>
         </button>
 
@@ -708,18 +649,7 @@ function CustomControlBar({
           title={isChatOpen ? "Закрыть чат" : "Открыть чат"}
         >
           <span className={styles.buttonIcon}>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.17L4 17.17V4H20V16Z"
-                fill="currentColor"
-              />
-            </svg>
+            {isChatOpen ? <XSquare size={24} /> : <MessageSquare size={24} />}
           </span>
         </button>
 
@@ -729,18 +659,7 @@ function CustomControlBar({
           title="Leave room"
         >
           <span className={styles.buttonIcon}>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M10.09 15.59L11.5 17L16.5 12L11.5 7L10.09 8.41L12.67 11H3V13H12.67L10.09 15.59ZM19 3H5C3.89 3 3 3.9 3 5V9H5V5H19V19H5V15H3V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3Z"
-                fill="currentColor"
-              />
-            </svg>
+            <PhoneOff size={24} />
           </span>
         </button>
       </div>

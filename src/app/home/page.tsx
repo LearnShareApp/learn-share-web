@@ -11,6 +11,7 @@ import { apiService } from "../../utilities/api";
 import { TeacherProfile, Lesson } from "../../types/types";
 import TeacherItem from "@/features/teacher-item/TeacherItem";
 import LessonItem from "@/features/lesson-item/LessonItem";
+import { PlusCircle, Info, Users, Search } from "lucide-react";
 
 export default function HomePage() {
   const { profile, loadingProfile } = useProfileContext();
@@ -74,37 +75,7 @@ export default function HomePage() {
           <h2>Balance (inDev)</h2>
           <div className={styles.balanceWrapper}>
             <p>$1000 USD</p>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <line
-                x1="12"
-                y1="6"
-                x2="12"
-                y2="18"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <line
-                x1="6"
-                y1="12"
-                x2="18"
-                y2="12"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-            </svg>
+            <PlusCircle size={16} />
           </div>
         </section>
         <section className="card">
@@ -136,21 +107,7 @@ export default function HomePage() {
             <LessonItem lesson={nextLesson} />
           ) : (
             <div className={styles.noLessonsMessage}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-              </svg>
+              <Info size={24} />
               <p>You don&apos;t have any upcoming lessons</p>
               <Link href="/teachers" className={styles.findTeacherButton}>
                 Find a Teacher
@@ -167,22 +124,7 @@ export default function HomePage() {
               ))
             ) : (
               <div className={styles.noLessonsMessage}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
+                <Users size={24} />
                 <p>You haven&apos;t had any lessons yet</p>
                 <Link href="/teachers" className={styles.findTeacherButton}>
                   Find a Teacher
@@ -194,21 +136,7 @@ export default function HomePage() {
         <Link href="/teachers">
           <section className={`card ${styles["search-teacher"]}`}>
             <h3>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={styles.searchIcon}
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
+              <Search size={20} className={styles.searchIcon} />
               Find a New Teacher
             </h3>
           </section>
