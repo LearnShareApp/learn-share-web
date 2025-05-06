@@ -16,6 +16,20 @@
   gap: 16px;
 }
 
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.videoContainer {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
 .section {
   display: flex;
   flex-direction: column;
@@ -192,5 +206,93 @@
   &:hover {
     background-color: var(--color-error);
     color: white;
+  }
+}
+
+/* Стили для Quick Info */
+.quickInfo {
+  background-color: $color-background-primary;
+  border-radius: $border-radius-md;
+  padding: 16px;
+
+  h3 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+  }
+}
+
+.quickInfoList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.quickInfoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.quickInfoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text-primary;
+}
+
+.quickInfoText {
+  font-size: $font-size-base;
+  color: $color-text-primary;
+  line-height: 1.4;
+}
+
+/* Стили для бейджей */
+.badges {
+  background-color: $color-background-primary;
+  border-radius: $border-radius-md;
+  padding: 1rem;
+}
+
+.badgesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.badgeIcon {
+  font-size: 2rem;
+  background-color: $color-background-tertiary;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.badgeName {
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .badgesGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

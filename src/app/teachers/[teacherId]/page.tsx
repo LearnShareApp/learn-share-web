@@ -8,8 +8,99 @@ import { useEffect, useState, useRef } from "react";
 import Avatar from "@/components/avatar/Avatar";
 import styles from "./page.module.scss";
 import SkillBadge from "@/components/skill-badge/SkillBadge";
-import ReviewItem from "@/components/review-item/ReviewItem";
+import ReviewItem from "@/features/review-item/ReviewItem";
 import { useTeacher } from "@/hooks/useTeacher";
+
+// SVG Иконки для Quick Info
+const DollarIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <line x1="12" y1="1" x2="12" y2="23"></line>
+    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+  </svg>
+);
+
+const ClockIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="10"></circle>
+    <polyline points="12 6 12 12 16 14"></polyline>
+  </svg>
+);
+
+const LocationIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+    <circle cx="12" cy="10" r="3"></circle>
+  </svg>
+);
+
+const GlobeIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="2" y1="12" x2="22" y2="12"></line>
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+  </svg>
+);
+
+const LanguageIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="m5 8 6 6"></path>
+    <path d="m4 14 6-6 2-3"></path>
+    <path d="M2 5h12"></path>
+    <path d="M7 2h1"></path>
+    <path d="m22 22-5-10-5 10"></path>
+    <path d="M14 18h6"></path>
+  </svg>
+);
 
 export default function TeacherProfilePage() {
   const { teacherId } = useParams();
@@ -363,6 +454,29 @@ export default function TeacherProfilePage() {
           </div>
         </section>
 
+        {/* Секция для бейджей */}
+        <section className={`${styles.section} ${styles.badges} card`}>
+          <h3>Achievements</h3>
+          <div className={styles.badgesGrid}>
+            <div className={styles.badge}>
+              <div className={styles.badgeIcon}>🏆</div>
+              <span className={styles.badgeName}>Top Teacher</span>
+            </div>
+            <div className={styles.badge}>
+              <div className={styles.badgeIcon}>⭐</div>
+              <span className={styles.badgeName}>100+ Lessons</span>
+            </div>
+            <div className={styles.badge}>
+              <div className={styles.badgeIcon}>🔥</div>
+              <span className={styles.badgeName}>Fast Responder</span>
+            </div>
+            <div className={styles.badge}>
+              <div className={styles.badgeIcon}>📚</div>
+              <span className={styles.badgeName}>Experienced Methodist</span>
+            </div>
+          </div>
+        </section>
+
         <h3>Reviews</h3>
         <section
           className={`${styles.reviews} card ${
@@ -388,43 +502,86 @@ export default function TeacherProfilePage() {
         )}
       </div>
 
-      <div className={styles.video}>
-        <div
-          style={{
-            position: "relative",
-            paddingBottom: "56.25%",
-            height: 0,
-            overflow: "hidden",
-          }}
-        >
-          <iframe
+      <div className={styles.right}>
+        <div className={styles.videoContainer}>
+          <div
             style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
+              position: "relative",
+              paddingBottom: "56.25%",
+              height: 0,
+              overflow: "hidden",
             }}
-            src={
-              `https://www.youtube-nocookie.com/embed/` +
-              selectedSkill?.video_card_link
-            }
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          >
+            <iframe
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+              src={
+                `https://www.youtube-nocookie.com/embed/` +
+                selectedSkill?.video_card_link
+              }
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+
+          <div className={styles.buttons}>
+            <button
+              onClick={() =>
+                (window.location.href = `/book?teacherId=${teacherId}`)
+              }
+            >
+              Book lesson
+            </button>
+            <button>Contact teacher</button>
+          </div>
         </div>
 
-        <div className={styles.buttons}>
-          <button
-            onClick={() =>
-              (window.location.href = `/book?teacherId=${teacherId}`)
-            }
-          >
-            Book lesson
-          </button>
-          <button>Contact teacher</button>
-        </div>
+        {/* Секция Quick Info */}
+        <section className={`${styles.section} ${styles.quickInfo} card`}>
+          <h3>Quick Info</h3>
+          <div className={styles.quickInfoList}>
+            <div className={styles.quickInfoItem}>
+              <span className={styles.quickInfoIcon}>
+                <DollarIcon />
+              </span>
+              <span className={styles.quickInfoText}>$45 per hour</span>
+            </div>
+            <div className={styles.quickInfoItem}>
+              <span className={styles.quickInfoIcon}>
+                <ClockIcon />
+              </span>
+              <span className={styles.quickInfoText}>
+                Available Weekdays, Evenings
+              </span>
+            </div>
+            <div className={styles.quickInfoItem}>
+              <span className={styles.quickInfoIcon}>
+                <LocationIcon />
+              </span>
+              <span className={styles.quickInfoText}>New York, USA</span>
+            </div>
+            <div className={styles.quickInfoItem}>
+              <span className={styles.quickInfoIcon}>
+                <GlobeIcon />
+              </span>
+              <span className={styles.quickInfoText}>
+                1-on-1, Group Classes
+              </span>
+            </div>
+            <div className={styles.quickInfoItem}>
+              <span className={styles.quickInfoIcon}>
+                <LanguageIcon />
+              </span>
+              <span className={styles.quickInfoText}>English, Spanish</span>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

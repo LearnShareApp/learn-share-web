@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./ReviewItem.module.scss";
 import { Review } from "@/types/types";
-import Avatar from "../avatar/Avatar";
+import Avatar from "@/components/avatar/Avatar";
 
 interface ReviewItemProps {
   review: Review;
