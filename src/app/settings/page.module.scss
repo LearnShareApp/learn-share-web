@@ -167,3 +167,235 @@
     transform: translate(-50%, -50%) rotate(-45deg);
   }
 }
+
+// Базовые стили для сообщений
+%message-base {
+  font-size: $font-size-sm;
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+  border-radius: $border-radius-md;
+}
+
+// Базовые стили для кнопок и элементов, похожих на кнопки
+%button-like {
+  display: inline-block;
+  border-radius: $border-radius-md;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-sm;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color $transition-fast, border-color $transition-fast,
+    color $transition-fast, transform $transition-fast;
+}
+
+// Стили, перенесенные и адаптированные из src/app/profile/edit/page.module.scss
+
+.profileLayout {
+  // Используется для основной раскладки: аватар слева, поля справа
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem; // 40px
+  margin-bottom: 2rem; // 32px
+
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.avatarSection {
+  // Секция для аватара и кнопки его смены
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 180px;
+
+  @media (max-width: $breakpoint-md) {
+    width: 100%;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid $color-border;
+  }
+}
+
+.avatarPreview {
+  // Обертка для компонента Avatar
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: $shadow-sm; // Немного уменьшил тень для общей страницы настроек
+}
+
+.avatarControls {
+  // Контейнер для кнопки смены аватара
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fileInputLabel {
+  // Стилизация <label> для кастомного input[type="file"]
+  @extend %button-like;
+  padding: 0.65rem 1.3rem; // Немного уменьшил паддинги
+  background-color: $color-background-secondary;
+  color: $color-text-primary;
+  margin-top: 0.5rem;
+
+  &:hover {
+    background-color: $color-background-tertiary;
+  }
+}
+
+.fileInput {
+  // Скрываем стандартный input[type="file"]
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.formFields {
+  // Контейнер для полей формы (имя, фамилия, дата рождения)
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; // 20px, немного уменьшил
+  flex-grow: 1;
+}
+
+.formRow {
+  // Для группировки полей в одну строку (например, имя и фамилия)
+  display: flex;
+  gap: 1.25rem;
+
+  @media (max-width: $breakpoint-sm) {
+    // Адаптивность для маленьких экранов
+    flex-direction: column;
+  }
+}
+
+.formGroup {
+  // Группа: лейбл + инпут
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  label {
+    font-weight: $font-weight-medium;
+    margin-bottom: 0.5rem;
+    color: $color-text-secondary;
+    font-size: $font-size-sm;
+  }
+}
+
+.input {
+  // Стили для input полей
+  padding: 0.65rem 0.9rem; // Немного уменьшил паддинги
+  border: 1px solid $color-border;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  outline: none;
+  background-color: $color-background-primary;
+  color: $color-text-primary;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+
+  &:focus {
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
+  }
+
+  &::placeholder {
+    color: $color-text-secondary;
+    opacity: 0.7;
+  }
+}
+
+.errorMessage, // Общие стили для сообщений об ошибке и успехе
+.successMessage {
+  @extend %message-base;
+}
+
+.errorMessage {
+  color: $color-text-error;
+  background-color: rgba($color-text-error, 0.1);
+  border: 1px solid rgba($color-text-error, 0.2);
+}
+
+.successMessage {
+  color: $color-success; // Используем переменную для цвета успеха
+  background-color: rgba($color-success, 0.1);
+  border: 1px solid rgba($color-success, 0.2);
+}
+
+.formActions {
+  // Контейнер для кнопок "Отмена" и "Сохранить"
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem; // Добавил отступ сверху
+
+  @media (max-width: $breakpoint-sm) {
+    // Адаптивность для маленьких экранов
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.cancelButton, // Стили для кнопок
+.submitButton {
+  @extend %button-like;
+  padding: 0.7rem 1.4rem;
+}
+
+.cancelButton {
+  border: 1px solid $color-border-dark; // Заменено с $color-border-strong, "Более явная граница"
+  background-color: transparent;
+  color: $color-text-secondary;
+
+  &:hover:not(:disabled) {
+    background-color: $color-background-secondary;
+    border-color: $color-border;
+    color: $color-text-primary;
+  }
+
+  &:disabled {
+    background-color: $color-background-tertiary;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+.submitButton {
+  border: 1px solid $color-primary; // Добавил границу для консистентности
+  background-color: $color-primary;
+  color: $color-text-light;
+
+  &:hover:not(:disabled) {
+    background-color: $color-primary-dark;
+    border-color: $color-primary-dark;
+  }
+
+  &:disabled {
+    background-color: color.scale(
+      $color-primary,
+      $lightness: 40%,
+      $alpha: -50%
+    ); // Сделал более блеклым
+    border-color: color.scale(
+      $color-primary,
+      $lightness: 40%,
+      $alpha: -70%
+    ); // Исправлено с -0.7 на -70%
+    color: rgba($color-text-light, 0.7);
+    cursor: not-allowed;
+  }
+}

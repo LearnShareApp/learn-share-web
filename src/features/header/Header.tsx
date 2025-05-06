@@ -327,7 +327,9 @@ const Header = () => {
 
                 <button
                   className={styles.dropdownItem}
-                  onClick={() => navigateTo("/profile")}
+                  onClick={() =>
+                    userProfile && navigateTo(`/users/${userProfile.id}`)
+                  }
                 >
                   <UserCircle2 className={styles.dropdownIcon} />
                   My Profile
@@ -455,7 +457,9 @@ const Header = () => {
 
             <button
               className={styles.dropdownItem}
-              onClick={() => navigateTo("/profile")}
+              onClick={() =>
+                userProfile && navigateTo(`/users/${userProfile.id}`)
+              }
             >
               <UserCircle2 className={styles.dropdownIcon} />
               My Profile

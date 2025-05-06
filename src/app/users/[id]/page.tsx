@@ -1,48 +1,103 @@
 "use client";
 
 import React from "react";
-import { useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import styles from "./page.module.scss";
-import profileStyles from "../../profile/page.module.scss";
+import { useProfileContext } from "../../../providers/ProfileProvider";
 import useUserProfile from "@/hooks/useUserProfile";
 import Loader from "@/components/loader/Loader";
 import Avatar from "@/components/avatar/Avatar";
 import { format } from "date-fns";
 import Link from "next/link";
-import { User, BarChart3, GraduationCap, Eye } from "lucide-react";
+import {
+  User,
+  BarChart3,
+  TrendingUp,
+  BookOpen,
+  FilePenLine,
+  GraduationCap,
+  Eye,
+} from "lucide-react";
 
-const UserProfilePage = () => {
+const UserProfileOrOwnPage = () => {
+  const router = useRouter();
   const params = useParams();
-  const userId = params.id as string;
+  const routeUserId = params.id as string;
+  const routeUserIdAsNumber = parseInt(routeUserId, 10);
 
-  const { userProfile, loadingUserProfile, errorUserProfile } = useUserProfile({
-    userId,
+  const { profile: ownProfile, loadingProfile: loadingOwnProfile } =
+    useProfileContext();
+  const {
+    userProfile: otherUserProfile,
+    loadingUserProfile: loadingOtherUserProfile,
+    errorUserProfile: errorOtherUserProfile,
+  } = useUserProfile({
+    userId: routeUserId,
   });
 
+  const isOwnProfile = ownProfile?.id === routeUserIdAsNumber;
+  const profileToDisplay = isOwnProfile ? ownProfile : otherUserProfile;
+  const loading = isOwnProfile ? loadingOwnProfile : loadingOtherUserProfile;
+
   const formatDate = (dateString?: string) => {
-    if (!dateString) return "Не указано";
+    if (!dateString) return "Not specified";
     try {
       return format(new Date(dateString), "MMMM dd, yyyy");
     } catch {
-      return "Неверная дата";
+      return "Invalid date";
     }
   };
 
-  const memberSince = userProfile?.registration_date
-    ? formatDate(userProfile.registration_date.toString())
+  const memberSince = profileToDisplay?.registration_date
+    ? formatDate(profileToDisplay.registration_date.toString())
     : "...";
 
-  const birthdate = userProfile?.birthdate
-    ? formatDate(userProfile.birthdate)
-    : "Не указано";
+  const birthdate = profileToDisplay?.birthdate
+    ? formatDate(profileToDisplay.birthdate)
+    : "Not specified";
 
-  if (loadingUserProfile) return <Loader />;
+  const totalLearningHours =
+    isOwnProfile && ownProfile?.finished_lessons
+      ? (ownProfile.finished_lessons * 1.5).toFixed(1)
+      : "0";
 
-  if (errorUserProfile) {
+  const completionRate =
+    isOwnProfile &&
+    ownProfile?.finished_lessons &&
+    ownProfile.finished_lessons + (ownProfile.waiting_lessons || 0) > 0
+      ? Math.round(
+          (ownProfile.finished_lessons /
+            (ownProfile.finished_lessons + (ownProfile.waiting_lessons || 0))) *
+            100
+        )
+      : 0;
+
+  const daysActive =
+    isOwnProfile && ownProfile?.registration_date
+      ? Math.floor(
+          (new Date().getTime() -
+            new Date(ownProfile.registration_date).getTime()) /
+            (1000 * 3600 * 24)
+        )
+      : 0;
+
+  const navigateToLessons = () => {
+    router.push("/lessons");
+  };
+
+  const navigateToEditProfile = () => {
+    if (ownProfile?.id) {
+      router.push(`/settings`);
+    }
+  };
+
+  if (loading) return <Loader />;
+
+  if (!isOwnProfile && errorOtherUserProfile) {
     return (
       <div className={styles.errorContainer}>
         <h1>Ошибка загрузки профиля</h1>
-        <p>{errorUserProfile}</p>
+        <p>{errorOtherUserProfile}</p>
         <Link href="/" className={styles.backLink}>
           Вернуться на главную
         </Link>
@@ -50,124 +105,251 @@ const UserProfilePage = () => {
     );
   }
 
+  if (!profileToDisplay) {
+    if (isOwnProfile && !ownProfile && !loadingOwnProfile) {
+      return (
+        <div className={styles.errorContainer}>
+          <h1>Профиль не найден</h1>
+          <p>Не удалось загрузить данные вашего профиля.</p>
+          <Link href="/" className={styles.backLink}>
+            Вернуться на главную
+          </Link>
+        </div>
+      );
+    }
+    if (
+      !isOwnProfile &&
+      !otherUserProfile &&
+      !loadingOtherUserProfile &&
+      !errorOtherUserProfile
+    ) {
+      return (
+        <div className={styles.errorContainer}>
+          <h1>Профиль не найден</h1>
+          <p>
+            Не удалось загрузить данные профиля пользователя с ID: {routeUserId}
+            .
+          </p>
+          <Link href="/" className={styles.backLink}>
+            Вернуться на главную
+          </Link>
+        </div>
+      );
+    }
+    return <Loader />;
+  }
+
   return (
-    <div className={profileStyles.profileContainer}>
-      <div className={profileStyles.profileHeader}>
-        <div className={profileStyles.profileInfo}>
-          <div className={profileStyles.avatarWrapper}>
-            <Avatar avatarId={userProfile?.avatar} size={120} />
+    <div className={styles.profileContainer}>
+      <div className={styles.profileHeader}>
+        <div className={styles.profileInfo}>
+          <div className={styles.avatarWrapper}>
+            <Avatar avatarId={profileToDisplay?.avatar} size={120} />
           </div>
-          <div className={profileStyles.userInfo}>
-            <h1 className={profileStyles.userName}>
-              {userProfile
-                ? `${userProfile.name} ${userProfile.surname}`
-                : "Имя пользователя"}
-              <span className={profileStyles.userId}>
-                ID: {userProfile?.id || "..."}
+          <div className={styles.userInfo}>
+            <h1 className={styles.userName}>
+              {profileToDisplay
+                ? `${profileToDisplay.name} ${profileToDisplay.surname}`
+                : "User Name"}
+              <span className={styles.userId}>
+                ID: {profileToDisplay?.id || "..."}
               </span>
             </h1>
-            <p className={profileStyles.userRole}>
-              {userProfile?.is_teacher ? "Преподаватель и Студент" : "Студент"}
+            <p className={styles.userRole}>
+              {isOwnProfile
+                ? "Student"
+                : profileToDisplay?.is_teacher
+                ? "Преподаватель и Студент"
+                : "Студент"}
             </p>
-            <p className={profileStyles.userMeta}>
-              На платформе с {memberSince}
+            <p className={styles.userMeta}>
+              {isOwnProfile ? "Member since" : "На платформе с"} {memberSince}
             </p>
           </div>
         </div>
+        {isOwnProfile && (
+          <div className={styles.actions}>
+            <button
+              className={styles.lessonsButton}
+              onClick={navigateToLessons}
+            >
+              <BookOpen width={18} height={18} />
+              View My Lessons
+            </button>
+            <button
+              className={styles.editButton}
+              onClick={navigateToEditProfile}
+            >
+              <FilePenLine width={18} height={18} />
+              Edit Profile
+            </button>
+          </div>
+        )}
       </div>
 
-      <div className={profileStyles.content}>
-        <div className={profileStyles.leftColumn}>
-          <section className={`${profileStyles.section} card`}>
-            <h2 className={profileStyles.sectionTitle}>
-              Личная информация
-              <User className={profileStyles.sectionIcon} />
+      <div className={styles.content}>
+        <div className={styles.leftColumn}>
+          <section className={`${styles.section} card`}>
+            <h2 className={styles.sectionTitle}>
+              {isOwnProfile ? "Personal Information" : "Личная информация"}
+              <User className={styles.sectionIcon} />
             </h2>
-            <div className={profileStyles.infoGrid}>
-              <div className={profileStyles.infoItem}>
-                <span className={profileStyles.label}>Email</span>
-                <span className={profileStyles.value}>
-                  {userProfile?.email || "Не указано"}
+            <div className={styles.infoGrid}>
+              <div className={styles.infoItem}>
+                <span className={styles.label}>Email</span>
+                <span className={styles.value}>
+                  {profileToDisplay?.email || "Not specified"}
                 </span>
               </div>
-              <div className={profileStyles.infoItem}>
-                <span className={profileStyles.label}>Полное имя</span>
-                <span className={profileStyles.value}>
-                  {userProfile
-                    ? `${userProfile.name} ${userProfile.surname}`
-                    : "Не указано"}
+              <div className={styles.infoItem}>
+                <span className={styles.label}>Full Name</span>
+                <span className={styles.value}>
+                  {profileToDisplay
+                    ? `${profileToDisplay.name} ${profileToDisplay.surname}`
+                    : "Not specified"}
                 </span>
               </div>
-              <div className={profileStyles.infoItem}>
-                <span className={profileStyles.label}>Дата рождения</span>
-                <span className={profileStyles.value}>{birthdate}</span>
+              <div className={styles.infoItem}>
+                <span className={styles.label}>
+                  {isOwnProfile ? "Date of Birth" : "Дата рождения"}
+                </span>
+                <span className={styles.value}>{birthdate}</span>
               </div>
             </div>
           </section>
 
-          <section className={`${profileStyles.section} card`}>
-            <h2 className={profileStyles.sectionTitle}>
-              Статистика обучения
-              <BarChart3 className={profileStyles.sectionIcon} />
+          <section className={`${styles.section} card`}>
+            <h2 className={styles.sectionTitle}>
+              {isOwnProfile ? "Learning Statistics" : "Статистика обучения"}
+              <BarChart3 className={styles.sectionIcon} />
             </h2>
-            <div className={profileStyles.statsGrid}>
-              <div className={profileStyles.statCard}>
-                <span className={profileStyles.statValue}>
-                  {userProfile?.finished_lessons || 0}
+            <div className={styles.statsGrid}>
+              <div className={styles.statCard}>
+                <span className={styles.statValue}>
+                  {profileToDisplay?.finished_lessons || 0}
                 </span>
-                <span className={profileStyles.statLabel}>
-                  Завершенных уроков
+                <span className={styles.statLabel}>
+                  {isOwnProfile ? "Completed Lessons" : "Завершенных уроков"}
                 </span>
               </div>
-              <div className={profileStyles.statCard}>
-                <span className={profileStyles.statValue}>
-                  {userProfile?.count_of_teachers || 0}
+              <div className={styles.statCard}>
+                <span className={styles.statValue}>
+                  {profileToDisplay?.count_of_teachers || 0}
                 </span>
-                <span className={profileStyles.statLabel}>Преподавателей</span>
+                <span className={styles.statLabel}>
+                  {isOwnProfile ? "Teachers" : "Преподавателей"}
+                </span>
               </div>
-              <div className={profileStyles.statCard}>
-                <span className={profileStyles.statValue}>
-                  {userProfile?.waiting_lessons || 0}
+              <div className={styles.statCard}>
+                <span className={styles.statValue}>
+                  {profileToDisplay?.waiting_lessons || 0}
                 </span>
-                <span className={profileStyles.statLabel}>
-                  Предстоящих уроков
+                <span className={styles.statLabel}>
+                  {isOwnProfile ? "Upcoming Lessons" : "Предстоящих уроков"}
                 </span>
               </div>
             </div>
           </section>
         </div>
 
-        <div className={profileStyles.rightColumn}>
-          <section className={`${profileStyles.section} card`}>
-            <h2 className={profileStyles.sectionTitle}>
-              Статус преподавателя
-              <GraduationCap className={profileStyles.sectionIcon} />
-            </h2>
-            <div className={styles.teacherStatusSection}>
-              {userProfile?.is_teacher ? (
-                <>
+        <div className={styles.rightColumn}>
+          {isOwnProfile && (
+            <section className={`${styles.section} card`}>
+              <h2 className={styles.sectionTitle}>
+                Learning Progress
+                <TrendingUp className={styles.sectionIcon} />
+              </h2>
+              <div className={styles.progressSection}>
+                <div className={styles.progressItem}>
+                  <div className={styles.progressHeader}>
+                    <span className={styles.progressTitle}>
+                      Total Learning Hours
+                    </span>
+                    <span className={styles.progressValue}>
+                      {totalLearningHours}
+                    </span>
+                  </div>
+                  <div className={styles.progressBar}>
+                    <div
+                      className={styles.progressFill}
+                      style={{
+                        width: `${Math.min(
+                          (ownProfile?.finished_lessons || 0) * 10,
+                          100
+                        )}%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div className={styles.progressItem}>
+                  <div className={styles.progressHeader}>
+                    <span className={styles.progressTitle}>
+                      Lessons Completion Rate
+                    </span>
+                    <span className={styles.progressValue}>
+                      {completionRate}%
+                    </span>
+                  </div>
+                  <div className={styles.progressBar}>
+                    <div
+                      className={styles.progressFill}
+                      style={{
+                        width: `${completionRate}%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div className={styles.progressItem}>
+                  <div className={styles.progressHeader}>
+                    <span className={styles.progressTitle}>Days as Member</span>
+                    <span className={styles.progressValue}>{daysActive}</span>
+                  </div>
+                  <div className={styles.progressBar}>
+                    <div
+                      className={styles.progressFill}
+                      style={{
+                        width: `${Math.min(daysActive / 2, 100)}%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+          {!isOwnProfile && otherUserProfile && (
+            <section className={`${styles.section} card`}>
+              <h2 className={styles.sectionTitle}>
+                Статус преподавателя
+                <GraduationCap className={styles.sectionIcon} />
+              </h2>
+              <div className={styles.teacherStatusSection}>
+                {otherUserProfile?.is_teacher ? (
+                  <>
+                    <p className={styles.teacherStatusText}>
+                      Этот пользователь является преподавателем на платформе.
+                    </p>
+                    <Link
+                      href={`/teachers/${otherUserProfile.id}`}
+                      className={styles.teacherButton}
+                    >
+                      <Eye width={20} height={20} />
+                      <span>Посмотреть профиль преподавателя</span>
+                    </Link>
+                  </>
+                ) : (
                   <p className={styles.teacherStatusText}>
-                    Этот пользователь является преподавателем на платформе.
+                    Этот пользователь не является преподавателем на платформе.
                   </p>
-                  <Link
-                    href={`/teachers/${userProfile.id}`}
-                    className={styles.teacherButton}
-                  >
-                    <Eye width={20} height={20} />
-                    <span>Посмотреть профиль преподавателя</span>
-                  </Link>
-                </>
-              ) : (
-                <p className={styles.teacherStatusText}>
-                  Этот пользователь не является преподавателем на платформе.
-                </p>
-              )}
-            </div>
-          </section>
+                )}
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default UserProfilePage;
+export default UserProfileOrOwnPage;
