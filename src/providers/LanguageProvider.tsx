@@ -30,7 +30,21 @@ export const useLanguage = () => {
 const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [language, setLanguage] = useState<Language>("en");
+  const [language, setLanguage] = useState<Language>(() => {
+    // Попытка загрузить язык из localStorage при инициализации
+    if (typeof localStorage !== "undefined") {
+      const savedLanguage = localStorage.getItem("selectedLanguage");
+      if (
+        savedLanguage &&
+        (savedLanguage === "ru" ||
+          savedLanguage === "en" ||
+          savedLanguage === "sr")
+      ) {
+        return savedLanguage as Language;
+      }
+    }
+    return "en"; // Язык по умолчанию, если в localStorage ничего нет или недоступен
+  });
 
   const t =
     language === "ru"
@@ -40,10 +54,15 @@ const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
       : srTranslation;
 
   useEffect(() => {
+    // Установить атрибут lang для документа
     if (typeof document !== "undefined") {
       document.documentElement.lang = language;
     }
-  }, [language]);
+    // Сохранить выбранный язык в localStorage при изменении
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem("selectedLanguage", language);
+    }
+  }, [language]); // Зависимость от языка
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>
