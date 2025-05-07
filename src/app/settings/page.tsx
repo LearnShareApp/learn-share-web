@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useLanguage } from "@/providers/LanguageProvider";
 import styles from "./page.module.scss";
-import { Settings, Bell, Lock, UserCircle, Globe } from "lucide-react";
+import { Bell, Lock, UserCircle, CreditCard } from "lucide-react";
 import { apiService } from "../../utilities/api";
 import { useProfileContext } from "../../providers/ProfileProvider";
 import * as zod from "zod";
@@ -12,13 +11,18 @@ import Loader from "@/components/loader/Loader";
 import Avatar from "@/components/avatar/Avatar";
 import axios, { AxiosError } from "axios";
 
+// Импорт новых компонентов
+import ProfileInformationSettings from "./features/ProfileInformationSettings";
+import DisplaySettings from "./features/DisplaySettings";
+import SettingsSectionPlaceholder from "./features/SettingsSectionPlaceholder";
+
 const profileSchema = zod.object({
   name: zod
     .string()
-    .min(2, { message: "Имя должно содержать минимум 2 символа" }),
+    .min(2, { message: "Name must be at least 2 characters long" }),
   surname: zod
     .string()
-    .min(2, { message: "Фамилия должна содержать минимум 2 символа" }),
+    .min(2, { message: "Surname must be at least 2 characters long" }),
   birthdate: zod.string().optional(),
   avatar: zod.string().optional(),
 });
@@ -39,9 +43,8 @@ const validateProfileData = (data: {
 };
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState("general");
   const { language, setLanguage } = useLanguage();
-  const router = useRouter();
 
   const { profile, loadingProfile, refreshProfile } = useProfileContext();
   const [name, setName] = useState("");
@@ -101,18 +104,18 @@ export default function SettingsPage() {
       });
 
       await refreshProfile();
-      setFormSuccessMessage("Профиль успешно обновлен");
+      setFormSuccessMessage("Profile updated successfully");
       setNewAvatar(undefined);
     } catch (err: unknown) {
       console.error(err);
-      let errorMessage = "Ошибка обновления профиля";
+      let errorMessage = "Error updating profile";
       if (axios.isAxiosError(err)) {
         const axiosError = err as AxiosError<{ message: string }>;
         errorMessage = axiosError.response?.data?.message || axiosError.message;
       } else if (err instanceof Error) {
         errorMessage = err.message;
       }
-      setFormError(`Ошибка обновления профиля: ${errorMessage}`);
+      setFormError(`Error updating profile: ${errorMessage}`);
     } finally {
       setFormLoading(false);
     }
@@ -123,7 +126,7 @@ export default function SettingsPage() {
     if (file) {
       if (file.type.startsWith("image/")) {
         if (file.size > 2 * 1024 * 1024) {
-          setFormError("Файл слишком большой. Максимальный размер - 2MB.");
+          setFormError("File is too large. Maximum size is 2MB.");
           return;
         }
         const reader = new FileReader();
@@ -134,9 +137,7 @@ export default function SettingsPage() {
         };
         reader.readAsDataURL(file);
       } else {
-        setFormError(
-          "Пожалуйста, загрузите изображение в формате JPG, PNG или GIF."
-        );
+        setFormError("Please upload an image in JPG, PNG, or GIF format.");
       }
     }
   };
@@ -147,17 +148,21 @@ export default function SettingsPage() {
   };
 
   const handleCancelEdit = () => {
-    if (profile?.id) {
-      router.push(`/users/${profile.id}`);
-    } else {
-      router.push("/");
+    if (profile) {
+      setName(profile.name || "");
+      setSurname(profile.surname || "");
+      setBirthdate(profile.birthdate ? profile.birthdate.split("T")[0] : "");
+      setNewAvatar(undefined);
+      setCurrentAvatarId(profile.avatar);
+      setFormError("");
+      setFormSuccessMessage("");
     }
   };
 
-  if (loadingProfile && activeTab === "profile") {
+  if (loadingProfile && activeTab === "general") {
     return (
       <div className={styles.container}>
-        <h1 className={styles.title}>Настройки</h1>
+        <h1 className={styles.title}>Settings</h1>
         <div className={styles.settingsLayout}>
           <div className={styles.sidebar}></div>
           <div className={styles.content}>
@@ -170,27 +175,27 @@ export default function SettingsPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Настройки</h1>
+      <h1 className={styles.title}>Settings</h1>
 
       <div className={styles.settingsLayout}>
         <div className={styles.sidebar}>
-          <div
-            className={`${styles.sidebarItem} ${
-              activeTab === "profile" ? styles.active : ""
-            }`}
-            onClick={() => setActiveTab("profile")}
-          >
-            <UserCircle />
-            <span>Профиль</span>
-          </div>
           <div
             className={`${styles.sidebarItem} ${
               activeTab === "general" ? styles.active : ""
             }`}
             onClick={() => setActiveTab("general")}
           >
-            <Settings />
-            <span>Общие</span>
+            <UserCircle />
+            <span>General</span>
+          </div>
+          <div
+            className={`${styles.sidebarItem} ${
+              activeTab === "privacy" ? styles.active : ""
+            }`}
+            onClick={() => setActiveTab("privacy")}
+          >
+            <Lock />
+            <span>Privacy</span>
           </div>
           <div
             className={`${styles.sidebarItem} ${
@@ -199,193 +204,75 @@ export default function SettingsPage() {
             onClick={() => setActiveTab("notifications")}
           >
             <Bell />
-            <span>Уведомления</span>
+            <span>Notifications</span>
           </div>
           <div
             className={`${styles.sidebarItem} ${
-              activeTab === "security" ? styles.active : ""
+              activeTab === "payment" ? styles.active : ""
             }`}
-            onClick={() => setActiveTab("security")}
+            onClick={() => setActiveTab("payment")}
           >
-            <Lock />
-            <span>Безопасность</span>
+            <CreditCard />
+            <span>Payment</span>
           </div>
         </div>
 
         <div className={styles.content}>
           {activeTab === "general" && (
             <div className={styles.section}>
-              <h2 className={styles.sectionTitle}>
-                <Globe className={styles.sectionIcon} />
-                Выбор языка
-              </h2>
-              <div className={styles.languageSelector}>
-                <div
-                  className={`${styles.languageOption} ${
-                    language === "ru" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleLanguageChange("ru")}
-                >
-                  <div className={styles.languageFlag}>🇷🇺</div>
-                  <div className={styles.languageInfo}>
-                    <span className={styles.languageName}>Русский</span>
-                    <span className={styles.languageNative}>Русский</span>
-                  </div>
-                  {language === "ru" && (
-                    <div className={styles.selectedIndicator}></div>
-                  )}
-                </div>
-
-                <div
-                  className={`${styles.languageOption} ${
-                    language === "en" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleLanguageChange("en")}
-                >
-                  <div className={styles.languageFlag}>🇬🇧</div>
-                  <div className={styles.languageInfo}>
-                    <span className={styles.languageName}>Английский</span>
-                    <span className={styles.languageNative}>English</span>
-                  </div>
-                  {language === "en" && (
-                    <div className={styles.selectedIndicator}></div>
-                  )}
-                </div>
-
-                <div
-                  className={`${styles.languageOption} ${
-                    language === "sr" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleLanguageChange("sr")}
-                >
-                  <div className={styles.languageFlag}>🇷🇸</div>
-                  <div className={styles.languageInfo}>
-                    <span className={styles.languageName}>Сербский</span>
-                    <span className={styles.languageNative}>Српски</span>
-                  </div>
-                  {language === "sr" && (
-                    <div className={styles.selectedIndicator}></div>
-                  )}
-                </div>
-              </div>
+              <h2 className={styles.sectionTitle}>Profile Information</h2>
+              <ProfileInformationSettings
+                styles={styles}
+                AvatarComponent={Avatar}
+                profile={profile}
+                name={name}
+                setName={setName}
+                surname={surname}
+                setSurname={setSurname}
+                getAvatarToDisplay={getAvatarToDisplay}
+                handleAvatarChange={handleAvatarChange}
+                onProfileSubmit={handleProfileSubmit}
+                formLoading={formLoading}
+                formError={formError}
+                formSuccessMessage={formSuccessMessage}
+                onCancelEdit={handleCancelEdit}
+              />
+              <DisplaySettings
+                styles={styles}
+                language={language}
+                onLanguageChange={handleLanguageChange}
+              />
             </div>
+          )}
+
+          {activeTab === "privacy" && (
+            <SettingsSectionPlaceholder
+              styles={styles}
+              title="Privacy Settings"
+              IconComponent={Lock}
+            >
+              Privacy settings for your account will be here.
+            </SettingsSectionPlaceholder>
           )}
 
           {activeTab === "notifications" && (
-            <div className={styles.section}>
-              <h2 className={styles.sectionTitle}>Настройки уведомлений</h2>
-              <p>Здесь будут настройки уведомлений</p>
-            </div>
+            <SettingsSectionPlaceholder
+              styles={styles}
+              title="Notification Settings"
+              IconComponent={Bell}
+            >
+              Notification settings will be here.
+            </SettingsSectionPlaceholder>
           )}
 
-          {activeTab === "security" && (
-            <div className={styles.section}>
-              <h2 className={styles.sectionTitle}>Настройки безопасности</h2>
-              <p>Здесь будут настройки безопасности</p>
-            </div>
-          )}
-
-          {activeTab === "profile" && (
-            <div className={styles.section}>
-              <h2 className={styles.sectionTitle}>
-                <UserCircle className={styles.sectionIcon} />
-                Редактирование профиля
-              </h2>
-              {loadingProfile ? (
-                <Loader />
-              ) : (
-                <form
-                  onSubmit={handleProfileSubmit}
-                  className={styles.profileEditForm}
-                >
-                  <div className={styles.profileLayout}>
-                    <div className={styles.avatarSection}>
-                      <div className={styles.avatarPreview}>
-                        <Avatar avatarId={getAvatarToDisplay()} size={120} />
-                      </div>
-                      <div className={styles.avatarControls}>
-                        <label className={styles.fileInputLabel}>
-                          Изменить аватар
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleAvatarChange}
-                            className={styles.fileInput}
-                          />
-                        </label>
-                      </div>
-                    </div>
-
-                    <div className={styles.formFields}>
-                      <div className={styles.formRow}>
-                        <div className={styles.formGroup}>
-                          <label htmlFor="name">Имя:</label>
-                          <input
-                            id="name"
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                            className={styles.input}
-                            placeholder="Введите ваше имя"
-                          />
-                        </div>
-                        <div className={styles.formGroup}>
-                          <label htmlFor="surname">Фамилия:</label>
-                          <input
-                            id="surname"
-                            type="text"
-                            value={surname}
-                            onChange={(e) => setSurname(e.target.value)}
-                            required
-                            className={styles.input}
-                            placeholder="Введите вашу фамилию"
-                          />
-                        </div>
-                      </div>
-
-                      <div className={styles.formGroup}>
-                        <label htmlFor="birthdate">Дата рождения:</label>
-                        <input
-                          id="birthdate"
-                          type="date"
-                          value={birthdate}
-                          onChange={(e) => setBirthdate(e.target.value)}
-                          className={styles.input}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {formError && (
-                    <p className={styles.errorMessage}>{formError}</p>
-                  )}
-                  {formSuccessMessage && (
-                    <p className={styles.successMessage}>
-                      {formSuccessMessage}
-                    </p>
-                  )}
-
-                  <div className={styles.formActions}>
-                    <button
-                      type="button"
-                      onClick={handleCancelEdit}
-                      className={styles.cancelButton}
-                      disabled={formLoading}
-                    >
-                      Отмена
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={formLoading || loadingProfile}
-                      className={styles.submitButton}
-                    >
-                      {formLoading ? "Сохранение..." : "Сохранить изменения"}
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
+          {activeTab === "payment" && (
+            <SettingsSectionPlaceholder
+              styles={styles}
+              title="Payment Methods"
+              IconComponent={CreditCard}
+            >
+              Payment method settings will be here.
+            </SettingsSectionPlaceholder>
           )}
         </div>
       </div>

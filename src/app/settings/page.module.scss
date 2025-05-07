@@ -20,6 +20,7 @@
 .settingsLayout {
   display: flex;
   gap: 32px;
+  align-items: flex-start;
 
   @media (max-width: $breakpoint-md) {
     flex-direction: column;
@@ -208,45 +209,53 @@
 .avatarSection {
   // Секция для аватара и кнопки его смены
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  gap: 20px;
   flex-shrink: 0;
-  width: 180px;
 
   @media (max-width: $breakpoint-md) {
-    width: 100%;
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid $color-border;
+    // width: 100%;
+    // flex-direction: column;
+    // margin-bottom: 2rem;
+    // padding-bottom: 2rem;
+    // border-bottom: 1px solid $color-border;
   }
 }
 
 .avatarPreview {
   // Обертка для компонента Avatar
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   border-radius: 50%;
   overflow: hidden;
-  box-shadow: $shadow-sm; // Немного уменьшил тень для общей страницы настроек
+  box-shadow: $shadow-sm;
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
 }
 
 .avatarControls {
   // Контейнер для кнопки смены аватара
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 280px;
 }
 
 .fileInputLabel {
   // Стилизация <label> для кастомного input[type="file"]
-  @extend %button-like;
-  padding: 0.65rem 1.3rem; // Немного уменьшил паддинги
-  background-color: $color-background-secondary;
-  color: $color-text-primary;
-  margin-top: 0.5rem;
-
-  &:hover {
-    background-color: $color-background-tertiary;
-  }
+  // @extend %button-like;
+  // padding: 0.65rem 1.3rem; // Немного уменьшил паддинги
+  // background-color: $color-background-secondary;
+  // color: $color-text-primary;
+  // margin-top: 0.5rem;
+  // &:hover {
+  //   background-color: $color-background-tertiary;
+  // }
+  // Этот класс можно либо удалить, если он больше нигде не используется,
+  // либо оставить, если предполагается его использование в других местах
+  // Пока что закомментирую его содержимое, так как кнопка UPLOAD теперь имеет другие классы
 }
 
 .fileInput {
@@ -398,4 +407,225 @@
     color: rgba($color-text-light, 0.7);
     cursor: not-allowed;
   }
+}
+
+// Стили для элементов настроек по типу italki
+.settingItem {
+  display: flex;
+  align-items: center; // Выравнивание по центру для элементов разной высоты
+  justify-content: space-between;
+  padding: 20px 0; // Отступы сверху/снизу
+  border-bottom: 1px solid $color-border-light; // Разделитель как в italki
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    // Адаптивность для маленьких экранов
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 16px 0;
+  }
+}
+
+.settingLabel {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  flex-basis: 200px; // Фиксированная или минимальная ширина для метки
+  flex-shrink: 0;
+  margin-right: 24px; // Отступ справа от метки
+
+  @media (max-width: $breakpoint-sm) {
+    flex-basis: auto;
+    margin-right: 0;
+    margin-bottom: 4px; // Небольшой отступ снизу на мобильных
+    font-weight: $font-weight-semibold; // Сделать чуть жирнее на мобильных для акцента
+  }
+}
+
+.settingControl {
+  flex: 1; // Занимает оставшееся пространство
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; // Выравнивание контента контрола по левому краю
+  gap: 16px; // Отступ между элементами внутри контрола (например, текст и кнопка)
+
+  span {
+    // Для отображения текстовых значений (как email)
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    width: 100%; // На мобильных контрол занимает всю ширину
+  }
+}
+
+// Стили для формы профиля внутри вкладки "Общие"
+.profileForm {
+  .settingItem {
+    padding: 16px 0;
+  }
+  .avatarSection {
+    padding: 0;
+    @media (max-width: $breakpoint-sm) {
+      flex-direction: column;
+      align-items: flex-start;
+      .avatarPreview {
+        margin-bottom: 16px;
+      }
+      .avatarControls {
+        margin-top: 0;
+      }
+    }
+  }
+  .formActions {
+    margin-top: 24px;
+    padding-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+}
+
+// Общие стили для полей ввода и селектов
+%form-control-base {
+  padding: 10px 14px;
+  font-size: $font-size-base;
+  border: 1px solid $color-border-dark;
+  border-radius: $border-radius-md;
+  background-color: $color-background-primary;
+  color: $color-text-primary;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+  width: 100%; // По умолчанию занимают всю доступную ширину в своем контейнере
+  max-width: 400px; // Ограничение максимальной ширины
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
+  }
+
+  &::placeholder {
+    color: $color-text-secondary;
+    opacity: 0.7;
+  }
+}
+
+.inputField {
+  @extend %form-control-base;
+}
+
+.selectField {
+  @extend %form-control-base;
+  appearance: none; // Убираем стандартную стрелку
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234B5563' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px; // Место для кастомной стрелки
+}
+
+// Стили для кнопок
+.button {
+  @extend %button-like; // Используем базовый %button-like
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  font-weight: $font-weight-medium; // Немного увеличил жирность для лучшей читаемости
+
+  svg {
+    margin-right: 8px; // Если внутри кнопки есть иконка
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.buttonPrimary {
+  @extend .button; // Наследуем общие стили .button
+  background-color: $color-primary;
+  color: $color-text-light;
+  border-color: $color-primary;
+
+  &:hover {
+    background-color: $color-primary-dark;
+    border-color: $color-primary-dark;
+  }
+}
+
+.buttonSecondary {
+  @extend .button;
+  background-color: transparent;
+  color: $color-text-primary;
+  border-color: $color-border-dark;
+
+  &:hover {
+    background-color: $color-background-secondary;
+    border-color: $color-border-dark;
+  }
+}
+
+// Для кнопок, которые выглядят как ссылки (например, "Change Email")
+.buttonLink {
+  background: none;
+  border: none;
+  color: $color-primary;
+  padding: 0;
+  font-size: $font-size-base;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-primary-dark;
+  }
+}
+
+// Радио-группа для формата времени
+.radioGroup {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: $font-size-base;
+    color: $color-text-primary;
+    cursor: pointer;
+  }
+
+  input[type="radio"] {
+    // Стилизация радио-кнопок может быть сложной и кроссбраузерной
+    // Здесь простой вариант, можно улучшить кастомными стилями или библиотекой
+    accent-color: $color-primary; // Для современных браузеров
+  }
+}
+
+// Убираем лишние стили для выбора языка, так как теперь он обычный selectField
+.languageSelector {
+  // display: flex; // Эти стили больше не нужны в таком виде
+  // flex-direction: column;
+  // gap: 12px;
+  // max-width: 500px;
+}
+
+.languageOption {
+  // display: flex; // Эти стили больше не нужны
+  // ... и остальные стили для .languageOption, .languageFlag, .languageInfo, .selectedIndicator
+  // Удаляем их, так как теперь это стандартный select
+}
+.languageFlag,
+.languageInfo,
+.languageName,
+.languageNative,
+.selectedIndicator {
+  display: none; // Скрываем, так как не используются с select
 }
