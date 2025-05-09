@@ -189,34 +189,73 @@ const UserProfileOrOwnPage = () => {
 
       <div className={styles.content}>
         <div className={styles.leftColumn}>
-          <section className={`${styles.section} card`}>
-            <h2 className={styles.sectionTitle}>
-              {isOwnProfile ? "Personal Information" : "Личная информация"}
-              <User className={styles.sectionIcon} />
-            </h2>
-            <div className={styles.infoGrid}>
-              <div className={styles.infoItem}>
-                <span className={styles.label}>Email</span>
-                <span className={styles.value}>
-                  {profileToDisplay?.email || "Not specified"}
-                </span>
+          {isOwnProfile && (
+            <section className={`${styles.section} card`}>
+              <h2 className={styles.sectionTitle}>
+                {isOwnProfile ? "Personal Information" : "Личная информация"}
+                <User className={styles.sectionIcon} />
+              </h2>
+              <div className={styles.infoGrid}>
+                <div className={styles.infoItem}>
+                  <span className={styles.label}>Email</span>
+                  <span className={styles.value}>
+                    {profileToDisplay?.email || "Not specified"}
+                  </span>
+                </div>
+                <div className={styles.infoItem}>
+                  <span className={styles.label}>Full Name</span>
+                  <span className={styles.value}>
+                    {profileToDisplay
+                      ? `${profileToDisplay.name} ${profileToDisplay.surname}`
+                      : "Not specified"}
+                  </span>
+                </div>
+                <div className={styles.infoItem}>
+                  <span className={styles.label}>
+                    {isOwnProfile ? "Date of Birth" : "Дата рождения"}
+                  </span>
+                  <span className={styles.value}>{birthdate}</span>
+                </div>
               </div>
-              <div className={styles.infoItem}>
-                <span className={styles.label}>Full Name</span>
-                <span className={styles.value}>
-                  {profileToDisplay
-                    ? `${profileToDisplay.name} ${profileToDisplay.surname}`
-                    : "Not specified"}
-                </span>
+            </section>
+          )}
+
+          {!isOwnProfile && (
+            <section className={`${styles.section} card`}>
+              <h2 className={styles.sectionTitle}>
+                Оценка пользователя
+                <Eye className={styles.sectionIcon} />
+              </h2>
+              <div className={styles.infoGrid}>
+                <div className={styles.infoItem}>
+                  <span className={styles.label}>
+                    <User className={styles.itemIcon} size={16} /> Дружелюбный
+                  </span>
+                  <span className={styles.value}>15 человек</span>
+                </div>
+                <div className={styles.infoItem}>
+                  <span className={styles.label}>
+                    <BookOpen className={styles.itemIcon} size={16} />{" "}
+                    Общительный
+                  </span>
+                  <span className={styles.value}>12 человек</span>
+                </div>
+                <div className={styles.infoItem}>
+                  <span className={styles.label}>
+                    <Eye className={styles.itemIcon} size={16} /> Открытый
+                  </span>
+                  <span className={styles.value}>10 человек</span>
+                </div>
+                <div className={styles.infoItem}>
+                  <span className={styles.label}>
+                    <GraduationCap className={styles.itemIcon} size={16} />{" "}
+                    Полезный
+                  </span>
+                  <span className={styles.value}>8 человек</span>
+                </div>
               </div>
-              <div className={styles.infoItem}>
-                <span className={styles.label}>
-                  {isOwnProfile ? "Date of Birth" : "Дата рождения"}
-                </span>
-                <span className={styles.value}>{birthdate}</span>
-              </div>
-            </div>
-          </section>
+            </section>
+          )}
 
           <section className={`${styles.section} card`}>
             <h2 className={styles.sectionTitle}>

@@ -186,12 +186,16 @@
 }
 
 .content {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 32px;
 
+  @media (min-width: $breakpoint-md) {
+    gap: 24px;
+  }
+
   @media (min-width: $breakpoint-lg) {
-    display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     gap: 24px;
     align-items: flex-start;
@@ -199,6 +203,8 @@
 }
 
 .leftColumn {
+  width: 100%;
+
   @media (min-width: $breakpoint-lg) {
     flex: 2;
     display: flex;
@@ -208,6 +214,8 @@
 }
 
 .rightColumn {
+  width: 100%;
+
   @media (min-width: $breakpoint-lg) {
     flex: 1;
     align-self: flex-start;

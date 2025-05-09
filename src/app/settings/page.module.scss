@@ -19,7 +19,7 @@
 
 .settingsLayout {
   display: flex;
-  gap: 32px;
+  gap: 16px;
   align-items: flex-start;
 
   @media (max-width: $breakpoint-md) {
