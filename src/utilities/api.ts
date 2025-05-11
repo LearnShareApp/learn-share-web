@@ -23,6 +23,7 @@ import {
   Complaint,
   ComplaintResponse,
   TeachersResponse,
+  GetAdminSkills,
 } from "@/types/types";
 
 // Получаем URL бекенда из переменной окружения Next.js
@@ -166,6 +167,11 @@ class ApiService {
       `/api/admin/complaints`
     );
     return response.data.complaints;
+  }
+
+  async getAdminSkills(): Promise<GetAdminSkills> {
+    const response = await this.api.get<GetAdminSkills>(`/api/admin/skills`);
+    return response.data;
   }
 
   async approveTeacherSkill(id: number): Promise<string> {

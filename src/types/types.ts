@@ -168,6 +168,7 @@ export interface Complaint {
   reported_id: number;
   reported_name: string;
   reported_surname: string;
+  status?: "pending" | "resolved" | "rejected";
 }
 
 export interface ComplaintResponse {
@@ -176,4 +177,27 @@ export interface ComplaintResponse {
 
 export interface TeachersResponse {
   teachers: TeacherProfile[];
+}
+
+export interface AdminTeacher {
+  avatar: string;
+  name: string;
+  surname: string;
+  teacher_id: number;
+}
+
+export interface AdminTeacherSkill {
+  about: string;
+  category_id: number;
+  rate: number;
+  skill_id: number;
+  teacher_id: number;
+  video_card_link: string;
+  is_active: boolean;
+  reviews_count: number;
+}
+
+export interface GetAdminSkills {
+  skills: AdminTeacherSkill[];
+  teachers: AdminTeacher[];
 }
