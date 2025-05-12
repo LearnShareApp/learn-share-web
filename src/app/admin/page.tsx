@@ -876,7 +876,7 @@ export default function AdminPage() {
                           handleReject(selectedTeacherSkill.skill_id)
                         }
                         disabled={
-                          processingId === selectedTeacherSkill.skill_id
+                          processingId === selectedTeacherSkill.skill_id || true
                         }
                       >
                         {processingId === selectedTeacherSkill.skill_id ? (
@@ -1196,7 +1196,8 @@ export default function AdminPage() {
                           handleRejectComplaint(selectedComplaint.complaint_id)
                         }
                         disabled={
-                          processingId === selectedComplaint.complaint_id
+                          processingId === selectedComplaint.complaint_id ||
+                          true
                         }
                       >
                         {processingId === selectedComplaint.complaint_id ? (
@@ -1214,7 +1215,8 @@ export default function AdminPage() {
                           handleResolveComplaint(selectedComplaint.complaint_id)
                         }
                         disabled={
-                          processingId === selectedComplaint.complaint_id
+                          processingId === selectedComplaint.complaint_id ||
+                          true
                         }
                       >
                         {processingId === selectedComplaint.complaint_id ? (
@@ -1238,7 +1240,9 @@ export default function AdminPage() {
                         selectedComplaint.reported_id
                       )
                     }
-                    disabled={processingId === selectedComplaint.reported_id}
+                    disabled={
+                      processingId === selectedComplaint.reported_id || true
+                    }
                   >
                     {processingId === selectedComplaint.reported_id ? (
                       "Blocking..."
