@@ -169,7 +169,7 @@ export default function AdminPage() {
               teacher_surname: teacher.surname,
               teacher_avatar: teacher.avatar,
               category_name: category ? category.name : "Unknown Category", // Use fetched category name
-              created_at: new Date().toISOString().split("T")[0],
+              // created_at: new Date().toISOString().split("T")[0],
             };
           })
           .filter((skill) => skill !== null) as TeacherSkillDisplay[];

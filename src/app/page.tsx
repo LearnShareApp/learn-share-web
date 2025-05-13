@@ -30,25 +30,25 @@ export default function LandingPage() {
           <div className={styles.heroHeadline}>
             <h1>
               <span className={styles.highlight}>Learn&Share</span>
-              <span>P2P обучение по-новому</span>
+              <span>P2P Learning Reimagined</span>
             </h1>
 
             <p>
-              Децентрализованная платформа для обмена знаниями, где каждый может
-              учить и учиться напрямую от других людей — через индивидуальные
-              занятия, групповые классы и масштабные события.
+              A decentralized knowledge-sharing platform where everyone can
+              teach and learn directly from others - through one-on-one
+              sessions, group classes, and large-scale events.
             </p>
 
             <div className={styles.heroButtons}>
               <Link href="/auth?role=student" className={styles.primaryButton}>
-                <span>Хочу учиться</span>
+                <span>I Want to Learn</span>
                 <ArrowRight size={18} />
               </Link>
               <Link
                 href="/auth?role=teacher"
                 className={styles.secondaryButton}
               >
-                <span>Хочу преподавать</span>
+                <span>I Want to Teach</span>
                 <ArrowRight size={18} />
               </Link>
             </div>
@@ -70,22 +70,22 @@ export default function LandingPage() {
           <div className={styles.keyFeatureContent}>
             <div className={styles.keyFeature}>
               <Info size={24} />
-              <span>Свыше 100 навыков</span>
+              <span>100+ Skills</span>
             </div>
 
             <div className={styles.keyFeature}>
               <CalendarDays size={24} />
-              <span>Гибкое расписание</span>
+              <span>Flexible Scheduling</span>
             </div>
 
             <div className={styles.keyFeature}>
               <Shield size={24} />
-              <span>Безопасное обучение</span>
+              <span>Safe Learning</span>
             </div>
 
             <div className={styles.keyFeature}>
               <Users size={24} />
-              <span>Развитие сообщества</span>
+              <span>Community Growth</span>
             </div>
           </div>
         </div>
@@ -93,16 +93,16 @@ export default function LandingPage() {
 
       <div className={styles.container}>
         <section className={styles.howItWorks}>
-          <h2>Как это работает</h2>
+          <h2>How It Works</h2>
 
           <div className={styles.steps}>
             <div className={styles.step}>
               <div className={styles.stepNumber}>1</div>
               <div className={styles.stepContent}>
-                <h3>Регистрация</h3>
+                <h3>Sign Up</h3>
                 <p>
-                  Создайте аккаунт, заполните профиль и укажите свои интересы и
-                  навыки
+                  Create an account, complete your profile, and specify your
+                  interests and skills
                 </p>
               </div>
             </div>
@@ -110,20 +110,17 @@ export default function LandingPage() {
             <div className={styles.step}>
               <div className={styles.stepNumber}>2</div>
               <div className={styles.stepContent}>
-                <h3>Выберите роль</h3>
-                <p>
-                  Решите, кем вы хотите быть сегодня: учеником или
-                  преподавателем
-                </p>
+                <h3>Choose Your Role</h3>
+                <p>Decide who you want to be today: a student or a teacher</p>
               </div>
             </div>
 
             <div className={styles.step}>
               <div className={styles.stepNumber}>3</div>
               <div className={styles.stepContent}>
-                <h3>Начните обучение</h3>
+                <h3>Start Learning</h3>
                 <p>
-                  Найдите идеального учителя или учеников для обмена знаниями
+                  Find the perfect teacher or students for knowledge exchange
                 </p>
               </div>
             </div>
@@ -131,17 +128,17 @@ export default function LandingPage() {
         </section>
 
         <section className={styles.benefits}>
-          <h2>Ключевые особенности</h2>
+          <h2>Key Features</h2>
 
           <div className={styles.benefitCards}>
             <div className={styles.benefitCard}>
               <div className={styles.benefitIcon}>
                 <User size={32} />
               </div>
-              <h3>Индивидуальные занятия</h3>
+              <h3>One-on-One Sessions</h3>
               <p>
-                Забронируйте персональные сессии с наставниками и экспертами в
-                различных областях
+                Book personal sessions with mentors and experts in various
+                fields
               </p>
             </div>
 
@@ -149,10 +146,9 @@ export default function LandingPage() {
               <div className={styles.benefitIcon}>
                 <Users size={32} />
               </div>
-              <h3>Групповые классы</h3>
+              <h3>Group Classes</h3>
               <p>
-                Организуйте или присоединяйтесь к доступным и совместным учебным
-                занятиям
+                Organize or join affordable and collaborative learning sessions
               </p>
             </div>
 
@@ -160,10 +156,10 @@ export default function LandingPage() {
               <div className={styles.benefitIcon}>
                 <Presentation size={32} />
               </div>
-              <h3>События и вебинары</h3>
+              <h3>Events & Webinars</h3>
               <p>
-                Участвуйте в публичных лекциях, вебинарах и мастер-классах от
-                сообщества
+                Participate in public lectures, webinars, and workshops from the
+                community
               </p>
             </div>
 
@@ -171,21 +167,18 @@ export default function LandingPage() {
               <div className={styles.benefitIcon}>
                 <CheckCircle2 size={32} />
               </div>
-              <h3>Отзывы и рейтинги</h3>
-              <p>
-                Создавайте доверие и прозрачность через проверенные отзывы
-                пользователей
-              </p>
+              <h3>Reviews & Ratings</h3>
+              <p>Build trust and transparency through verified user reviews</p>
             </div>
 
             <div className={styles.benefitCard}>
               <div className={styles.benefitIcon}>
                 <MessageSquare size={32} />
               </div>
-              <h3>Система чата</h3>
+              <h3>Chat System</h3>
               <p>
-                Удобное общение с учителями и учениками до и после занятий для
-                максимальной эффективности
+                Convenient communication with teachers and students before and
+                after sessions for maximum efficiency
               </p>
             </div>
 
@@ -193,10 +186,10 @@ export default function LandingPage() {
               <div className={styles.benefitIcon}>
                 <CreditCard size={32} />
               </div>
-              <h3>Гибкая оплата</h3>
+              <h3>Flexible Payments</h3>
               <p>
-                Удобная система платежей и кошелек для простого управления
-                заработком и расходами
+                Convenient payment system and wallet for easy earnings and
+                expense management
               </p>
             </div>
           </div>
@@ -259,41 +252,64 @@ export default function LandingPage() {
         <section className={styles.statistics}>
           <div className={styles.statItem}>
             <span className={styles.statNumber}>500+</span>
-            <span className={styles.statLabel}>Различных навыков</span>
+            <span className={styles.statLabel}>Different Skills</span>
           </div>
           <div className={styles.statItem}>
             <span className={styles.statNumber}>10,000+</span>
-            <span className={styles.statLabel}>Активных пользователей</span>
+            <span className={styles.statLabel}>Active Users</span>
           </div>
           <div className={styles.statItem}>
             <span className={styles.statNumber}>5,000+</span>
-            <span className={styles.statLabel}>Проведённых занятий</span>
+            <span className={styles.statLabel}>Completed Sessions</span>
           </div>
         </section>
 
         <section className={styles.testimonials}>
-          <h2>Что говорят наши пользователи</h2>
+          <h2>What Our Users Say</h2>
           <div className={styles.testimonialCards}>
             <div className={styles.testimonialCard}>
               <div className={styles.testimonialContent}>
                 <p>
-                  &ldquo;Платформа полностью изменила мой подход к обучению.
-                  Теперь я могу не только получать знания, но и делиться своим
-                  опытом с другими. Прекрасная возможность для профессионального
-                  роста!&rdquo;
+                  &ldquo;The platform completely changed my approach to
+                  learning. Now I can not only gain knowledge but also share my
+                  experience with others. A wonderful opportunity for
+                  professional growth!&rdquo;
                 </p>
               </div>
               <div className={styles.testimonialAuthor}>
                 <Image
                   src="/images/person1.jpg"
-                  alt="Александр К."
+                  alt="Alexander K."
                   width={80}
                   height={80}
                   className={styles.authorAvatar}
                 />
                 <div className={styles.authorInfo}>
-                  <p className={styles.authorName}>Александр К.</p>
-                  <p className={styles.authorRole}>Преподаватель JavaScript</p>
+                  <p className={styles.authorName}>Alexander K.</p>
+                  <p className={styles.authorRole}>JavaScript Instructor</p>
+                </div>
+              </div>
+            </div>
+            <div className={styles.testimonialCard}>
+              <div className={styles.testimonialContent}>
+                <p>
+                  &ldquo;Thanks to Learn&Share, I found the perfect design
+                  teacher. The user-friendly interface, flexible schedule, and
+                  personalized approach made learning extremely
+                  effective.&rdquo;
+                </p>
+              </div>
+              <div className={styles.testimonialAuthor}>
+                <Image
+                  src="/images/person1.jpg"
+                  alt="Maria S."
+                  width={80}
+                  height={80}
+                  className={styles.authorAvatar}
+                />
+                <div className={styles.authorInfo}>
+                  <p className={styles.authorName}>Maria S.</p>
+                  <p className={styles.authorRole}>Student, Web Designer</p>
                 </div>
               </div>
             </div>
@@ -301,46 +317,22 @@ export default function LandingPage() {
             <div className={styles.testimonialCard}>
               <div className={styles.testimonialContent}>
                 <p>
-                  &ldquo;Благодаря Learn&Share, я нашла идеального преподавателя
-                  по дизайну. Удобный интерфейс, гибкое расписание и
-                  индивидуальный подход сделали обучение максимально
-                  эффективным.&rdquo;
+                  &ldquo;As an English teacher, I appreciate the opportunity to
+                  work with motivated students. The platform provides all the
+                  necessary tools for effective teaching.&rdquo;
                 </p>
               </div>
               <div className={styles.testimonialAuthor}>
                 <Image
                   src="/images/person1.jpg"
-                  alt="Мария С."
+                  alt="Elena M."
                   width={80}
                   height={80}
                   className={styles.authorAvatar}
                 />
                 <div className={styles.authorInfo}>
-                  <p className={styles.authorName}>Мария С.</p>
-                  <p className={styles.authorRole}>Студентка, Веб-дизайнер</p>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.testimonialCard}>
-              <div className={styles.testimonialContent}>
-                <p>
-                  &ldquo;Как преподаватель английского языка, я ценю возможность
-                  работать с мотивированными студентами. Платформа предоставляет
-                  все необходимые инструменты для эффективного обучения.&rdquo;
-                </p>
-              </div>
-              <div className={styles.testimonialAuthor}>
-                <Image
-                  src="/images/person1.jpg"
-                  alt="Елена М."
-                  width={80}
-                  height={80}
-                  className={styles.authorAvatar}
-                />
-                <div className={styles.authorInfo}>
-                  <p className={styles.authorName}>Елена М.</p>
-                  <p className={styles.authorRole}>Преподаватель английского</p>
+                  <p className={styles.authorName}>Elena M.</p>
+                  <p className={styles.authorRole}>English Teacher</p>
                 </div>
               </div>
             </div>
@@ -348,18 +340,18 @@ export default function LandingPage() {
         </section>
 
         <section className={styles.callToAction}>
-          <h2>Присоединяйтесь к сообществу сегодня</h2>
+          <h2>Join the Community Today</h2>
           <p>
-            Демократизируем доступ к образованию, делая его гибким, доступным и
-            основанным на сообществе
+            We&apos;re democratizing access to education by making it flexible,
+            accessible, and community-based
           </p>
 
           <div className={styles.ctaButtons}>
             <Link href="/auth?role=student" className={styles.primaryButton}>
-              Начать учиться
+              Start Learning
             </Link>
             <Link href="/auth?role=teacher" className={styles.secondaryButton}>
-              Начать преподавать
+              Start Teaching
             </Link>
           </div>
         </section>
