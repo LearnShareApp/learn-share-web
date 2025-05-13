@@ -113,6 +113,7 @@ export interface TeacherProfile {
   common_reviews_count: number;
   common_rate: number;
   skills: TeacherSkill[];
+  earnings?: number;
 }
 
 export interface TeacherLesson {
