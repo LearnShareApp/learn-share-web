@@ -1,97 +1,170 @@
 "use client";
 
 // import { apiService } from "../../utilities/api";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { apiService } from "../../utilities/api";
 import { TeacherProfile, Category } from "../../types/types";
 import styles from "./page.module.scss";
 import TeacherItem from "@/features/teacher-item/TeacherItem";
 import TeacherVideo from "@/components/teacher-video/TeacherVideo";
-import { Search, ListFilter, Globe, MapPin, Users } from "lucide-react";
+import { ListFilter, Search } from "lucide-react";
 import Loader from "@/components/loader/Loader";
 
+// Простая реализация debounce с улучшенной типизацией
+function debounce<A extends unknown[], R>(
+  func: (...args: A) => R,
+  waitFor: number
+): (...args: A) => void {
+  let timeout: NodeJS.Timeout | null = null;
+
+  return (...args: A): void => {
+    if (timeout !== null) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => func(...args), waitFor);
+  };
+}
+
 export default function TeachersPage() {
-  const [teachers, setTeachers] = useState<TeacherProfile[]>([]);
-  const [allTeachers, setAllTeachers] = useState<TeacherProfile[]>([]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [displayedTeachers, setDisplayedTeachers] = useState<TeacherProfile[]>(
+    []
+  );
+  const [fetchedTeachers, setFetchedTeachers] = useState<TeacherProfile[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [hoveredTeacher, setHoveredTeacher] = useState<TeacherProfile | null>(
     null
   );
 
+  const selectedCategory = searchParams.get("category") || "";
+  const currentSearchTerm = searchParams.get("q") || "";
+
+  const [localSearchTerm, setLocalSearchTerm] = useState(currentSearchTerm);
+
   useEffect(() => {
-    async function fetchData() {
+    setLocalSearchTerm(currentSearchTerm);
+  }, [currentSearchTerm]);
+
+  const updateURLParams = useCallback(
+    (newCategory: string, newSearchTerm: string) => {
+      const params = new URLSearchParams();
+      if (newCategory) params.set("category", newCategory);
+      if (newSearchTerm) params.set("q", newSearchTerm);
+      // Используем replace вместо push, чтобы не засорять историю при каждом изменении фильтра/поиска
+      router.replace(`/teachers?${params.toString()}`);
+    },
+    [router]
+  );
+
+  // Используем нашу самописную debounce функцию
+  const debouncedUpdateSearchURL = useMemo(() => {
+    const fn = (newSearchTerm: string) => {
+      updateURLParams(selectedCategory, newSearchTerm);
+    };
+    return debounce(fn, 500);
+  }, [selectedCategory, updateURLParams]);
+
+  useEffect(() => {
+    async function fetchCategories() {
       try {
-        setLoading(true);
-        // Загружаем категории
         const categoriesData = await apiService.getCategories();
         setCategories(categoriesData);
-
-        // Загружаем учителей
-        const teachersData = await apiService.getTeachers();
-        setAllTeachers(teachersData);
-        setTeachers(teachersData);
       } catch (err) {
-        console.error("Ошибка при получении данных:", err);
+        console.error("Ошибка при получении категорий:", err);
+      }
+    }
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    async function loadInitialTeachers() {
+      try {
+        setLoading(true);
+        const teachersData = await apiService.getTeachers({
+          category: selectedCategory,
+        });
+        setFetchedTeachers(teachersData);
+      } catch (err) {
+        console.error("Ошибка при получении учителей:", err);
+        setFetchedTeachers([]);
       } finally {
         setLoading(false);
       }
     }
-    fetchData();
-  }, []);
+    loadInitialTeachers();
+  }, [selectedCategory]);
 
-  // Фильтрация учителей по выбранной категории
   useEffect(() => {
-    if (!selectedCategory || selectedCategory === "") {
-      setTeachers(allTeachers);
+    if (!currentSearchTerm) {
+      setDisplayedTeachers(fetchedTeachers);
       return;
     }
 
-    const categoryId = parseInt(selectedCategory);
-    const filteredTeachers = allTeachers.filter(
-      (teacher) =>
-        teacher.skills &&
-        teacher.skills.some((skill) => skill.category_id === categoryId)
-    );
+    const searchTermLower = currentSearchTerm.toLowerCase();
+    const filtered = fetchedTeachers.filter((teacher) => {
+      const nameMatch = teacher.name.toLowerCase().includes(searchTermLower);
+      const surnameMatch = teacher.surname
+        .toLowerCase()
+        .includes(searchTermLower);
+      const skillsMatch = teacher.skills?.some(
+        (skill) =>
+          skill.category_name.toLowerCase().includes(searchTermLower) ||
+          (skill.about && skill.about.toLowerCase().includes(searchTermLower))
+      );
+      return nameMatch || surnameMatch || skillsMatch;
+    });
+    setDisplayedTeachers(filtered);
+  }, [currentSearchTerm, fetchedTeachers]);
 
-    setTeachers(filteredTeachers);
-  }, [selectedCategory, allTeachers]);
-
-  // Обработчик наведения мыши на карточку учителя
   const handleTeacherHover = (teacher: TeacherProfile) => {
     setHoveredTeacher(teacher);
   };
 
-  // Обработчик изменения категории
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value);
+    const categoryId = e.target.value;
+    updateURLParams(categoryId, currentSearchTerm);
   };
 
-  // Сброс всех фильтров
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearchTerm = e.target.value;
+    setLocalSearchTerm(newSearchTerm);
+    debouncedUpdateSearchURL(newSearchTerm);
+  };
+
   const handleResetFilters = () => {
-    setSelectedCategory("");
-    setTeachers(allTeachers);
+    setLocalSearchTerm("");
+    updateURLParams("", "");
   };
 
-  if (loading) {
+  if (
+    loading &&
+    displayedTeachers.length === 0 &&
+    fetchedTeachers.length === 0
+  ) {
     return <Loader />;
   }
 
   return (
     <div className={styles.content}>
-      <section className="card">
-        <form className={styles.searchForm}>
+      <section className={`card ${styles.filterSection}`}>
+        <div className={styles.searchAndFilterContainer}>
           <div className={styles.searchContainer}>
             <input
               type="text"
               className={styles.searchInput}
-              placeholder="Search for Teachers..."
+              placeholder="Поиск по имени, фамилии, навыкам..."
+              value={localSearchTerm}
+              onChange={handleSearchInputChange}
             />
             <button
               type="submit"
               className={styles.searchButton}
               aria-label="Search"
+              onClick={() => updateURLParams(selectedCategory, localSearchTerm)}
             >
               <Search className={styles.navIcon} />
             </button>
@@ -106,54 +179,30 @@ export default function TeachersPage() {
               >
                 <option value="">Все категории</option>
                 {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
+                  <option key={category.id} value={category.id.toString()}>
                     {category.name}
                   </option>
                 ))}
               </select>
             </div>
-
-            <div className={styles.filterWrapper}>
-              <Globe className={styles.filterIcon} />
-              <select className={styles.filter}>
-                <option value="">Язык</option>
-                <option value="ru">Русский</option>
-                <option value="en">Английский</option>
-                <option value="es">Испанский</option>
-              </select>
-            </div>
-            <div className={styles.filterWrapper}>
-              <MapPin className={styles.filterIcon} />
-              <select className={styles.filter}>
-                <option value="">Откуда учителя</option>
-                <option value="local">Местные</option>
-                <option value="foreign">Иностранные</option>
-              </select>
-            </div>
-            <div className={styles.filterWrapper}>
-              <Users className={styles.filterIcon} />
-              <select className={styles.filter}>
-                <option value="">Все учителя</option>
-                <option value="professional">Профессиональные</option>
-                <option value="non-professional">Непрофессиональные</option>
-              </select>
-            </div>
-            <button
-              type="button"
-              className={styles.resetButton}
-              onClick={handleResetFilters}
-            >
-              Сбросить фильтры
-            </button>
+            {(selectedCategory || currentSearchTerm) && (
+              <button
+                type="button"
+                className={styles.resetButton}
+                onClick={handleResetFilters}
+              >
+                Сбросить все
+              </button>
+            )}
           </div>
-        </form>
+        </div>
       </section>
       <section className={styles.resultsSection}>
         <div className={`${styles.teachersList}`}>
-          {loading ? (
-            <p>Загрузка...</p>
-          ) : teachers.length > 0 ? (
-            teachers.map((teacher) => (
+          {loading && displayedTeachers.length === 0 ? (
+            <p>Загрузка учителей...</p>
+          ) : displayedTeachers.length > 0 ? (
+            displayedTeachers.map((teacher) => (
               <div
                 key={teacher.teacher_id}
                 onMouseEnter={() => handleTeacherHover(teacher)}
@@ -163,7 +212,8 @@ export default function TeachersPage() {
             ))
           ) : (
             <p className={styles.noResults}>
-              Учителя по выбранным критериям не найдены
+              Учителя по выбранным критериям не найдены. Попробуйте изменить
+              фильтры или поисковый запрос.
             </p>
           )}
         </div>

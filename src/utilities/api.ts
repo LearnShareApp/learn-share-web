@@ -210,9 +210,20 @@ class ApiService {
     return response.data.token;
   }
 
-  async getTeachers(is_mine?: boolean): Promise<TeacherProfile[]> {
+  async getTeachers(params?: {
+    is_mine?: boolean;
+    category?: string;
+  }): Promise<TeacherProfile[]> {
+    const queryParams = new URLSearchParams();
+    if (params?.is_mine) {
+      queryParams.append("is_mine", "true");
+    }
+    if (params?.category && params.category !== "") {
+      queryParams.append("category_id", params.category);
+    }
+
     const response = await this.api.get<TeachersResponse>(
-      `/api/teachers?${is_mine ? "is_mine=true" : ""}`
+      `/api/teachers?${queryParams.toString()}`
     );
     return response.data.teachers || [];
   }
