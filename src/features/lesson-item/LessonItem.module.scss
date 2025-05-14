@@ -149,3 +149,18 @@
   color: #666;
   font-weight: 500;
 }
+
+.cancelledLesson {
+  background: #fff6f6;
+  border: 1px solid #f5c2c7;
+  opacity: 0.7;
+}
+
+.cancelledStatus {
+  color: #dc2626;
+  font-weight: 600;
+  background: #fee2e2;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 1rem;
+}

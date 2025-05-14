@@ -96,11 +96,17 @@ export default function BookPage() {
   // Render time slots for a selected day
   const renderTimeSlots = (dateStr: string) => {
     return groupedTimeSlots[dateStr].map((slot) => {
-      const time = new Date(slot.datetime).toLocaleTimeString([], {
+      const startDate = new Date(slot.datetime);
+      const time = startDate.toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
       });
-
+      const endTime = new Date(
+        startDate.getTime() + 30 * 60000
+      ).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
       return (
         <button
           key={slot.schedule_time_id}
@@ -112,7 +118,7 @@ export default function BookPage() {
           }
           disabled={!slot.is_available}
         >
-          {time}
+          {time}–{endTime}
         </button>
       );
     });

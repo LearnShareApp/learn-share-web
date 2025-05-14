@@ -51,7 +51,9 @@ const TeachingPage = () => {
           setUpcomingLessons(
             sortedLessons.filter(
               (lesson) =>
-                lesson.status !== "finished" && lesson.status !== "cancelled"
+                lesson.status !== "finished" &&
+                lesson.status !== "cancel" &&
+                lesson.status !== "cancelled"
             )
           );
           setNewRequests(

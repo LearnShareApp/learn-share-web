@@ -8,6 +8,7 @@ import styles from "./page.module.scss";
 import TeacherItem from "@/features/teacher-item/TeacherItem";
 import TeacherVideo from "@/components/teacher-video/TeacherVideo";
 import { Search, ListFilter, Globe, MapPin, Users } from "lucide-react";
+import Loader from "@/components/loader/Loader";
 
 export default function TeachersPage() {
   const [teachers, setTeachers] = useState<TeacherProfile[]>([]);
@@ -72,6 +73,10 @@ export default function TeachersPage() {
     setSelectedCategory("");
     setTeachers(allTeachers);
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className={styles.content}>

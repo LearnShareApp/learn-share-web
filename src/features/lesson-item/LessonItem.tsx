@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { apiService } from "../../utilities/api";
 import Avatar from "@/components/avatar/Avatar";
 import { Lesson, TeacherLesson } from "../../types/types";
@@ -15,8 +15,32 @@ const LessonItem: React.FC<LessonItemProps> = ({
   isTeacher = false,
 }) => {
   const router = useRouter();
+  console.log(lesson);
   const [isLoading, setIsLoading] = useState(false);
-  const lessonDate = new Date(lesson.datetime);
+  const lessonDate = useMemo(
+    () => new Date(lesson.datetime),
+    [lesson.datetime]
+  );
+
+  // Проверяем, должен ли урок быть автоматически завершен
+  useEffect(() => {
+    const autoFinishLesson = async () => {
+      if (isTeacher && lesson.status === "ongoing") {
+        const lessonEndTime = new Date(lessonDate.getTime() + 35 * 60 * 1000); // 35 минут после начала
+        if (Date.now() > lessonEndTime.getTime()) {
+          try {
+            await apiService.lessonFinish(lesson.lesson_id);
+            // Обновляем страницу после завершения урока
+            window.location.reload();
+          } catch (error) {
+            console.error("Error auto-finishing lesson:", error);
+          }
+        }
+      }
+    };
+
+    autoFinishLesson();
+  }, [isTeacher, lesson.status, lesson.lesson_id, lessonDate]);
 
   // Check if the lesson is in the past
   const isPastLesson = lesson.status === "finished";
@@ -139,11 +163,15 @@ const LessonItem: React.FC<LessonItemProps> = ({
     }
   };
 
+  // Проверка на отменённый урок
+  const isCancelledLesson =
+    lesson.status === "cancel" || lesson.status === "cancelled";
+
   return (
     <div
       className={`${styles.lessonItem} ${
         isPastLesson ? styles.pastLesson : ""
-      }`}
+      } ${isCancelledLesson ? styles.cancelledLesson : ""}`}
     >
       <div className={styles.avatarWrapper}>
         <Avatar
@@ -165,14 +193,16 @@ const LessonItem: React.FC<LessonItemProps> = ({
             {formattedDate} at {formattedTime}
           </p>
         </div>
-
-        {!isPastLesson && <p>Remaining: {timeLeftString}</p>}
+        {!isPastLesson && !isCancelledLesson && (
+          <p>Remaining: {timeLeftString}</p>
+        )}
       </div>
 
       <div className={styles.actionWrapper}>
-        {!isPastLesson ? (
+        {isCancelledLesson ? (
+          <span className={styles.cancelledStatus}>canceled</span>
+        ) : !isPastLesson ? (
           isTeacher ? (
-            // For teachers, show "Start lesson" button if the lesson is starting soon (less than 5 minutes)
             lessonStartingSoon ? (
               <button
                 className={`${styles.joinButton} ${
@@ -189,7 +219,6 @@ const LessonItem: React.FC<LessonItemProps> = ({
               </span>
             )
           ) : (
-            // For students, simply show "Join lesson" button
             <button
               className={`${styles.joinButton} ${
                 isLoading ? styles.loading : ""
