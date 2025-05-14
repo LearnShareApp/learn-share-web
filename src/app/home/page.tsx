@@ -22,7 +22,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const teachersData = await apiService.getTeachers(true);
+        const teachersData = await apiService.getTeachers({ is_mine: true });
         setTeachers(teachersData);
       } catch (error) {
         console.error("Error fetching teachers:", error);
