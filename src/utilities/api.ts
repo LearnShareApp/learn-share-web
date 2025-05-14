@@ -219,7 +219,7 @@ class ApiService {
       queryParams.append("is_mine", "true");
     }
     if (params?.category && params.category !== "") {
-      queryParams.append("category_id", params.category);
+      queryParams.append("category", params.category);
     }
 
     const response = await this.api.get<TeachersResponse>(

@@ -125,8 +125,8 @@ export default function TeachersPage() {
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const categoryId = e.target.value;
-    updateURLParams(categoryId, currentSearchTerm);
+    const categoryName = e.target.value;
+    updateURLParams(categoryName, currentSearchTerm);
   };
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -179,7 +179,7 @@ export default function TeachersPage() {
               >
                 <option value="">Все категории</option>
                 {categories.map((category) => (
-                  <option key={category.id} value={category.id.toString()}>
+                  <option key={category.id} value={category.name}>
                     {category.name}
                   </option>
                 ))}
