@@ -1,24 +1,27 @@
 "use client";
 
 import Loader from "@/components/loader/Loader";
-import { useAvatar } from "@/hooks/avatar-hook";
-import {
-  apiService,
-  TeacherSkill,
-  TeacherProfile,
-  Review,
-} from "@/utilities/api";
+import { apiService } from "@/utilities/api";
+import { TeacherSkill, Review, ComplaintData } from "../../../types/types";
 import { useParams } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import Avatar from "@/components/avatar/Avatar";
 import styles from "./page.module.scss";
-import SkillBadge from "@/components/skill-badge/SkillBadge";
-import ReviewItem from "@/components/review-item/ReviewItem";
+import SkillBadge from "@/features/skill-badge/SkillBadge";
+import ReviewItem from "@/features/review-item/ReviewItem";
+import { useTeacher } from "@/hooks/useTeacher";
+import { DollarSign, Clock, MapPin, Globe, Languages } from "lucide-react";
 
 export default function TeacherProfilePage() {
   const { teacherId } = useParams();
-  const [teacher, setTeacher] = useState<TeacherProfile>();
-  const [loading, setLoading] = useState(true);
+  const validTeacherId = Array.isArray(teacherId) ? teacherId[0] : teacherId;
+
+  // Используем хук useTeacher вместо прямого вызова API
+  const { teacher, loadingTeacher, errorTeacher } = useTeacher({
+    teacherId: validTeacherId,
+  });
+
+  const [loading, setLoading] = useState(false);
   const [arrowPositioned, setArrowPositioned] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<TeacherSkill | null>(null);
   const skillBadgeRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -26,55 +29,39 @@ export default function TeacherProfilePage() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  useEffect(() => {
-    async function fetchTeachers() {
-      try {
-        const validTeacherId = Array.isArray(teacherId)
-          ? teacherId[0]
-          : teacherId;
-        if (!validTeacherId) {
-          console.error("teacherId не определён");
-          setLoading(false);
-          return;
-        }
-        const teachersData = await apiService.getTeacherById(validTeacherId);
-        setTeacher(teachersData);
-      } catch (err) {
-        console.error("Ошибка при получении учителей:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchTeachers();
-  }, [teacherId]);
-
-  useEffect(() => {
-    async function fetchReviews() {
-      try {
-        const validTeacherId = Array.isArray(teacherId)
-          ? teacherId[0]
-          : teacherId;
-        if (!validTeacherId) {
-          console.error("teacherId не определён");
-          return;
-        }
-        const reviewsData = await apiService.getTeacherReviews(validTeacherId);
-        setReviews(reviewsData);
-      } catch (err) {
-        console.error("Ошибка при получении отзывов:", err);
-      }
-    }
-    fetchReviews();
-  }, [teacherId]);
-
-  const { avatarSource, loadingAvatar } = useAvatar(teacher?.avatar || null);
-
+  // Эффект для установки начального навыка
   useEffect(() => {
     if (teacher && teacher.skills.length > 0) {
       setSelectedSkill(teacher.skills[0]);
     }
   }, [teacher]);
 
+  // Эффект для позиционирования стрелки
+  useEffect(() => {
+    if (!selectedSkill || !skillDescriptionRef.current) return;
+    setArrowPositioned(true);
+  }, [selectedSkill]);
+
+  // Загружаем отзывы, когда данные преподавателя загружены
+  useEffect(() => {
+    async function fetchReviews() {
+      if (!validTeacherId || !teacher) return;
+
+      setLoading(true);
+      try {
+        const reviewsData = await apiService.getTeacherReviews(validTeacherId);
+        setReviews(reviewsData);
+      } catch (err) {
+        console.error("Ошибка при получении отзывов:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchReviews();
+  }, [validTeacherId, teacher]);
+
+  // Эффект для расчета позиции стрелки
   useEffect(() => {
     // Функция для расчета и установки позиции стрелки
     const updateArrowPosition = () => {
@@ -197,16 +184,55 @@ export default function TeacherProfilePage() {
     setIsExpanded(!isExpanded);
   };
 
-  // Обновляем условие отображения лоадера
-  if (loading || loadingAvatar || !arrowPositioned) return <Loader />;
-  if (!teacher) return <h1>error</h1>;
+  // Обработчик для отправки жалобы
+  const handleReport = async () => {
+    const reason = prompt("Укажите причину жалобы:");
+    if (!reason) {
+      alert("Причина жалобы не указана.");
+      return;
+    }
+    const description = prompt("Опишите подробнее (необязательно):") || "";
+
+    if (teacher?.teacher_id && validTeacherId) {
+      const complaintData: ComplaintData = {
+        reported_id: teacher.teacher_id,
+        reason: reason,
+        description: description,
+      };
+      try {
+        setLoading(true); // Показываем лоадер на время отправки
+        await apiService.sendComplaint(complaintData);
+        alert("Жалоба успешно отправлена.");
+      } catch (error) {
+        console.error("Ошибка при отправке жалобы:", error);
+        alert("Не удалось отправить жалобу. Попробуйте позже.");
+      } finally {
+        setLoading(false); // Скрываем лоадер
+      }
+    } else {
+      alert("Не удалось определить ID преподавателя для жалобы.");
+    }
+  };
+
+  // Обновляем условие отображения лоадера, включая проверку loading
+  if (loadingTeacher || loading) return <Loader />;
+
+  // Обработка ошибок
+  if (errorTeacher || !teacher) {
+    return (
+      <div className={styles.errorContainer}>
+        <h1>Ошибка при загрузке профиля преподавателя</h1>
+        <p>{errorTeacher || "Преподаватель не найден"}</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
       <div className={`${styles.left}`}>
         <section className={`${styles.section} card`}>
           <div className={styles.avatar}>
-            <Avatar size={100} src={avatarSource} />
+            <Avatar size={100} avatarId={teacher.avatar} />
             <div className={styles.nameDate}>
               <h2>
                 {teacher?.name} {teacher?.surname}
@@ -221,6 +247,9 @@ export default function TeacherProfilePage() {
                   : "Registration date unknown"}
               </p>
             </div>
+            <button onClick={handleReport} className={styles.reportButton}>
+              Пожаловаться
+            </button>
           </div>
           <div className={styles.profileDescription}>
             <h3>About me</h3>
@@ -335,6 +364,29 @@ export default function TeacherProfilePage() {
           </div>
         </section>
 
+        {/* Секция для бейджей */}
+        <section className={`${styles.section} ${styles.badges} card`}>
+          <h3>Achievements</h3>
+          <div className={styles.badgesGrid}>
+            <div className={styles.badge}>
+              <div className={styles.badgeIcon}>🏆</div>
+              <span className={styles.badgeName}>Top Teacher</span>
+            </div>
+            <div className={styles.badge}>
+              <div className={styles.badgeIcon}>⭐</div>
+              <span className={styles.badgeName}>100+ Lessons</span>
+            </div>
+            <div className={styles.badge}>
+              <div className={styles.badgeIcon}>🔥</div>
+              <span className={styles.badgeName}>Fast Responder</span>
+            </div>
+            <div className={styles.badge}>
+              <div className={styles.badgeIcon}>📚</div>
+              <span className={styles.badgeName}>Experienced Methodist</span>
+            </div>
+          </div>
+        </section>
+
         <h3>Reviews</h3>
         <section
           className={`${styles.reviews} card ${
@@ -360,43 +412,76 @@ export default function TeacherProfilePage() {
         )}
       </div>
 
-      <div className={styles.video}>
-        <div
-          style={{
-            position: "relative",
-            paddingBottom: "56.25%",
-            height: 0,
-            overflow: "hidden",
-          }}
-        >
-          <iframe
+      <div className={styles.right}>
+        <div className={styles.videoContainer}>
+          <div
             style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
+              position: "relative",
+              paddingBottom: "56.25%",
+              height: 0,
+              overflow: "hidden",
             }}
-            src={
-              `https://www.youtube-nocookie.com/embed/` +
-              selectedSkill?.video_card_link
-            }
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          >
+            <iframe
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+              src={
+                `https://www.youtube-nocookie.com/embed/` +
+                selectedSkill?.video_card_link
+              }
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+
+          <div className={styles.buttons}>
+            <button
+              onClick={() =>
+                (window.location.href = `/book?teacherId=${teacherId}`)
+              }
+            >
+              Book lesson
+            </button>
+            <button>Contact teacher</button>
+          </div>
         </div>
 
-        <div className={styles.buttons}>
-          <button
-            onClick={() =>
-              (window.location.href = `/book?teacherId=${teacherId}`)
-            }
-          >
-            Book lesson
-          </button>
-          <button>Contact teacher</button>
-        </div>
+        {/* Секция Quick Info */}
+        <section className={`${styles.section} ${styles.quickInfo} card`}>
+          <h3>Quick Info</h3>
+          <div className={styles.quickInfoList}>
+            <div className={styles.quickInfoItem}>
+              <DollarSign width={20} height={20} />
+              <span className={styles.quickInfoText}>$45 per hour</span>
+            </div>
+            <div className={styles.quickInfoItem}>
+              <Clock width={20} height={20} />
+              <span className={styles.quickInfoText}>
+                Available Weekdays, Evenings
+              </span>
+            </div>
+            <div className={styles.quickInfoItem}>
+              <MapPin width={20} height={20} />
+              <span className={styles.quickInfoText}>New York, USA</span>
+            </div>
+            <div className={styles.quickInfoItem}>
+              <Globe width={20} height={20} />
+              <span className={styles.quickInfoText}>
+                1-on-1, Group Classes
+              </span>
+            </div>
+            <div className={styles.quickInfoItem}>
+              <Languages width={20} height={20} />
+              <span className={styles.quickInfoText}>English, Spanish</span>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

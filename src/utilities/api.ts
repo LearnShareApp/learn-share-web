@@ -1,159 +1,33 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import {
+  LoginData,
+  SignUpData,
+  AddSkillData,
+  AddTimeData,
+  AddReview,
+  Review,
+  ReviewResponse,
+  LessonRequestData,
+  LoginResponse,
+  Category,
+  CategoriesResponse,
+  DateTime,
+  TimesResponse,
+  UserProfile,
+  TeacherProfile,
+  TeacherLesson,
+  Lesson,
+  TeacherLessonResponse,
+  LessonResponse,
+  ComplaintData,
+  Complaint,
+  ComplaintResponse,
+  TeachersResponse,
+  GetAdminSkills,
+} from "@/types/types";
 
 // Получаем URL бекенда из переменной окружения Next.js
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
-
-export interface LoginData {
-  email: string;
-  password: string;
-}
-
-export interface SignUpData extends LoginData {
-  name: string;
-  surname: string;
-  birthdate: Date;
-}
-
-export interface AddSkillData {
-  about: string;
-  video_card_link: string;
-  category_id: number;
-}
-
-export interface AddTimeData {
-  datetime: Date;
-}
-
-export interface AddReview {
-  category_id: number;
-  comment: string;
-  rate: number;
-  teacher_id: number;
-}
-
-export interface Review {
-  id: number;
-  comment: string;
-  rate: number;
-  user_id: number;
-  student_name: string;
-  student_surname: string;
-  student_avatar: string;
-}
-
-export interface ReviewResponse {
-  reviews: Review[];
-}
-
-export interface LessonRequestData {
-  teacher_id: number;
-  category_id: number;
-  schedule_time_id: number;
-}
-
-export interface LoginResponse {
-  token: string;
-}
-
-export interface Category {
-  id: number;
-  min_age: number;
-  name: string;
-}
-
-export interface Skill {
-  label: string;
-  value: string | null;
-}
-
-export interface CategoriesResponse {
-  categories: Category[];
-}
-
-export interface DateTime {
-  datetime: Date;
-  is_available: boolean;
-  schedule_time_id: number;
-}
-
-export interface TimesResponse {
-  datetimes: DateTime[];
-}
-
-export interface UserProfile {
-  id: number;
-  email: string;
-  name: string;
-  surname: string;
-  birthdate: string;
-  avatar: string;
-  count_of_teachers: number;
-  waiting_lessons: number;
-  verification_lessons: number;
-  finished_lessons: number;
-  registration_date: Date;
-}
-
-export interface TeacherSkill {
-  about: string;
-  category_id: number;
-  category_name: string;
-  rate: number;
-  skill_id: number;
-  video_card_link: string;
-}
-
-export interface TeacherProfile {
-  avatar: string;
-  user_id: number;
-  teacher_id: number;
-  registration_date: Date;
-  email: string;
-  name: string;
-  surname: string;
-  birthdate: string;
-  finished_lessons: number;
-  count_of_students: number;
-  common_reviews_count: number;
-  common_rate: number;
-  skills: TeacherSkill[];
-}
-
-export interface TeacherLesson {
-  lesson_id: number;
-  student_id: number;
-  student_name: string;
-  student_surname: string;
-  student_avatar: string;
-  category_id: number;
-  category_name: string;
-  status: string;
-  datetime: Date;
-}
-
-export interface Lesson {
-  lesson_id: number;
-  teacher_id: number;
-  teacher_name: string;
-  teacher_surname: string;
-  teacher_avatar: string;
-  category_id: number;
-  category_name: string;
-  status: string;
-  datetime: Date;
-}
-
-export interface TeacherLessonResponse {
-  lessons: TeacherLesson[];
-}
-
-export interface LessonResponse {
-  lessons: Lesson[];
-}
-
-export interface TeachersResponse {
-  teachers: TeacherProfile[];
-}
 
 class ApiService {
   private api: AxiosInstance;
@@ -276,6 +150,42 @@ class ApiService {
     return response.data;
   }
 
+  async getUserProfileById(id: string | number): Promise<UserProfile> {
+    const response = await this.api.get<UserProfile>(
+      `/api/users/${id}/profile`
+    );
+    return response.data;
+  }
+
+  async getIsAdmin(): Promise<boolean> {
+    const response = await this.api.get<boolean>(`/api/user/is-admin`);
+    return response.data;
+  }
+
+  async getComplaints(): Promise<Complaint[]> {
+    const response = await this.api.get<ComplaintResponse>(
+      `/api/admin/complaints`
+    );
+    return response.data.complaints;
+  }
+
+  async getAdminSkills(): Promise<GetAdminSkills> {
+    const response = await this.api.get<GetAdminSkills>(`/api/admin/skills`);
+    return response.data;
+  }
+
+  async approveTeacherSkill(id: number): Promise<string> {
+    const response = await this.api.put<ComplaintResponse>(
+      `/api/admin/skills/${id}/approve`
+    );
+    return response.statusText;
+  }
+
+  async sendComplaint(data: ComplaintData): Promise<string> {
+    const response = await this.api.post("/api/complaint", data);
+    return response.statusText;
+  }
+
   async getTeacherProfile(): Promise<TeacherProfile> {
     const response = await this.api.get<TeacherProfile>("/api/teacher");
     return response.data;
@@ -300,9 +210,20 @@ class ApiService {
     return response.data.token;
   }
 
-  async getTeachers(is_mine?: boolean): Promise<TeacherProfile[]> {
+  async getTeachers(params?: {
+    is_mine?: boolean;
+    category?: string;
+  }): Promise<TeacherProfile[]> {
+    const queryParams = new URLSearchParams();
+    if (params?.is_mine) {
+      queryParams.append("is_mine", "true");
+    }
+    if (params?.category && params.category !== "") {
+      queryParams.append("category", params.category);
+    }
+
     const response = await this.api.get<TeachersResponse>(
-      `/api/teachers?${is_mine ? "is_mine=true" : ""}`
+      `/api/teachers?${queryParams.toString()}`
     );
     return response.data.teachers || [];
   }

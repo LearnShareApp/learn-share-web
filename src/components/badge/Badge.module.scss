@@ -1,0 +1,18 @@
+@use "../../styles/variables.scss" as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: $border-radius-full;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  background-color: $color-background-secondary;
+  transition: all $transition-fast;
+}
+
+.skillBadge {
+  background-color: $color-background-tertiary;
+  color: $color-text-secondary;
+}

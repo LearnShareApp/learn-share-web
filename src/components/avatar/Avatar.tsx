@@ -1,20 +1,24 @@
 import Image from "next/image";
 import React from "react";
+import { useAvatar } from "@/hooks/avatar-hook";
 
 interface AvatarProps {
   size: number;
-  src: string;
+  avatarId: string | null | undefined;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ size, src }) => {
+const Avatar: React.FC<AvatarProps> = ({ size, avatarId }) => {
+  const { avatarSource } = useAvatar(avatarId ?? null);
+
   return (
     <Image
-      src={src}
+      src={avatarSource}
       alt="User Avatar"
       width={size}
       height={size}
       style={{
         borderRadius: "50%",
+        border: "none",
         objectFit: "cover",
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
       }}

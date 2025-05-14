@@ -2,239 +2,289 @@
 @use "sass:color" as color;
 
 .pageContainer {
-  width: 100%;
-  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16;
 }
 
 .dashboardLayout {
   display: flex;
+  flex-direction: column;
   gap: 16px;
 
-  @media (max-width: $breakpoint-lg) {
-    flex-direction: column;
+  @media (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
   }
 }
 
 .mainColumn {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  background: $color-background-primary;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: $shadow-md;
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px;
+  }
 }
 
 .sideColumn {
-  flex: 1;
+  .skillsSection {
+    background: $color-background-primary;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: $shadow-md;
+
+    @media (max-width: 768px) {
+      padding: 20px;
+    }
+
+    @media (max-width: 480px) {
+      padding: 16px;
+    }
+  }
 }
 
 .title {
-  font-size: $font-size-2xl;
-  font-weight: $font-weight-bold;
+  font-size: 2rem;
+  font-weight: 600;
   color: $color-text-primary;
-  margin-bottom: 16px;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 }
 
 .teacherHeader {
-  background-color: $color-background-primary;
-  border-radius: $border-radius-lg;
+  background: $color-background-primary;
+  border-radius: 12px;
   padding: 24px;
   box-shadow: $shadow-md;
-  margin-bottom: 32px;
+}
+
+.headerTop {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.headerActions {
+  display: flex;
+  gap: 16px;
+}
+
+.iconButton {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-background-tertiary;
+  color: $color-text-secondary;
+  transition: all 0.2s;
+
+  &:hover {
+    background: $color-border-light;
+    color: $color-text-primary;
+  }
+
+  @media (max-width: 480px) {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.notificationBadge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: $color-danger;
+  color: $color-text-light;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
 }
 
 .statistics {
-  display: flex;
-  gap: 24px;
-  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
 
-  @media (max-width: $breakpoint-md) {
-    flex-direction: column;
-    gap: 16px;
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
   }
 }
 
 .statItem {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  background-color: $color-background-secondary;
+  gap: 16px;
   padding: 16px;
-  border-radius: $border-radius-md;
-  flex: 1;
-  transition: transform $transition-fast;
+  background: $color-background-secondary;
+  border-radius: 8px;
 
-  &:hover {
-    transform: translateY(-2px);
+  @media (max-width: 480px) {
+    padding: 12px;
   }
+}
+
+.statIcon {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  background: $color-border-light;
+  border-radius: 8px;
+  color: $color-text-secondary;
+
+  @media (max-width: 480px) {
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+  }
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
 }
 
 .statValue {
-  font-size: $font-size-xl;
-  font-weight: $font-weight-bold;
-  color: $color-primary;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $color-text-primary;
+
+  @media (max-width: 480px) {
+    font-size: 1.25rem;
+  }
 }
 
 .statLabel {
-  font-size: $font-size-sm;
+  font-size: 0.875rem;
   color: $color-text-secondary;
 }
 
-.description {
-  font-size: $font-size-lg;
-  color: $color-text-secondary;
-  margin-bottom: 32px;
-  line-height: 1.5;
-}
-
-.buttonContainer {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 32px;
-
-  @media (max-width: $breakpoint-md) {
-    flex-direction: column;
-    gap: 12px;
-  }
-}
-
-.button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 14px 20px;
-  font-size: $font-size-base;
-  font-weight: $font-weight-medium;
-  color: $color-text-light;
-  background-color: $color-primary;
-  border: none;
-  border-radius: $border-radius-md;
-  cursor: pointer;
-  transition: background-color $transition-fast, transform $transition-fast;
-  flex: 1;
-  text-decoration: none;
-  text-align: center;
-
-  &:hover {
-    background-color: $color-primary-dark;
-    transform: translateY(-2px);
-  }
-}
-
-.buttonIcon {
-  font-size: $font-size-lg;
-}
-
-.skillsSection {
-  background-color: $color-background-primary;
-  border-radius: $border-radius-lg;
-  padding: 24px;
-  box-shadow: $shadow-md;
-  margin-bottom: 32px;
-
-  h2 {
-    font-size: $font-size-xl;
-    font-weight: $font-weight-semibold;
-    color: $color-text-primary;
-    margin-bottom: 16px;
-  }
-}
-
-.skillsList {
+.quickActions {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
-}
 
-.skillCard {
-  background-color: $color-background-secondary;
-  border-radius: $border-radius-md;
-  padding: 20px;
-  transition: transform $transition-fast, box-shadow $transition-fast;
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: $shadow-md;
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  h3 {
-    font-size: $font-size-lg;
-    font-weight: $font-weight-semibold;
-    color: $color-text-primary;
-    margin-top: 0;
-    margin-bottom: 12px;
-  }
-
-  p {
-    font-size: $font-size-sm;
-    color: $color-text-secondary;
-    margin-bottom: 16px;
-    line-height: 1.5;
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
   }
 }
 
-.skillRating {
+.actionButton {
   display: flex;
   align-items: center;
-  gap: 4px;
-}
-
-.ratingValue {
-  font-size: $font-size-base;
-  font-weight: $font-weight-bold;
+  gap: 12px;
+  padding: 16px;
+  background: $color-background-primary;
+  border-radius: 8px;
   color: $color-text-primary;
-}
-
-.star {
-  color: #f5a623;
-}
-
-.addSkillCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: $color-background-secondary;
-  border: 2px dashed $color-border;
-  border-radius: $border-radius-md;
-  padding: 20px;
-  height: 100%;
-  transition: background-color $transition-fast, border-color $transition-fast;
   text-decoration: none;
+  transition: all 0.2s;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
   &:hover {
-    background-color: color.adjust($color-background-secondary, $lightness: 2%);
-    border-color: $color-primary;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
-  .addIcon {
-    font-size: 32px;
-    font-weight: $font-weight-bold;
-    color: $color-primary;
-    margin-bottom: 12px;
+  @media (max-width: 480px) {
+    padding: 12px;
+  }
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: $color-danger;
+  color: $color-text-light;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.tabs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 16px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
   }
 
-  p {
-    font-size: $font-size-sm;
-    color: $color-text-secondary;
-    text-align: center;
+  @media (max-width: 480px) {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+}
+
+.tab {
+  padding: 12px 24px;
+  border: none;
+  background: none;
+  font-size: 1rem;
+  color: $color-text-secondary;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+
+  &:hover {
+    background: $color-background-tertiary;
+  }
+
+  &.active {
+    background: $color-border-light;
+    color: $color-text-primary;
+    font-weight: 500;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px 16px;
+    font-size: 0.875rem;
   }
 }
 
 .lessonsSection {
-  padding: 24px;
-  background-color: $color-background-primary;
-  border-radius: $border-radius-md;
-  box-shadow: $shadow-md;
-
   h2 {
-    font-size: $font-size-xl;
-    font-weight: $font-weight-semibold;
+    margin-bottom: 24px;
+    font-size: 1.5rem;
     color: $color-text-primary;
-    margin-top: 0;
-    margin-bottom: 16px;
+
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+    }
   }
 }
 
@@ -244,110 +294,170 @@
   gap: 16px;
 }
 
-.loading {
-  font-size: $font-size-lg;
-  color: $color-text-secondary;
+.emptyState {
   text-align: center;
-  padding: 32px 0;
-}
-
-.emptyListMessage {
-  font-size: $font-size-base;
+  padding: 48px 32px;
   color: $color-text-secondary;
-  text-align: center;
-  padding: 24px;
-  background-color: $color-background-secondary;
-  border-radius: $border-radius-md;
 
-  a {
-    color: $color-primary;
-    text-decoration: none;
-    font-weight: $font-weight-medium;
+  p {
+    margin: 16px 0;
+  }
 
-    &:hover {
-      text-decoration: underline;
-    }
+  @media (max-width: 768px) {
+    padding: 32px 16px;
   }
 }
 
-/* Стили для страницы "Стать преподавателем" */
-.becomeTeacherCard {
-  background-color: $color-background-primary;
-  border-radius: $border-radius-lg;
-  padding: 32px;
-  box-shadow: $shadow-md;
-  max-width: 800px;
-  margin: 40px auto;
-  text-align: center;
-}
-
-.stepsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin: 32px 0;
-}
-
-.step {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  text-align: left;
-  background-color: $color-background-secondary;
-  padding: 20px;
-  border-radius: $border-radius-md;
-  transition: transform $transition-fast;
+.primaryButton {
+  display: inline-block;
+  padding: 12px 24px;
+  background: $color-primary;
+  color: $color-text-light;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s;
 
   &:hover {
-    transform: translateY(-2px);
+    background: $color-primary-dark;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px 16px;
+    font-size: 0.875rem;
   }
 }
 
-.stepNumber {
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: $color-text-primary;
+
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
+}
+
+.addButton {
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: $color-primary;
-  border-radius: 50%;
-  color: $color-text-light;
-  font-size: $font-size-lg;
-  font-weight: $font-weight-bold;
-  flex-shrink: 0;
-}
-
-.stepContent {
-  h3 {
-    font-size: $font-size-lg;
-    font-weight: $font-weight-semibold;
-    color: $color-text-primary;
-    margin-top: 0;
-    margin-bottom: 8px;
-  }
-
-  p {
-    font-size: $font-size-base;
-    color: $color-text-secondary;
-    margin: 0;
-    line-height: 1.5;
-  }
-}
-
-.becomeTeacherButton {
-  display: inline-block;
-  padding: 14px 32px;
-  background-color: $color-primary;
-  color: $color-text-light;
-  font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
-  border: none;
-  border-radius: $border-radius-md;
-  cursor: pointer;
+  background: $color-border-light;
+  border-radius: 6px;
+  color: $color-text-secondary;
   text-decoration: none;
-  transition: background-color $transition-fast;
+  transition: all 0.2s;
 
   &:hover {
-    background-color: $color-primary-dark;
+    background: $color-border;
+  }
+
+  @media (max-width: 480px) {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.skillsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skillCard {
+  padding: 24px;
+  background: $color-background-secondary;
+  border-radius: 8px;
+  transition: all 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px;
+  }
+}
+
+.skillHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: $color-text-primary;
+
+    @media (max-width: 768px) {
+      font-size: 1.125rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    margin-bottom: 12px;
+  }
+}
+
+.skillRating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffc107;
+}
+
+.ratingValue {
+  font-weight: 600;
+}
+
+.skillDescription {
+  color: $color-text-secondary;
+  margin-bottom: 16px;
+  line-height: 1.5;
+
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+    margin-bottom: 12px;
+  }
+}
+
+.skillActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.editButton {
+  padding: 8px 16px;
+  background: $color-border-light;
+  color: $color-text-secondary;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s;
+
+  &:hover {
+    background: $color-border;
+  }
+
+  @media (max-width: 480px) {
+    padding: 6px 12px;
+    font-size: 0.875rem;
   }
 }

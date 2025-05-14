@@ -1,204 +1,225 @@
 "use client";
 
 // import { apiService } from "../../utilities/api";
-import { useEffect, useState } from "react";
-import { apiService, TeacherProfile } from "../../utilities/api";
+import { useEffect, useState, useCallback, useMemo } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { apiService } from "../../utilities/api";
+import { TeacherProfile, Category } from "../../types/types";
 import styles from "./page.module.scss";
-import TeacherItem from "@/components/teacher-item/TeacherItem";
+import TeacherItem from "@/features/teacher-item/TeacherItem";
+import TeacherVideo from "@/components/teacher-video/TeacherVideo";
+import { ListFilter, Search } from "lucide-react";
+import Loader from "@/components/loader/Loader";
+
+// Простая реализация debounce с улучшенной типизацией
+function debounce<A extends unknown[], R>(
+  func: (...args: A) => R,
+  waitFor: number
+): (...args: A) => void {
+  let timeout: NodeJS.Timeout | null = null;
+
+  return (...args: A): void => {
+    if (timeout !== null) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => func(...args), waitFor);
+  };
+}
 
 export default function TeachersPage() {
-  const [teachers, setTeachers] = useState<TeacherProfile[]>([]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [displayedTeachers, setDisplayedTeachers] = useState<TeacherProfile[]>(
+    []
+  );
+  const [fetchedTeachers, setFetchedTeachers] = useState<TeacherProfile[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [hoveredTeacher, setHoveredTeacher] = useState<TeacherProfile | null>(
+    null
+  );
+
+  const selectedCategory = searchParams.get("category") || "";
+  const currentSearchTerm = searchParams.get("q") || "";
+
+  const [localSearchTerm, setLocalSearchTerm] = useState(currentSearchTerm);
 
   useEffect(() => {
-    async function fetchTeachers() {
+    setLocalSearchTerm(currentSearchTerm);
+  }, [currentSearchTerm]);
+
+  const updateURLParams = useCallback(
+    (newCategory: string, newSearchTerm: string) => {
+      const params = new URLSearchParams();
+      if (newCategory) params.set("category", newCategory);
+      if (newSearchTerm) params.set("q", newSearchTerm);
+      // Используем replace вместо push, чтобы не засорять историю при каждом изменении фильтра/поиска
+      router.replace(`/teachers?${params.toString()}`);
+    },
+    [router]
+  );
+
+  // Используем нашу самописную debounce функцию
+  const debouncedUpdateSearchURL = useMemo(() => {
+    const fn = (newSearchTerm: string) => {
+      updateURLParams(selectedCategory, newSearchTerm);
+    };
+    return debounce(fn, 500);
+  }, [selectedCategory, updateURLParams]);
+
+  useEffect(() => {
+    async function fetchCategories() {
       try {
-        const teachersData = await apiService.getTeachers();
-        setTeachers(teachersData);
+        const categoriesData = await apiService.getCategories();
+        setCategories(categoriesData);
+      } catch (err) {
+        console.error("Ошибка при получении категорий:", err);
+      }
+    }
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    async function loadInitialTeachers() {
+      try {
+        setLoading(true);
+        const teachersData = await apiService.getTeachers({
+          category: selectedCategory,
+        });
+        setFetchedTeachers(teachersData);
       } catch (err) {
         console.error("Ошибка при получении учителей:", err);
+        setFetchedTeachers([]);
       } finally {
         setLoading(false);
       }
     }
-    fetchTeachers();
-  }, []);
+    loadInitialTeachers();
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    if (!currentSearchTerm) {
+      setDisplayedTeachers(fetchedTeachers);
+      return;
+    }
+
+    const searchTermLower = currentSearchTerm.toLowerCase();
+    const filtered = fetchedTeachers.filter((teacher) => {
+      const nameMatch = teacher.name.toLowerCase().includes(searchTermLower);
+      const surnameMatch = teacher.surname
+        .toLowerCase()
+        .includes(searchTermLower);
+      const skillsMatch = teacher.skills?.some(
+        (skill) =>
+          skill.category_name.toLowerCase().includes(searchTermLower) ||
+          (skill.about && skill.about.toLowerCase().includes(searchTermLower))
+      );
+      return nameMatch || surnameMatch || skillsMatch;
+    });
+    setDisplayedTeachers(filtered);
+  }, [currentSearchTerm, fetchedTeachers]);
+
+  const handleTeacherHover = (teacher: TeacherProfile) => {
+    setHoveredTeacher(teacher);
+  };
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const categoryName = e.target.value;
+    updateURLParams(categoryName, currentSearchTerm);
+  };
+
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearchTerm = e.target.value;
+    setLocalSearchTerm(newSearchTerm);
+    debouncedUpdateSearchURL(newSearchTerm);
+  };
+
+  const handleResetFilters = () => {
+    setLocalSearchTerm("");
+    updateURLParams("", "");
+  };
+
+  if (
+    loading &&
+    displayedTeachers.length === 0 &&
+    fetchedTeachers.length === 0
+  ) {
+    return <Loader />;
+  }
 
   return (
     <div className={styles.content}>
-      <section className="card">
-        <form className={styles.searchForm}>
+      <section className={`card ${styles.filterSection}`}>
+        <div className={styles.searchAndFilterContainer}>
           <div className={styles.searchContainer}>
             <input
               type="text"
               className={styles.searchInput}
-              placeholder="Search for Teachers..."
+              placeholder="Поиск по имени, фамилии, навыкам..."
+              value={localSearchTerm}
+              onChange={handleSearchInputChange}
             />
             <button
               type="submit"
               className={styles.searchButton}
               aria-label="Search"
+              onClick={() => updateURLParams(selectedCategory, localSearchTerm)}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={styles.navIcon}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
+              <Search className={styles.navIcon} />
             </button>
           </div>
           <div className={styles.filtersContainer}>
             <div className={styles.filterWrapper}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={styles.filterIcon}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+              <ListFilter className={styles.filterIcon} />
+              <select
+                className={styles.filter}
+                value={selectedCategory}
+                onChange={handleCategoryChange}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h.01M4 10h.01M4 14h.01M4 18h.01M8 6h.01M8 10h.01M8 14h.01M8 18h.01M12 6h.01M12 10h.01M12 14h.01M12 18h.01M16 6h.01M16 10h.01M16 14h.01M16 18h.01M20 6h.01M20 10h.01M20 14h.01M20 18h.01"
-                />
-              </svg>
-              <select className={styles.filter}>
-                <option value="">All Categories</option>
-                <option value="matematika">Mathematics</option>
-                <option value="fizika">Physics</option>
-                <option value="himiya">Chemistry</option>
-                {/* Можно добавить другие категории */}
+                <option value="">Все категории</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
             </div>
-            <div className={styles.filterWrapper}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={styles.filterIcon}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            {(selectedCategory || currentSearchTerm) && (
+              <button
+                type="button"
+                className={styles.resetButton}
+                onClick={handleResetFilters}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 2v2m0 16v2m9-11h-2M4 12H2m15.364-6.364l-1.414 1.414M6.05 17.95l-1.414 1.414m12.728 0l-1.414-1.414M6.05 6.05L4.636 7.464"
-                />
-              </svg>
-              <select className={styles.filter}>
-                <option value="">Price</option>
-                <option value="asc">Ascending</option>
-                <option value="desc">Descending</option>
-              </select>
-            </div>
-            <div className={styles.filterWrapper}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={styles.filterIcon}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 2a10 10 0 100 20 10 10 0 000-20z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M2 12h20"
-                />
-              </svg>
-              <select className={styles.filter}>
-                <option value="">Language</option>
-                <option value="ru">Russian</option>
-                <option value="en">English</option>
-                <option value="es">Spanish</option>
-              </select>
-            </div>
-            <div className={styles.filterWrapper}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={styles.filterIcon}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 2c4.418 0 8 3.582 8 8 0 7-8 12-8 12S4 17 4 10c0-4.418 3.582-8 8-8z"
-                />
-              </svg>
-              <select className={styles.filter}>
-                <option value="">Teachers from</option>
-                <option value="local">Local</option>
-                <option value="foreign">Foreign</option>
-              </select>
-            </div>
-            <div className={styles.filterWrapper}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={styles.filterIcon}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 20h5v-2a4 4 0 00-5-3.74M9 20H4v-2a4 4 0 015-3.74M12 4a4 4 0 110 8 4 4 0 010-8z"
-                />
-              </svg>
-              <select className={styles.filter}>
-                <option value="">All Teachers</option>
-                <option value="professional">Professional</option>
-                <option value="non-professional">Non-professional</option>
-              </select>
-            </div>
-            <button type="reset" className={styles.resetButton}>
-              Reset Filters
-            </button>
+                Сбросить все
+              </button>
+            )}
           </div>
-        </form>
+        </div>
       </section>
       <section className={styles.resultsSection}>
         <div className={`${styles.teachersList}`}>
-          {loading ? (
-            <p>Загрузка...</p>
-          ) : (
-            teachers.map((teacher) => (
-              <TeacherItem key={teacher.teacher_id} teacher={teacher} />
+          {loading && displayedTeachers.length === 0 ? (
+            <p>Загрузка учителей...</p>
+          ) : displayedTeachers.length > 0 ? (
+            displayedTeachers.map((teacher) => (
+              <div
+                key={teacher.teacher_id}
+                onMouseEnter={() => handleTeacherHover(teacher)}
+              >
+                <TeacherItem teacher={teacher} category={selectedCategory} />
+              </div>
             ))
+          ) : (
+            <p className={styles.noResults}>
+              Учителя по выбранным критериям не найдены. Попробуйте изменить
+              фильтры или поисковый запрос.
+            </p>
           )}
         </div>
-        <div className={styles.info}></div>
+        <div className={styles.info}>
+          <TeacherVideo teacher={hoveredTeacher} />
+        </div>
       </section>
     </div>
   );

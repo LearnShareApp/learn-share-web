@@ -1,12 +1,16 @@
 // Цветовая палитра
-$color-page-background: #999999;
+$color-page-background: #f9f9f9;
+
+// $color-primary: #3b82f6;
+// $color-primary-light: #93c5fd;
+// $color-primary-dark: #1d4ed8;
 
 $color-primary: #d4a373;
 $color-primary-light: #e6c19c;
 $color-primary-dark: #b28f5d;
 
-$color-text-primary: #333333;
-$color-text-secondary: #666666;
+$color-text-primary: #1f2937;
+$color-text-secondary: #4b5563;
 $color-text-light: #ffffff;
 
 $color-text-error: #dc2626;
@@ -20,6 +24,19 @@ $color-border-light: #f3f4f6;
 $color-border-dark: #d1d5db;
 $color-border-primary: $color-primary;
 $color-border-error: #ef4444;
+
+// Цвета статусов
+$color-success: #10b981;
+$color-success-light: #d1fae5;
+$color-success-dark: #059669;
+
+$color-danger: #ef4444;
+$color-danger-light: #fee2e2;
+$color-danger-dark: #dc2626;
+
+$color-warning: #f59e0b;
+$color-warning-light: #fef3c7;
+$color-warning-dark: #d97706;
 
 // Тени
 $shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);

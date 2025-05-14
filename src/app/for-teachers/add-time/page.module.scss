@@ -4,6 +4,10 @@
   max-width: $container-max-width;
   margin: 0 auto;
   padding: 24px;
+
+  @media (max-width: $breakpoint-sm) {
+    padding: 8px;
+  }
 }
 
 .header {
@@ -52,6 +56,10 @@
     color: $color-text-primary;
     margin-top: 0;
     margin-bottom: 16px;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    padding: 12px;
   }
 }
 
@@ -113,6 +121,34 @@
   }
 }
 
+.dateTimeContainer {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+
+  .formGroup {
+    flex: 1;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.timeInputContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+}
+
 .input {
   padding: 12px 16px;
   border: 2px solid $color-border;
@@ -128,6 +164,11 @@
 
   &:hover {
     border-color: $color-border-dark;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-sm;
+    padding: 10px 12px;
   }
 }
 
@@ -150,6 +191,11 @@
   &:disabled {
     background-color: $color-background-tertiary;
     cursor: not-allowed;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-sm;
+    padding: 10px 12px;
   }
 }
 
@@ -208,5 +254,41 @@
     color: $color-text-secondary;
     line-height: 1.5;
     margin: 0;
+  }
+}
+
+.endTime {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  padding: 4px 8px;
+  background-color: $color-background-secondary;
+  border-radius: $border-radius-sm;
+  display: inline-block;
+}
+
+.timeList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.timeListItem {
+  background: $color-background-secondary;
+  border-radius: $border-radius-sm;
+  padding: 8px 12px;
+  font-size: $font-size-base;
+  color: $color-text-primary;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (max-width: $breakpoint-sm) {
+  .timeListItem {
+    font-size: $font-size-sm;
+    padding: 6px 8px;
   }
 }

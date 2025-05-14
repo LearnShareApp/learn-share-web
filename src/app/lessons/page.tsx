@@ -2,8 +2,9 @@
 
 import styles from "./page.module.scss";
 import { useEffect, useState } from "react";
-import { apiService, Lesson } from "../../utilities/api";
-import LessonItem from "@/components/lesson-item/LessonItem";
+import { apiService } from "../../utilities/api";
+import { Lesson } from "../../types/types";
+import LessonItem from "@/features/lesson-item/LessonItem";
 import Loader from "@/components/loader/Loader";
 
 export default function SchedulePage() {

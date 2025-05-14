@@ -1,5 +1,346 @@
-.container {
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
+@use "../../styles/variables.scss" as *;
+
+.title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  width: 100%;
+  min-height: calc(100vh - $header-height);
+  align-items: center;
+
+  @media (max-width: $breakpoint-lg) {
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    padding: 1rem;
+  }
+}
+
+.contactInfo {
+  background: $color-background-primary;
+  padding: 2.5rem;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  @media (max-width: $breakpoint-md) {
+    padding: 2rem;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  h2 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    margin-bottom: 0.5rem;
+
+    @media (max-width: $breakpoint-sm) {
+      font-size: $font-size-xl;
+    }
+  }
+}
+
+.description {
+  color: $color-text-secondary;
+  font-size: $font-size-base;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-sm;
+  }
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: $border-radius-md;
+  transition: background-color $transition-fast;
+
+  @media (max-width: $breakpoint-sm) {
+    padding: 0.75rem;
+  }
+
+  &:hover {
+    background-color: $color-background-secondary;
+  }
+
+  .icon {
+    color: $color-primary;
+    font-size: 1.5rem;
+    margin-top: 0.25rem;
+
+    @media (max-width: $breakpoint-sm) {
+      font-size: 1.25rem;
+    }
+  }
+
+  h3 {
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
+    margin-bottom: 0.25rem;
+
+    @media (max-width: $breakpoint-sm) {
+      font-size: $font-size-sm;
+    }
+  }
+
+  a {
+    color: $color-text-primary;
+    text-decoration: none;
+    transition: color $transition-fast;
+    font-size: $font-size-lg;
+
+    @media (max-width: $breakpoint-sm) {
+      font-size: $font-size-base;
+    }
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+}
+
+.socials {
+  margin-top: auto;
+  padding: 1.5rem;
+  border-radius: $border-radius-md;
+  background-color: $color-background-secondary;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  justify-content: space-between;
+
+  @media (max-width: $breakpoint-sm) {
+    padding: 1rem;
+    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  h3 {
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
+    margin: 0;
+    white-space: nowrap;
+
+    @media (max-width: $breakpoint-sm) {
+      font-size: $font-size-sm;
+    }
+  }
+}
+
+.socialIcons {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+
+  @media (max-width: $breakpoint-sm) {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  a {
+    color: $color-text-secondary;
+    font-size: 1.25rem;
+    transition: all $transition-fast;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $border-radius-full;
+    background-color: $color-background-primary;
+    box-shadow: $shadow-sm;
+
+    @media (max-width: $breakpoint-sm) {
+      width: 36px;
+      height: 36px;
+    }
+
+    &:hover {
+      color: $color-primary;
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+      background-color: $color-background-primary;
+    }
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+
+      @media (max-width: $breakpoint-sm) {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+}
+
+.formContainer {
+  background: $color-background-primary;
+  padding: 2.5rem;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+
+  @media (max-width: $breakpoint-md) {
+    padding: 2rem;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    padding: 1.5rem;
+  }
+
+  h2 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    margin-bottom: 1.5rem;
+
+    @media (max-width: $breakpoint-sm) {
+      font-size: $font-size-xl;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (max-width: $breakpoint-sm) {
+    gap: 1rem;
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
+  }
+
+  input,
+  textarea {
+    padding: 1rem;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-md;
+    font-size: $font-size-base;
+    transition: all $transition-fast;
+    background-color: $color-background-secondary;
+
+    @media (max-width: $breakpoint-sm) {
+      padding: 0.75rem;
+      font-size: $font-size-sm;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
+    }
+
+    &::placeholder {
+      color: $color-text-secondary;
+      opacity: 0.7;
+    }
+  }
+}
+
+.statusMessage {
+  padding: 1rem;
+  border-radius: $border-radius-md;
+  margin-bottom: 1.5rem;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  animation: slideIn 0.3s ease;
+
+  @media (max-width: $breakpoint-sm) {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: $font-size-xs;
+  }
+
+  &.success {
+    background-color: $color-success-light;
+    color: $color-success-dark;
+    border: 1px solid $color-success;
+  }
+
+  &.error {
+    background-color: $color-danger-light;
+    color: $color-danger-dark;
+    border: 1px solid $color-danger;
+  }
+}
+
+.submitButton {
+  background: $color-primary;
+  color: $color-text-light;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all $transition-fast;
+  text-align: center;
+
+  @media (max-width: $breakpoint-sm) {
+    padding: 0.75rem 1.5rem;
+    font-size: $font-size-sm;
+  }
+
+  &:hover:not(:disabled) {
+    background: $color-primary-dark;
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

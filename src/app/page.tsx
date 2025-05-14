@@ -2,215 +2,360 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import {
+  ArrowRight,
+  Info,
+  CalendarDays,
+  Shield,
+  Users,
+  User,
+  Presentation,
+  CheckCircle2,
+  MessageSquare,
+  CreditCard,
+  LayoutPanelLeft,
+  Palette,
+  Languages,
+  Star,
+  Code,
+  Music,
+} from "lucide-react";
 import styles from "./page.module.scss";
 
 export default function LandingPage() {
   return (
-    <div className={styles.container}>
+    <div className={styles.landingPage}>
       <section className={styles.hero}>
         <div className={styles.heroContent}>
-          <h1>
-            Welcome to{` `}
-            <span className={styles.highlight}>Learn&Share</span>
-          </h1>
-          <p>Innovative platform for skills and knowledge exchange!</p>
-          <div className={styles.heroButtons}>
-            <Link href="/auth" className={styles.primaryButton}>
+          <div className={styles.heroHeadline}>
+            <h1>
+              <span className={styles.highlight}>Learn&Share</span>
+              <span>P2P Learning Reimagined</span>
+            </h1>
+
+            <p>
+              A decentralized knowledge-sharing platform where everyone can
+              teach and learn directly from others - through one-on-one
+              sessions, group classes, and large-scale events.
+            </p>
+
+            <div className={styles.heroButtons}>
+              <Link href="/auth?role=student" className={styles.primaryButton}>
+                <span>I Want to Learn</span>
+                <ArrowRight size={18} />
+              </Link>
+              <Link
+                href="/auth?role=teacher"
+                className={styles.secondaryButton}
+              >
+                <span>I Want to Teach</span>
+                <ArrowRight size={18} />
+              </Link>
+            </div>
+          </div>
+
+          <div className={styles.heroVisual}>
+            <Image
+              src="/images/hero-image.jpg"
+              alt="Learn&Share Platform"
+              className={styles.heroImage}
+              width={500}
+              height={400}
+              priority
+            />
+          </div>
+        </div>
+
+        <div className={styles.keyFeatures}>
+          <div className={styles.keyFeatureContent}>
+            <div className={styles.keyFeature}>
+              <Info size={24} />
+              <span>100+ Skills</span>
+            </div>
+
+            <div className={styles.keyFeature}>
+              <CalendarDays size={24} />
+              <span>Flexible Scheduling</span>
+            </div>
+
+            <div className={styles.keyFeature}>
+              <Shield size={24} />
+              <span>Safe Learning</span>
+            </div>
+
+            <div className={styles.keyFeature}>
+              <Users size={24} />
+              <span>Community Growth</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className={styles.container}>
+        <section className={styles.howItWorks}>
+          <h2>How It Works</h2>
+
+          <div className={styles.steps}>
+            <div className={styles.step}>
+              <div className={styles.stepNumber}>1</div>
+              <div className={styles.stepContent}>
+                <h3>Sign Up</h3>
+                <p>
+                  Create an account, complete your profile, and specify your
+                  interests and skills
+                </p>
+              </div>
+            </div>
+
+            <div className={styles.step}>
+              <div className={styles.stepNumber}>2</div>
+              <div className={styles.stepContent}>
+                <h3>Choose Your Role</h3>
+                <p>Decide who you want to be today: a student or a teacher</p>
+              </div>
+            </div>
+
+            <div className={styles.step}>
+              <div className={styles.stepNumber}>3</div>
+              <div className={styles.stepContent}>
+                <h3>Start Learning</h3>
+                <p>
+                  Find the perfect teacher or students for knowledge exchange
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.benefits}>
+          <h2>Key Features</h2>
+
+          <div className={styles.benefitCards}>
+            <div className={styles.benefitCard}>
+              <div className={styles.benefitIcon}>
+                <User size={32} />
+              </div>
+              <h3>One-on-One Sessions</h3>
+              <p>
+                Book personal sessions with mentors and experts in various
+                fields
+              </p>
+            </div>
+
+            <div className={styles.benefitCard}>
+              <div className={styles.benefitIcon}>
+                <Users size={32} />
+              </div>
+              <h3>Group Classes</h3>
+              <p>
+                Organize or join affordable and collaborative learning sessions
+              </p>
+            </div>
+
+            <div className={styles.benefitCard}>
+              <div className={styles.benefitIcon}>
+                <Presentation size={32} />
+              </div>
+              <h3>Events & Webinars</h3>
+              <p>
+                Participate in public lectures, webinars, and workshops from the
+                community
+              </p>
+            </div>
+
+            <div className={styles.benefitCard}>
+              <div className={styles.benefitIcon}>
+                <CheckCircle2 size={32} />
+              </div>
+              <h3>Reviews & Ratings</h3>
+              <p>Build trust and transparency through verified user reviews</p>
+            </div>
+
+            <div className={styles.benefitCard}>
+              <div className={styles.benefitIcon}>
+                <MessageSquare size={32} />
+              </div>
+              <h3>Chat System</h3>
+              <p>
+                Convenient communication with teachers and students before and
+                after sessions for maximum efficiency
+              </p>
+            </div>
+
+            <div className={styles.benefitCard}>
+              <div className={styles.benefitIcon}>
+                <CreditCard size={32} />
+              </div>
+              <h3>Flexible Payments</h3>
+              <p>
+                Convenient payment system and wallet for easy earnings and
+                expense management
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.popularCategories}>
+          <h2>Popular Categories</h2>
+
+          <div className={styles.categoriesGrid}>
+            <div className={styles.categoryCard}>
+              <div className={styles.categoryIcon}>
+                <LayoutPanelLeft size={24} />
+              </div>
+              <h3>Digital Skills</h3>
+              <p>200+ Skills</p>
+            </div>
+
+            <div className={styles.categoryCard}>
+              <div className={styles.categoryIcon}>
+                <Palette size={24} />
+              </div>
+              <h3>Creative Arts</h3>
+              <p>150+ Skills</p>
+            </div>
+
+            <div className={styles.categoryCard}>
+              <div className={styles.categoryIcon}>
+                <Languages size={24} />
+              </div>
+              <h3>Languages</h3>
+              <p>100+ Skills</p>
+            </div>
+
+            <div className={styles.categoryCard}>
+              <div className={styles.categoryIcon}>
+                <Star size={24} />
+              </div>
+              <h3>Life Skills</h3>
+              <p>180+ Skills</p>
+            </div>
+
+            <div className={styles.categoryCard}>
+              <div className={styles.categoryIcon}>
+                <Code size={24} />
+              </div>
+              <h3>Tech & Coding</h3>
+              <p>250+ Skills</p>
+            </div>
+
+            <div className={styles.categoryCard}>
+              <div className={styles.categoryIcon}>
+                <Music size={24} />
+              </div>
+              <h3>Music & Performance</h3>
+              <p>120+ Skills</p>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.statistics}>
+          <div className={styles.statItem}>
+            <span className={styles.statNumber}>500+</span>
+            <span className={styles.statLabel}>Different Skills</span>
+          </div>
+          <div className={styles.statItem}>
+            <span className={styles.statNumber}>10,000+</span>
+            <span className={styles.statLabel}>Active Users</span>
+          </div>
+          <div className={styles.statItem}>
+            <span className={styles.statNumber}>5,000+</span>
+            <span className={styles.statLabel}>Completed Sessions</span>
+          </div>
+        </section>
+
+        <section className={styles.testimonials}>
+          <h2>What Our Users Say</h2>
+          <div className={styles.testimonialCards}>
+            <div className={styles.testimonialCard}>
+              <div className={styles.testimonialContent}>
+                <p>
+                  &ldquo;The platform completely changed my approach to
+                  learning. Now I can not only gain knowledge but also share my
+                  experience with others. A wonderful opportunity for
+                  professional growth!&rdquo;
+                </p>
+              </div>
+              <div className={styles.testimonialAuthor}>
+                <Image
+                  src="/images/person1.jpg"
+                  alt="Alexander K."
+                  width={80}
+                  height={80}
+                  className={styles.authorAvatar}
+                />
+                <div className={styles.authorInfo}>
+                  <p className={styles.authorName}>Alexander K.</p>
+                  <p className={styles.authorRole}>JavaScript Instructor</p>
+                </div>
+              </div>
+            </div>
+            <div className={styles.testimonialCard}>
+              <div className={styles.testimonialContent}>
+                <p>
+                  &ldquo;Thanks to Learn&Share, I found the perfect design
+                  teacher. The user-friendly interface, flexible schedule, and
+                  personalized approach made learning extremely
+                  effective.&rdquo;
+                </p>
+              </div>
+              <div className={styles.testimonialAuthor}>
+                <Image
+                  src="/images/person1.jpg"
+                  alt="Maria S."
+                  width={80}
+                  height={80}
+                  className={styles.authorAvatar}
+                />
+                <div className={styles.authorInfo}>
+                  <p className={styles.authorName}>Maria S.</p>
+                  <p className={styles.authorRole}>Student, Web Designer</p>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.testimonialCard}>
+              <div className={styles.testimonialContent}>
+                <p>
+                  &ldquo;As an English teacher, I appreciate the opportunity to
+                  work with motivated students. The platform provides all the
+                  necessary tools for effective teaching.&rdquo;
+                </p>
+              </div>
+              <div className={styles.testimonialAuthor}>
+                <Image
+                  src="/images/person1.jpg"
+                  alt="Elena M."
+                  width={80}
+                  height={80}
+                  className={styles.authorAvatar}
+                />
+                <div className={styles.authorInfo}>
+                  <p className={styles.authorName}>Elena M.</p>
+                  <p className={styles.authorRole}>English Teacher</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.callToAction}>
+          <h2>Join the Community Today</h2>
+          <p>
+            We&apos;re democratizing access to education by making it flexible,
+            accessible, and community-based
+          </p>
+
+          <div className={styles.ctaButtons}>
+            <Link href="/auth?role=student" className={styles.primaryButton}>
               Start Learning
             </Link>
-            <Link href="/auth" className={styles.secondaryButton}>
-              Sign In
+            <Link href="/auth?role=teacher" className={styles.secondaryButton}>
+              Start Teaching
             </Link>
           </div>
-        </div>
-        <div className={styles.heroImage}>
-          <Image
-            src="/logo.png"
-            alt="Learn&Share Logo"
-            width={300}
-            height={300}
-            priority
-          />
-        </div>
-      </section>
-
-      <section className={styles.about}>
-        <h2>About Us</h2>
-        <p>
-          Learn&Share is an innovative skill-sharing platform where anyone can
-          be both a student and a teacher, regardless of formal education. We
-          create a safe space where people can monetize their skills or share
-          them for free as volunteers.
-        </p>
-        <p>
-          Our platform does not limit skill categories — from traditional to
-          unusual, each mentor can propose their own teaching area.
-        </p>
-      </section>
-
-      <section className={styles.features}>
-        <h2>Our Advantages</h2>
-        <div className={styles.featureGrid}>
-          <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="feather feather-shield"
-              >
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
-            </div>
-            <h3 className={styles.featureTitle}>Safety and Trust</h3>
-            <p className={styles.featureDescription}>
-              Mandatory video verification for mentors and a review system from
-              real students.
-            </p>
-          </div>
-          <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="feather feather-layout"
-              >
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="3" y1="9" x2="21" y2="9"></line>
-                <line x1="9" y1="21" x2="9" y2="9"></line>
-              </svg>
-            </div>
-            <h3 className={styles.featureTitle}>
-              User-friendly Modern Interface
-            </h3>
-            <p className={styles.featureDescription}>
-              Simple and intuitive design for comfortable learning.
-            </p>
-          </div>
-          <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="feather feather-users"
-              >
-                <path d="M17 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M9 21v-2a4 4 0 0 1 3-3.87"></path>
-                <path d="M12 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                <path d="M8 3.13a4 4 0 0 0 0 7.75"></path>
-              </svg>
-            </div>
-            <h3 className={styles.featureTitle}>
-              Community of Like-minded People
-            </h3>
-            <p className={styles.featureDescription}>
-              We are creating a dynamic community focused on developing
-              communication and accessible education for everyone.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.howItWorks}>
-        <h2>How It Works</h2>
-        <div className={styles.workflowSteps}>
-          <div className={styles.workflowStep}>
-            <div className={styles.stepNumber}>1</div>
-            <h3>Registration</h3>
-            <p>Create an account and fill out your profile</p>
-          </div>
-          <div className={styles.workflowStep}>
-            <div className={styles.stepNumber}>2</div>
-            <h3>Choose Your Role</h3>
-            <p>Decide whether you want to teach or learn</p>
-          </div>
-          <div className={styles.workflowStep}>
-            <div className={styles.stepNumber}>3</div>
-            <h3>Find a Teacher/Student</h3>
-            <p>Find a suitable teacher or wait for requests from students</p>
-          </div>
-          <div className={styles.workflowStep}>
-            <div className={styles.stepNumber}>4</div>
-            <h3>Online Learning</h3>
-            <p>Conduct lessons through integrated video communication</p>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.testimonials}>
-        <h2>Student Testimonials</h2>
-        <div className={styles.testimonialsGrid}>
-          <div className={styles.testimonialCard}>
-            <p>This is the best educational platform I have ever studied on!</p>
-            <span>Anna</span>
-          </div>
-          <div className={styles.testimonialCard}>
-            <p>Thanks to Learn&Share, I found my calling in life.</p>
-            <span>John</span>
-          </div>
-          <div className={styles.testimonialCard}>
-            <p>A great platform that helps you grow every day.</p>
-            <span>Maria</span>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.gettingStarted}>
-        <h2>How to Start</h2>
-        <div className={styles.columns}>
-          <div className={styles.leftColumn}>
-            <h3>Learning</h3>
-            <ul>
-              <li>Create a profile</li>
-              <li>Browse teacher profiles and choose a suitable one</li>
-              <li>Book a lesson</li>
-              <li>Gain new knowledge!</li>
-            </ul>
-          </div>
-          <div className={styles.rightColumn}>
-            <h3>Sharing</h3>
-            <ul>
-              <li>Create a profile</li>
-              <li>
-                Record a YouTube video where you talk about your skills and
-                yourself
-              </li>
-              <li>Add a new category to your profile</li>
-              <li>Choose a convenient time for your lessons</li>
-              <li>Share your skills with everyone!</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.callToAction}>
-        <h2>Join Today!</h2>
-        <p>Become part of a growing community of teachers and students</p>
-        <Link href="/auth" className={styles.ctaButton}>
-          Get Started Now
-        </Link>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }

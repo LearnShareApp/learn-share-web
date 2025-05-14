@@ -1,0 +1,166 @@
+@use "../../styles/variables.scss" as *;
+
+.lessonItem {
+  display: flex;
+  gap: 16px;
+  padding: $container-padding;
+  background-color: $color-background-secondary;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  transition: transform $transition-fast, box-shadow $transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+}
+
+.pastLesson {
+  opacity: 0.85;
+  border-left: 3px solid $color-border-dark;
+
+  &:hover {
+    transform: none;
+  }
+}
+
+.avatarWrapper {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.lessonInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.actionWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  padding-left: 16px;
+  border-left: 1px solid $color-border-light;
+  align-self: stretch;
+}
+
+.lessonInfo h3 {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+.lessonInfo p {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin: 0;
+}
+
+.lessonStatus {
+  font-size: $font-size-base;
+  color: $color-text-primary;
+}
+
+.joinButton {
+  padding: 8px 16px;
+  background-color: $color-primary;
+  color: $color-text-light;
+  border: none;
+  border-radius: $border-radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: background-color $transition-fast, transform $transition-fast;
+  min-width: 200px;
+  text-align: center;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: $color-primary-dark;
+    transform: translateY(-2px);
+  }
+
+  &.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+    position: relative;
+
+    &:after {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      margin-top: -6px;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.completedStatus {
+  padding: 6px 12px;
+  background-color: $color-background-tertiary;
+  color: $color-text-secondary;
+  border-radius: $border-radius-md;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  text-align: center;
+  min-width: 200px;
+  white-space: nowrap;
+}
+
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  background-color: $color-background-primary;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.timeInfo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: $color-text-secondary;
+}
+
+.waitingTime {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.cancelledLesson {
+  background: #fff6f6;
+  border: 1px solid #f5c2c7;
+  opacity: 0.7;
+}
+
+.cancelledStatus {
+  color: #dc2626;
+  font-weight: 600;
+  background: #fee2e2;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 1rem;
+}
