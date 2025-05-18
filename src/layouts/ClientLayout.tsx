@@ -15,6 +15,8 @@ export default function ClientLayout({
     pathname.startsWith("/lessons/") ||
     pathname.startsWith("/admin");
 
+  const hideFooter = isEmptyPage || pathname.startsWith("/chats");
+
   return (
     <>
       {!isEmptyPage && (
@@ -23,7 +25,7 @@ export default function ClientLayout({
         </div>
       )}
       <main className={!isEmptyPage ? "container" : ""}>{children}</main>
-      {!isEmptyPage && <Footer />}
+      {!hideFooter && <Footer />}
     </>
   );
 }
