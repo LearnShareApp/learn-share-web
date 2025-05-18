@@ -23,6 +23,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { removeLangPrefix } from "@/lib/utils";
 
 const Header = () => {
   const router = useRouter();
@@ -202,7 +203,7 @@ const Header = () => {
           <Link
             href="/home"
             className={`${styles.navLink} ${
-              pathname === "/home" ? styles.active : ""
+              removeLangPrefix(pathname) === "/home" ? styles.active : ""
             }`}
           >
             <Home className={styles.navIcon} />
@@ -212,7 +213,7 @@ const Header = () => {
           <Link
             href="/teachers"
             className={`${styles.navLink} ${
-              pathname === "/teachers" ? styles.active : ""
+              removeLangPrefix(pathname) === "/teachers" ? styles.active : ""
             }`}
           >
             <Search className={styles.navIcon} />
@@ -221,7 +222,7 @@ const Header = () => {
           <Link
             href="/lessons"
             className={`${styles.navLink} ${
-              pathname === "/lessons" ? styles.active : ""
+              removeLangPrefix(pathname) === "/lessons" ? styles.active : ""
             }`}
           >
             <BookOpen className={styles.navIcon} />
@@ -230,7 +231,9 @@ const Header = () => {
           <Link
             href="/for-teachers"
             className={`${styles.navLink} ${
-              pathname === "/for-teachers" ? styles.active : ""
+              removeLangPrefix(pathname) === "/for-teachers"
+                ? styles.active
+                : ""
             }`}
           >
             <GraduationCap className={styles.navIcon} />
@@ -245,7 +248,7 @@ const Header = () => {
           <Link
             href="/about"
             className={`${styles.navLink} ${
-              pathname === "/about" ? styles.active : ""
+              removeLangPrefix(pathname) === "/about" ? styles.active : ""
             }`}
           >
             <Info className={styles.navIcon} />
@@ -255,7 +258,7 @@ const Header = () => {
           <Link
             href="/support"
             className={`${styles.navLink} ${
-              pathname === "/support" ? styles.active : ""
+              removeLangPrefix(pathname) === "/support" ? styles.active : ""
             }`}
           >
             <LifeBuoy className={styles.navIcon} />
@@ -264,7 +267,7 @@ const Header = () => {
           <Link
             href="/privacy"
             className={`${styles.navLink} ${
-              pathname === "/privacy" ? styles.active : ""
+              removeLangPrefix(pathname) === "/privacy" ? styles.active : ""
             }`}
           >
             <ShieldCheck className={styles.navIcon} />
@@ -273,7 +276,7 @@ const Header = () => {
           <Link
             href="/contacts"
             className={`${styles.navLink} ${
-              pathname === "/contacts" ? styles.active : ""
+              removeLangPrefix(pathname) === "/contacts" ? styles.active : ""
             }`}
           >
             <Mail className={styles.navIcon} />
@@ -410,7 +413,7 @@ const Header = () => {
               <button
                 onClick={() => navigateTo("/home")}
                 className={`${styles.dropdownItem} ${
-                  pathname === "/home" ? styles.active : ""
+                  removeLangPrefix(pathname) === "/home" ? styles.active : ""
                 }`}
               >
                 <Home className={styles.dropdownIcon} />
@@ -420,7 +423,9 @@ const Header = () => {
               <button
                 onClick={() => navigateTo("/teachers")}
                 className={`${styles.dropdownItem} ${
-                  pathname === "/teachers" ? styles.active : ""
+                  removeLangPrefix(pathname) === "/teachers"
+                    ? styles.active
+                    : ""
                 }`}
               >
                 <Search className={styles.dropdownIcon} />
@@ -429,7 +434,7 @@ const Header = () => {
               <button
                 onClick={() => navigateTo("/lessons")}
                 className={`${styles.dropdownItem} ${
-                  pathname === "/lessons" ? styles.active : ""
+                  removeLangPrefix(pathname) === "/lessons" ? styles.active : ""
                 }`}
               >
                 <BookOpen className={styles.dropdownIcon} />
@@ -438,7 +443,9 @@ const Header = () => {
               <button
                 onClick={() => navigateTo("/for-teachers")}
                 className={`${styles.dropdownItem} ${
-                  pathname === "/for-teachers" ? styles.active : ""
+                  removeLangPrefix(pathname) === "/for-teachers"
+                    ? styles.active
+                    : ""
                 }`}
               >
                 <GraduationCap className={styles.dropdownIcon} />
@@ -447,7 +454,7 @@ const Header = () => {
               <button
                 onClick={() => navigateTo("/chats")}
                 className={`${styles.dropdownItem} ${
-                  pathname === "/chats" ? styles.active : ""
+                  removeLangPrefix(pathname) === "/chats" ? styles.active : ""
                 }`}
               >
                 <MessageSquare className={styles.dropdownIcon} />
@@ -505,7 +512,7 @@ const Header = () => {
               <button
                 onClick={() => navigateTo("/about")}
                 className={`${styles.dropdownItem} ${
-                  pathname === "/about" ? styles.active : ""
+                  removeLangPrefix(pathname) === "/about" ? styles.active : ""
                 }`}
               >
                 <Info className={styles.dropdownIcon} />
@@ -514,7 +521,7 @@ const Header = () => {
               <button
                 onClick={() => navigateTo("/support")}
                 className={`${styles.dropdownItem} ${
-                  pathname === "/support" ? styles.active : ""
+                  removeLangPrefix(pathname) === "/support" ? styles.active : ""
                 }`}
               >
                 <LifeBuoy className={styles.dropdownIcon} />
@@ -523,7 +530,7 @@ const Header = () => {
               <button
                 onClick={() => navigateTo("/privacy")}
                 className={`${styles.dropdownItem} ${
-                  pathname === "/privacy" ? styles.active : ""
+                  removeLangPrefix(pathname) === "/privacy" ? styles.active : ""
                 }`}
               >
                 <ShieldCheck className={styles.dropdownIcon} />
@@ -532,7 +539,9 @@ const Header = () => {
               <button
                 onClick={() => navigateTo("/contacts")}
                 className={`${styles.dropdownItem} ${
-                  pathname === "/contacts" ? styles.active : ""
+                  removeLangPrefix(pathname) === "/contacts"
+                    ? styles.active
+                    : ""
                 }`}
               >
                 <Mail className={styles.dropdownIcon} />

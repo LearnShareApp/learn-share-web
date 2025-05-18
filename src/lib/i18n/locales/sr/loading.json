@@ -1,0 +1,124 @@
+{
+  "hero": {
+    "title": "Learn&Share",
+    "subtitle": "P2P Učenje na Novi Način",
+    "description": "Decentralizovana platforma za deljenje znanja gde svako može direktno da uči i podučava druge – kroz individualne časove, grupne nastave i velike događaje.",
+    "learnButton": "Želim da Učim",
+    "teachButton": "Želim da Podučavam"
+  },
+  "features": {
+    "skills": "Više od 100 Veština",
+    "schedule": "Fleksibilno Raspoređivanje",
+    "safety": "Sigurno Učenje",
+    "community": "Rast Zajednice"
+  },
+  "howItWorks": {
+    "title": "Kako Funkcioniše",
+    "steps": {
+      "1": {
+        "title": "Registracija",
+        "description": "Kreirajte nalog, popunite profil i navedite svoje interese i veštine"
+      },
+      "2": {
+        "title": "Izaberite Ulogu",
+        "description": "Odlučite da li želite da budete učenik ili nastavnik"
+      },
+      "3": {
+        "title": "Počnite sa Učenjem",
+        "description": "Pronađite idealnog nastavnika ili učenike za razmenu znanja"
+      }
+    }
+  },
+  "benefits": {
+    "title": "Ključne Funkcije",
+    "oneOnOne": {
+      "title": "Individualni Časovi",
+      "description": "Rezervišite lične časove sa mentorima i stručnjacima iz različitih oblasti"
+    },
+    "groupClasses": {
+      "title": "Grupne Nastave",
+      "description": "Organizujte ili se pridružite pristupačnim i zajedničkim časovima"
+    },
+    "events": {
+      "title": "Događaji i Vebinari",
+      "description": "Učestvujte u javnim predavanjima, vebinarima i radionicama iz zajednice"
+    },
+    "reviews": {
+      "title": "Recenzije i Ocene",
+      "description": "Izgradite poverenje i transparentnost kroz proverene korisničke ocene"
+    },
+    "chat": {
+      "title": "Sistem Četovanja",
+      "description": "Praktična komunikacija sa nastavnicima i učenicima pre i posle časova za maksimalnu efikasnost"
+    },
+    "payments": {
+      "title": "Fleksibilna Plaćanja",
+      "description": "Pogodan sistem plaćanja i novčanik za lakše upravljanje zaradom i troškovima"
+    }
+  },
+  "categories": {
+    "title": "Popularne Kategorije",
+    "digital": {
+      "title": "Digitalne Veštine",
+      "description": "Više od 200 Veština"
+    },
+    "creative": {
+      "title": "Kreativne Umetnosti",
+      "description": "Više od 150 Veština"
+    },
+    "languages": {
+      "title": "Jezici",
+      "description": "Više od 100 Veština"
+    },
+    "life": {
+      "title": "Životne Veštine",
+      "description": "Više od 180 Veština"
+    },
+    "tech": {
+      "title": "Tehnologija i Programiranje",
+      "description": "Više od 250 Veština"
+    },
+    "music": {
+      "title": "Muzika i Performans",
+      "description": "Više od 120 Veština"
+    }
+  },
+  "stats": {
+    "skills": {
+      "number": "500+",
+      "label": "Različitih Veština"
+    },
+    "users": {
+      "number": "10,000+",
+      "label": "Aktivnih Korisnika"
+    },
+    "sessions": {
+      "number": "5,000+",
+      "label": "Održanih Časova"
+    }
+  },
+  "testimonials": {
+    "title": "Šta Naši Korisnici Kažu",
+    "1": {
+      "quote": "Platforma mi je potpuno promenila pristup učenju. Sada ne samo da stičem znanje, već i delim svoje iskustvo sa drugima. Divna prilika za profesionalni razvoj!",
+      "name": "Aleksandar K.",
+      "role": "Instruktor JavaScripta"
+    },
+    "2": {
+      "quote": "Zahvaljujući Nauči&Podeli, pronašla sam savršenog nastavnika dizajna. Jednostavan interfejs, fleksibilan raspored i personalizovan pristup učinili su učenje veoma efikasnim.",
+      "name": "Marija S.",
+      "role": "Učenik, Web Dizajner"
+    },
+    "3": {
+      "quote": "Kao nastavnik engleskog jezika, cenim priliku da radim sa motivisanim učenicima. Platforma pruža sve potrebne alate za efikasno podučavanje.",
+      "name": "Jelena M.",
+      "role": "Nastavnik engleskog"
+    }
+  },
+  "cta": {
+    "title": "Pridružite se Zajednici Danas",
+    "description": "Demokratizujemo pristup obrazovanju čineći ga fleksibilnim, dostupnim i zasnovanim na zajednici",
+    "learn": "Počnite sa Učenjem",
+    "teach": "Počnite sa Podučavanjem"
+  }
+}

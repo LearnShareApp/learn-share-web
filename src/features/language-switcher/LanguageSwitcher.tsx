@@ -1,28 +1,58 @@
 "use client";
 
 import React from "react";
-import { useLanguage } from "@/providers/LanguageProvider";
+import { useTranslation } from "react-i18next";
+import { usePathname, useRouter } from "next/navigation";
+import i18nConfig, { languageNames, locales } from "@/lib/i18n/config";
 import styles from "./LanguageSwitcher.module.scss";
 
 const LanguageSwitcher: React.FC = () => {
-  const { language, setLanguage } = useLanguage();
+  const { i18n } = useTranslation();
+  const currentLocale = i18n.language;
+  const router = useRouter();
+  const currentPathname = usePathname();
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setLanguage(event.target.value as "ru" | "en" | "sr");
+  const handleLanguageChange = (newLocale: string) => {
+    // set cookie for next-i18n-router
+    const days = 30;
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000); // 30 days
+    const expires = date.toUTCString();
+    document.cookie = `NEXT_LOCALE=${newLocale};expires=${expires};path=/`;
+
+    // redirect to the new locale path
+    if (
+      currentLocale === i18nConfig.defaultLocale &&
+      !i18nConfig.prefixDefault
+    ) {
+      router.push("/" + newLocale + currentPathname);
+    } else {
+      router.push(
+        currentPathname.replace(`/${currentLocale}`, `/${newLocale}`)
+      );
+    }
+
+    router.refresh();
+  };
+
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLocale = event.target.value;
+
+    handleLanguageChange(newLocale);
   };
 
   return (
-    <div className={styles.container}>
-      <select
-        value={language}
-        onChange={handleChange}
-        className={styles.select}
-      >
-        <option value="ru">Русский</option>
-        <option value="en">English</option>
-        <option value="sr">Српски</option>
-      </select>
-    </div>
+    <select
+      value={currentLocale}
+      onChange={handleSelectChange}
+      className={styles.select}
+    >
+      {locales.map((lang) => (
+        <option key={lang} value={lang}>
+          {languageNames[lang as keyof typeof languageNames] || lang}
+        </option>
+      ))}
+    </select>
   );
 };
 

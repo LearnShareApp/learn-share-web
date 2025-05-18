@@ -1,0 +1,124 @@
+{
+  "hero": {
+    "title": "Learn&Share",
+    "subtitle": "P2P Learning Reimagined",
+    "description": "A decentralized knowledge-sharing platform where everyone can teach and learn directly from others - through one-on-one sessions, group classes, and large-scale events.",
+    "learnButton": "I Want to Learn",
+    "teachButton": "I Want to Teach"
+  },
+  "features": {
+    "skills": "100+ Skills",
+    "schedule": "Flexible Scheduling",
+    "safety": "Safe Learning",
+    "community": "Community Growth"
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "steps": {
+      "1": {
+        "title": "Sign Up",
+        "description": "Create an account, complete your profile, and specify your interests and skills"
+      },
+      "2": {
+        "title": "Choose Your Role",
+        "description": "Decide who you want to be today: a student or a teacher"
+      },
+      "3": {
+        "title": "Start Learning",
+        "description": "Find the perfect teacher or students for knowledge exchange"
+      }
+    }
+  },
+  "benefits": {
+    "title": "Key Features",
+    "oneOnOne": {
+      "title": "One-on-One Sessions",
+      "description": "Book personal sessions with mentors and experts in various fields"
+    },
+    "groupClasses": {
+      "title": "Group Classes",
+      "description": "Organize or join affordable and collaborative learning sessions"
+    },
+    "events": {
+      "title": "Events & Webinars",
+      "description": "Participate in public lectures, webinars, and workshops from the community"
+    },
+    "reviews": {
+      "title": "Reviews & Ratings",
+      "description": "Build trust and transparency through verified user reviews"
+    },
+    "chat": {
+      "title": "Chat System",
+      "description": "Convenient communication with teachers and students before and after sessions for maximum efficiency"
+    },
+    "payments": {
+      "title": "Flexible Payments",
+      "description": "Convenient payment system and wallet for easy earnings and expense management"
+    }
+  },
+  "categories": {
+    "title": "Popular Categories",
+    "digital": {
+      "title": "Digital Skills",
+      "description": "200+ Skills"
+    },
+    "creative": {
+      "title": "Creative Arts",
+      "description": "150+ Skills"
+    },
+    "languages": {
+      "title": "Languages",
+      "description": "100+ Skills"
+    },
+    "life": {
+      "title": "Life Skills",
+      "description": "180+ Skills"
+    },
+    "tech": {
+      "title": "Tech & Coding",
+      "description": "250+ Skills"
+    },
+    "music": {
+      "title": "Music & Performance",
+      "description": "120+ Skills"
+    }
+  },
+  "stats": {
+    "skills": {
+      "number": "500+",
+      "label": "Different Skills"
+    },
+    "users": {
+      "number": "10,000+",
+      "label": "Active Users"
+    },
+    "sessions": {
+      "number": "5,000+",
+      "label": "Completed Sessions"
+    }
+  },
+  "testimonials": {
+    "title": "What Our Users Say",
+    "1": {
+      "quote": "The platform completely changed my approach to learning. Now I can not only gain knowledge but also share my experience with others. A wonderful opportunity for professional growth!",
+      "name": "Alexander K.",
+      "role": "JavaScript Instructor"
+    },
+    "2": {
+      "quote": "Thanks to Learn&Share, I found the perfect design teacher. The user-friendly interface, flexible schedule, and personalized approach made learning extremely effective.",
+      "name": "Maria S.",
+      "role": "Student, Web Designer"
+    },
+    "3": {
+      "quote": "As an English teacher, I appreciate the opportunity to work with motivated students. The platform provides all the necessary tools for effective teaching.",
+      "name": "Elena M.",
+      "role": "English Teacher"
+    }
+  },
+  "cta": {
+    "title": "Join the Community Today",
+    "description": "We're democratizing access to education by making it flexible, accessible, and community-based",
+    "learn": "Start Learning",
+    "teach": "Start Teaching"
+  }
+}

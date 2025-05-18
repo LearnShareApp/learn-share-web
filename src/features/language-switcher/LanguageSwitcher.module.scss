@@ -1,10 +1,35 @@
-.container {
-  margin: 16px;
+@use "variables.scss" as *;
+@use "sass:color";
+
+// !!! Warning !!! Duplicate form settings page styles
+%form-control-base {
+  padding: 10px 14px;
+  font-size: $font-size-base;
+  border: 1px solid $color-border-dark;
+  border-radius: $border-radius-md;
+  background-color: $color-background-primary;
+  color: $color-text-primary;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+  width: 100%; // По умолчанию занимают всю доступную ширину в своем контейнере
+  max-width: 400px; // Ограничение максимальной ширины
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
+  }
+
+  &::placeholder {
+    color: $color-text-secondary;
+    opacity: 0.7;
+  }
 }
 
 .select {
-  padding: 8px 16px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  @extend %form-control-base;
+  appearance: none; // Убираем стандартную стрелку
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234B5563' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px; // Место для кастомной стрелки
 }
