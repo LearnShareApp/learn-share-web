@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import { useAvatar } from "@/hooks/avatar-hook";

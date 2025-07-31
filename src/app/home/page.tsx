@@ -1,11 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+// import Link from "next/link";
 import styles from "./page.module.scss";
 import { useProfileContext } from "../../providers/ProfileProvider";
-import Loader from "@/components/loader/Loader";
-import Avatar from "@/components/avatar/Avatar";
+import {
+  Card,
+  Loader,
+  Avatar,
+  EmptyState,
+  SectionTitle,
+  Button,
+} from "@/components";
 import { useEffect, useState } from "react";
 import { apiService } from "../../utilities/api";
 import { TeacherProfile, Lesson } from "../../types/types";
@@ -58,7 +64,7 @@ export default function HomePage() {
   return (
     <div className={styles.columns}>
       <div className={styles.leftColumn}>
-        <section className="card">
+        <Card>
           <div className={styles.userInfo}>
             <div className={styles.avatarWrapper}>
               <Avatar avatarId={profile?.avatar} size={80} />
@@ -70,21 +76,21 @@ export default function HomePage() {
               <p className={styles.userRole}>Student</p>
             </div>
           </div>
-        </section>
-        <section className="card balance">
-          <h2>Balance (inDev)</h2>
+        </Card>
+        <Card className="balance">
+          <SectionTitle level={3}>Balance (inDev)</SectionTitle>
           <div className={styles.balanceWrapper}>
             <p>$1000 USD</p>
             <PlusCircle size={16} />
           </div>
-        </section>
-        <section className="card">
+        </Card>
+        <Card>
           <div className={styles.mobileAppBanner}>
             <div>
-              <h3>Try the mobile version</h3>
-              <Link href="/download" className={styles.downloadButton}>
+              <SectionTitle level={4}>Try the mobile version</SectionTitle>
+              <Button variant="primary" href="/download">
                 Download the App
-              </Link>
+              </Button>
             </div>
             <Image
               className={styles.appLogo}
@@ -94,11 +100,11 @@ export default function HomePage() {
               height={100}
             />
           </div>
-        </section>
+        </Card>
       </div>
       <div className={styles.rightColumn}>
-        <section className="card">
-          <h2 className={styles.sectionTitle}>Next Lesson</h2>
+        <Card>
+          <SectionTitle level={3}>Next Lesson</SectionTitle>
           {loadingLessons ? (
             <div style={{ textAlign: "center", padding: "20px" }}>
               <Loader />
@@ -106,41 +112,40 @@ export default function HomePage() {
           ) : nextLesson ? (
             <LessonItem lesson={nextLesson} />
           ) : (
-            <div className={styles.noLessonsMessage}>
-              <Info size={24} />
-              <p>You don&apos;t have any upcoming lessons</p>
-              <Link href="/teachers" className={styles.findTeacherButton}>
-                Find a Teacher
-              </Link>
-            </div>
+            <EmptyState
+              icon={<Info size={24} />}
+              title="You don't have any upcoming lessons"
+              actionText="Find a Teacher"
+              actionHref="/teachers"
+            />
           )}
-        </section>
-        <section className="card">
-          <h2 className={styles.sectionTitle}>Previous Teachers</h2>
+        </Card>
+        <Card>
+          <SectionTitle level={3}>Previous Teachers</SectionTitle>
           <div className={styles.teachersList}>
             {teachers.length > 0 ? (
               teachers.map((teacher) => (
                 <TeacherItem key={teacher.teacher_id} teacher={teacher} />
               ))
             ) : (
-              <div className={styles.noLessonsMessage}>
-                <Users size={24} />
-                <p>You haven&apos;t had any lessons yet</p>
-                <Link href="/teachers" className={styles.findTeacherButton}>
-                  Find a Teacher
-                </Link>
-              </div>
+              <EmptyState
+                icon={<Users size={24} />}
+                title="You haven't had any lessons yet"
+                actionText="Find a Teacher"
+                actionHref="/teachers"
+              />
             )}
           </div>
-        </section>
-        <Link href="/teachers">
-          <section className={`card ${styles["search-teacher"]}`}>
-            <h3>
-              <Search size={20} className={styles.searchIcon} />
-              Find a New Teacher
-            </h3>
-          </section>
-        </Link>
+        </Card>
+        <Card
+          className={styles["search-teacher"]}
+          onClick={() => (window.location.href = "/teachers")}
+        >
+          <SectionTitle level={4}>
+            <Search size={20} className={styles.searchIcon} />
+            Find a New Teacher
+          </SectionTitle>
+        </Card>
       </div>
     </div>
   );

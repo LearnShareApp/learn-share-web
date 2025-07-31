@@ -1,15 +1,20 @@
 "use client";
 
 // import { apiService } from "../../utilities/api";
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { apiService } from "../../utilities/api";
 import { TeacherProfile, Category } from "../../types/types";
 import styles from "./page.module.scss";
 import TeacherItem from "@/features/teacher-item/TeacherItem";
-import TeacherVideo from "@/components/teacher-video/TeacherVideo";
-import { ListFilter, Search } from "lucide-react";
-import Loader from "@/components/loader/Loader";
+import {
+  Card,
+  FilterBar,
+  Loader,
+  TeacherVideo,
+  EmptyState,
+} from "@/components";
+import { Users } from "lucide-react";
 
 // Простая реализация debounce с улучшенной типизацией
 function debounce<A extends unknown[], R>(
@@ -26,7 +31,7 @@ function debounce<A extends unknown[], R>(
   };
 }
 
-export default function TeachersPage() {
+function TeachersPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -60,13 +65,18 @@ export default function TeachersPage() {
     [router]
   );
 
-  // Используем нашу самописную debounce функцию
+  // Debounced search function for FilterBar
   const debouncedUpdateSearchURL = useMemo(() => {
     const fn = (newSearchTerm: string) => {
       updateURLParams(selectedCategory, newSearchTerm);
     };
     return debounce(fn, 500);
   }, [selectedCategory, updateURLParams]);
+
+  const handleSearchChange = (newSearchTerm: string) => {
+    setLocalSearchTerm(newSearchTerm);
+    debouncedUpdateSearchURL(newSearchTerm);
+  };
 
   useEffect(() => {
     async function fetchCategories() {
@@ -124,17 +134,6 @@ export default function TeachersPage() {
     setHoveredTeacher(teacher);
   };
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const categoryName = e.target.value;
-    updateURLParams(categoryName, currentSearchTerm);
-  };
-
-  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newSearchTerm = e.target.value;
-    setLocalSearchTerm(newSearchTerm);
-    debouncedUpdateSearchURL(newSearchTerm);
-  };
-
   const handleResetFilters = () => {
     setLocalSearchTerm("");
     updateURLParams("", "");
@@ -150,53 +149,25 @@ export default function TeachersPage() {
 
   return (
     <div className={styles.content}>
-      <section className={`card ${styles.filterSection}`}>
-        <div className={styles.searchAndFilterContainer}>
-          <div className={styles.searchContainer}>
-            <input
-              type="text"
-              className={styles.searchInput}
-              placeholder="Поиск по имени, фамилии, навыкам..."
-              value={localSearchTerm}
-              onChange={handleSearchInputChange}
-            />
-            <button
-              type="submit"
-              className={styles.searchButton}
-              aria-label="Search"
-              onClick={() => updateURLParams(selectedCategory, localSearchTerm)}
-            >
-              <Search className={styles.navIcon} />
-            </button>
-          </div>
-          <div className={styles.filtersContainer}>
-            <div className={styles.filterWrapper}>
-              <ListFilter className={styles.filterIcon} />
-              <select
-                className={styles.filter}
-                value={selectedCategory}
-                onChange={handleCategoryChange}
-              >
-                <option value="">Все категории</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.name}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {(selectedCategory || currentSearchTerm) && (
-              <button
-                type="button"
-                className={styles.resetButton}
-                onClick={handleResetFilters}
-              >
-                Сбросить все
-              </button>
-            )}
-          </div>
-        </div>
-      </section>
+      <Card className={styles.filterSection}>
+        <FilterBar
+          searchValue={localSearchTerm}
+          onSearchChange={handleSearchChange}
+          onSearchSubmit={() =>
+            updateURLParams(selectedCategory, localSearchTerm)
+          }
+          filterValue={selectedCategory}
+          onFilterChange={(value) => updateURLParams(value, currentSearchTerm)}
+          filterOptions={categories.map((cat) => ({
+            value: cat.name,
+            label: cat.name,
+          }))}
+          filterLabel="Все категории"
+          onReset={handleResetFilters}
+          showReset={!!(selectedCategory || currentSearchTerm)}
+          searchPlaceholder="Поиск по имени, фамилии, навыкам..."
+        />
+      </Card>
       <section className={styles.resultsSection}>
         <div className={`${styles.teachersList}`}>
           {loading && displayedTeachers.length === 0 ? (
@@ -211,10 +182,11 @@ export default function TeachersPage() {
               </div>
             ))
           ) : (
-            <p className={styles.noResults}>
-              Учителя по выбранным критериям не найдены. Попробуйте изменить
-              фильтры или поисковый запрос.
-            </p>
+            <EmptyState
+              icon={<Users size={48} />}
+              title="Учителя не найдены"
+              description="Учителя по выбранным критериям не найдены. Попробуйте изменить фильтры или поисковый запрос."
+            />
           )}
         </div>
         <div className={styles.info}>
@@ -222,5 +194,13 @@ export default function TeachersPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function TeachersPage() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <TeachersPageContent />
+    </Suspense>
   );
 }

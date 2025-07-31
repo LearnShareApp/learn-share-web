@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import { TeacherProfile } from "../../types/types";
 import styles from "./TeacherVideo.module.scss";

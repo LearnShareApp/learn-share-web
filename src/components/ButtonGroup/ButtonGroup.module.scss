@@ -1,0 +1,23 @@
+@use "../../styles/variables.scss" as *;
+
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.groupButton {
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .buttonGroup {
+    width: 100%;
+
+    .groupButton {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+}

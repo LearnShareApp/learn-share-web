@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import { apiService } from "../../utilities/api";
 import { Lesson } from "../../types/types";
 import LessonItem from "@/features/lesson-item/LessonItem";
-import Loader from "@/components/loader/Loader";
+import { PageHeader, ButtonGroup, Loader, EmptyState } from "@/components";
+import { Calendar } from "lucide-react";
 
 export default function SchedulePage() {
   const [lessons, setLessons] = useState<Lesson[]>([]);
@@ -49,33 +50,20 @@ export default function SchedulePage() {
 
   return (
     <>
-      <h1 className={styles.title}>My Lessons</h1>
+      <PageHeader title="My Lessons" />
       <div className={styles.content}>
         <div className={styles.filters}>
-          <button
-            className={`${styles.filterButton} ${
-              activeFilter === "upcoming" ? styles.activeFilter : ""
-            }`}
-            onClick={() => setActiveFilter("upcoming")}
-          >
-            Upcoming
-          </button>
-          <button
-            className={`${styles.filterButton} ${
-              activeFilter === "past" ? styles.activeFilter : ""
-            }`}
-            onClick={() => setActiveFilter("past")}
-          >
-            Past
-          </button>
-          <button
-            className={`${styles.filterButton} ${
-              activeFilter === "all" ? styles.activeFilter : ""
-            }`}
-            onClick={() => setActiveFilter("all")}
-          >
-            All
-          </button>
+          <ButtonGroup
+            options={[
+              { value: "upcoming", label: "Upcoming" },
+              { value: "past", label: "Past" },
+              { value: "all", label: "All" },
+            ]}
+            value={activeFilter}
+            onChange={(value) =>
+              setActiveFilter(value as "upcoming" | "past" | "all")
+            }
+          />
         </div>
 
         {loading ? (
@@ -89,9 +77,13 @@ export default function SchedulePage() {
             ))}
           </div>
         ) : (
-          <div className={styles.noLessons}>
-            <p>No {activeFilter} lessons available</p>
-          </div>
+          <EmptyState
+            icon={<Calendar size={48} />}
+            title={`No ${activeFilter} lessons available`}
+            description="When you book lessons, they will appear here."
+            actionText="Find Teachers"
+            actionHref="/teachers"
+          />
         )}
       </div>
     </>

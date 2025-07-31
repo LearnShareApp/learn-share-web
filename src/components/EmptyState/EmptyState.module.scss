@@ -1,0 +1,40 @@
+@use "../../styles/variables.scss" as *;
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px;
+  min-height: 200px;
+}
+
+.icon {
+  margin-bottom: 16px;
+  color: #9ca3af;
+
+  svg {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+.title {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.description {
+  margin: 0 0 24px 0;
+  color: #6b7280;
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 400px;
+}
+
+.action {
+  margin-top: 8px;
+}

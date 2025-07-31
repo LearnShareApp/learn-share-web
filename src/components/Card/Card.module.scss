@@ -1,0 +1,47 @@
+@use "../../styles/variables.scss" as *;
+
+.card {
+  background-color: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.padding-small {
+  padding: 12px;
+}
+
+.padding-medium {
+  padding: 20px;
+}
+
+.padding-large {
+  padding: 32px;
+}
+
+.variant-default {
+  // Default styles already applied
+}
+
+.variant-elevated {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.variant-outlined {
+  border: 2px solid #eaeaea;
+  box-shadow: none;
+
+  &:hover {
+    border-color: #d0d0d0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}

@@ -1,0 +1,51 @@
+@use "../../styles/variables.scss" as *;
+
+.titleWrapper {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.2;
+}
+
+.level-1 {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+
+.level-2 {
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+
+.level-3 {
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
+
+.level-4 {
+  font-size: 1.25rem;
+  margin-bottom: 4px;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.subtitle {
+  margin: 0;
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.4;
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+// import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight,
@@ -20,6 +20,7 @@ import {
   Code,
   Music,
 } from "lucide-react";
+import { Button, SectionTitle, StatCard } from "@/components";
 import styles from "./page.module.scss";
 
 export default function LandingPage() {
@@ -40,17 +41,22 @@ export default function LandingPage() {
             </p>
 
             <div className={styles.heroButtons}>
-              <Link href="/auth?role=student" className={styles.primaryButton}>
-                <span>I Want to Learn</span>
-                <ArrowRight size={18} />
-              </Link>
-              <Link
-                href="/auth?role=teacher"
-                className={styles.secondaryButton}
+              <Button
+                variant="primary"
+                size="large"
+                href="/auth?role=student"
+                icon={<ArrowRight size={18} />}
               >
-                <span>I Want to Teach</span>
-                <ArrowRight size={18} />
-              </Link>
+                I Want to Learn
+              </Button>
+              <Button
+                variant="secondary"
+                size="large"
+                href="/auth?role=teacher"
+                icon={<ArrowRight size={18} />}
+              >
+                I Want to Teach
+              </Button>
             </div>
           </div>
 
@@ -93,7 +99,9 @@ export default function LandingPage() {
 
       <div className={styles.container}>
         <section className={styles.howItWorks}>
-          <h2>How It Works</h2>
+          <SectionTitle level={2} align="center">
+            How It Works
+          </SectionTitle>
 
           <div className={styles.steps}>
             <div className={styles.step}>
@@ -128,7 +136,9 @@ export default function LandingPage() {
         </section>
 
         <section className={styles.benefits}>
-          <h2>Key Features</h2>
+          <SectionTitle level={2} align="center">
+            Key Features
+          </SectionTitle>
 
           <div className={styles.benefitCards}>
             <div className={styles.benefitCard}>
@@ -196,7 +206,9 @@ export default function LandingPage() {
         </section>
 
         <section className={styles.popularCategories}>
-          <h2>Popular Categories</h2>
+          <SectionTitle level={2} align="center">
+            Popular Categories
+          </SectionTitle>
 
           <div className={styles.categoriesGrid}>
             <div className={styles.categoryCard}>
@@ -250,22 +262,15 @@ export default function LandingPage() {
         </section>
 
         <section className={styles.statistics}>
-          <div className={styles.statItem}>
-            <span className={styles.statNumber}>500+</span>
-            <span className={styles.statLabel}>Different Skills</span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statNumber}>10,000+</span>
-            <span className={styles.statLabel}>Active Users</span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statNumber}>5,000+</span>
-            <span className={styles.statLabel}>Completed Sessions</span>
-          </div>
+          <StatCard number="500+" label="Different Skills" />
+          <StatCard number="10,000+" label="Active Users" />
+          <StatCard number="5,000+" label="Completed Sessions" />
         </section>
 
         <section className={styles.testimonials}>
-          <h2>What Our Users Say</h2>
+          <SectionTitle level={2} align="center">
+            What Our Users Say
+          </SectionTitle>
           <div className={styles.testimonialCards}>
             <div className={styles.testimonialCard}>
               <div className={styles.testimonialContent}>
@@ -340,19 +345,21 @@ export default function LandingPage() {
         </section>
 
         <section className={styles.callToAction}>
-          <h2>Join the Community Today</h2>
-          <p>
-            We&apos;re democratizing access to education by making it flexible,
-            accessible, and community-based
-          </p>
+          <SectionTitle
+            level={2}
+            align="center"
+            subtitle="We're democratizing access to education by making it flexible, accessible, and community-based"
+          >
+            Join the Community Today
+          </SectionTitle>
 
           <div className={styles.ctaButtons}>
-            <Link href="/auth?role=student" className={styles.primaryButton}>
+            <Button variant="primary" size="large" href="/auth?role=student">
               Start Learning
-            </Link>
-            <Link href="/auth?role=teacher" className={styles.secondaryButton}>
+            </Button>
+            <Button variant="secondary" size="large" href="/auth?role=teacher">
               Start Teaching
-            </Link>
+            </Button>
           </div>
         </section>
       </div>
