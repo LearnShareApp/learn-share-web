@@ -1,0 +1,29 @@
+.card {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.content {
+  margin-bottom: 12px;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  border-radius: 50%;
+}
+
+.authorName {
+  margin: 0;
+  font-weight: 600;
+}
+
+.authorRole {
+  margin: 0;
+  opacity: 0.85;
+}

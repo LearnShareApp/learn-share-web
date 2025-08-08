@@ -1,11 +1,13 @@
 import React from "react";
 import styles from "./page.module.scss";
+import { PageHeader, Card, SectionTitle } from "@/components";
 
 export default function SupportPage() {
   return (
     <div className={styles.container}>
-      <h1>Support Our Project</h1>
-      <div className="card">
+      <PageHeader title="Support Our Project" />
+      <Card>
+        <SectionTitle level={3}>How you can help</SectionTitle>
         <p>We need your help to keep this project alive and growing!</p>
         <p>There are two main ways you can support us:</p>
         <ul>
@@ -26,7 +28,7 @@ export default function SupportPage() {
           Together, we can make this project even better. Thank you for your
           support!
         </p>
-      </div>
+      </Card>
     </div>
   );
 }

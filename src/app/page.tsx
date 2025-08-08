@@ -20,7 +20,15 @@ import {
   Code,
   Music,
 } from "lucide-react";
-import { Button, SectionTitle, StatCard } from "@/components";
+import {
+  Button,
+  SectionTitle,
+  StatCard,
+  FeatureItem,
+  StepList,
+  IconCard,
+  TestimonialCard,
+} from "@/components";
 import styles from "./page.module.scss";
 
 export default function LandingPage() {
@@ -74,25 +82,13 @@ export default function LandingPage() {
 
         <div className={styles.keyFeatures}>
           <div className={styles.keyFeatureContent}>
-            <div className={styles.keyFeature}>
-              <Info size={24} />
-              <span>100+ Skills</span>
-            </div>
-
-            <div className={styles.keyFeature}>
-              <CalendarDays size={24} />
-              <span>Flexible Scheduling</span>
-            </div>
-
-            <div className={styles.keyFeature}>
-              <Shield size={24} />
-              <span>Safe Learning</span>
-            </div>
-
-            <div className={styles.keyFeature}>
-              <Users size={24} />
-              <span>Community Growth</span>
-            </div>
+            <FeatureItem icon={<Info size={24} />} label="100+ Skills" />
+            <FeatureItem
+              icon={<CalendarDays size={24} />}
+              label="Flexible Scheduling"
+            />
+            <FeatureItem icon={<Shield size={24} />} label="Safe Learning" />
+            <FeatureItem icon={<Users size={24} />} label="Community Growth" />
           </div>
         </div>
       </section>
@@ -103,36 +99,28 @@ export default function LandingPage() {
             How It Works
           </SectionTitle>
 
-          <div className={styles.steps}>
-            <div className={styles.step}>
-              <div className={styles.stepNumber}>1</div>
-              <div className={styles.stepContent}>
-                <h3>Sign Up</h3>
-                <p>
-                  Create an account, complete your profile, and specify your
-                  interests and skills
-                </p>
-              </div>
-            </div>
-
-            <div className={styles.step}>
-              <div className={styles.stepNumber}>2</div>
-              <div className={styles.stepContent}>
-                <h3>Choose Your Role</h3>
-                <p>Decide who you want to be today: a student or a teacher</p>
-              </div>
-            </div>
-
-            <div className={styles.step}>
-              <div className={styles.stepNumber}>3</div>
-              <div className={styles.stepContent}>
-                <h3>Start Learning</h3>
-                <p>
-                  Find the perfect teacher or students for knowledge exchange
-                </p>
-              </div>
-            </div>
-          </div>
+          <StepList
+            steps={[
+              {
+                number: 1,
+                title: "Sign Up",
+                description:
+                  "Create an account, complete your profile, and specify your interests and skills",
+              },
+              {
+                number: 2,
+                title: "Choose Your Role",
+                description:
+                  "Decide who you want to be today: a student or a teacher",
+              },
+              {
+                number: 3,
+                title: "Start Learning",
+                description:
+                  "Find the perfect teacher or students for knowledge exchange",
+              },
+            ]}
+          />
         </section>
 
         <section className={styles.benefits}>
@@ -141,67 +129,36 @@ export default function LandingPage() {
           </SectionTitle>
 
           <div className={styles.benefitCards}>
-            <div className={styles.benefitCard}>
-              <div className={styles.benefitIcon}>
-                <User size={32} />
-              </div>
-              <h3>One-on-One Sessions</h3>
-              <p>
-                Book personal sessions with mentors and experts in various
-                fields
-              </p>
-            </div>
-
-            <div className={styles.benefitCard}>
-              <div className={styles.benefitIcon}>
-                <Users size={32} />
-              </div>
-              <h3>Group Classes</h3>
-              <p>
-                Organize or join affordable and collaborative learning sessions
-              </p>
-            </div>
-
-            <div className={styles.benefitCard}>
-              <div className={styles.benefitIcon}>
-                <Presentation size={32} />
-              </div>
-              <h3>Events & Webinars</h3>
-              <p>
-                Participate in public lectures, webinars, and workshops from the
-                community
-              </p>
-            </div>
-
-            <div className={styles.benefitCard}>
-              <div className={styles.benefitIcon}>
-                <CheckCircle2 size={32} />
-              </div>
-              <h3>Reviews & Ratings</h3>
-              <p>Build trust and transparency through verified user reviews</p>
-            </div>
-
-            <div className={styles.benefitCard}>
-              <div className={styles.benefitIcon}>
-                <MessageSquare size={32} />
-              </div>
-              <h3>Chat System</h3>
-              <p>
-                Convenient communication with teachers and students before and
-                after sessions for maximum efficiency
-              </p>
-            </div>
-
-            <div className={styles.benefitCard}>
-              <div className={styles.benefitIcon}>
-                <CreditCard size={32} />
-              </div>
-              <h3>Flexible Payments</h3>
-              <p>
-                Convenient payment system and wallet for easy earnings and
-                expense management
-              </p>
-            </div>
+            <IconCard
+              icon={<User size={32} />}
+              title="One-on-One Sessions"
+              subtitle="Book personal sessions with mentors and experts in various fields"
+            />
+            <IconCard
+              icon={<Users size={32} />}
+              title="Group Classes"
+              subtitle="Organize or join affordable and collaborative learning sessions"
+            />
+            <IconCard
+              icon={<Presentation size={32} />}
+              title="Events & Webinars"
+              subtitle="Participate in public lectures, webinars, and workshops from the community"
+            />
+            <IconCard
+              icon={<CheckCircle2 size={32} />}
+              title="Reviews & Ratings"
+              subtitle="Build trust and transparency through verified user reviews"
+            />
+            <IconCard
+              icon={<MessageSquare size={32} />}
+              title="Chat System"
+              subtitle="Convenient communication with teachers and students before and after sessions for maximum efficiency"
+            />
+            <IconCard
+              icon={<CreditCard size={32} />}
+              title="Flexible Payments"
+              subtitle="Convenient payment system and wallet for easy earnings and expense management"
+            />
           </div>
         </section>
 
@@ -211,53 +168,36 @@ export default function LandingPage() {
           </SectionTitle>
 
           <div className={styles.categoriesGrid}>
-            <div className={styles.categoryCard}>
-              <div className={styles.categoryIcon}>
-                <LayoutPanelLeft size={24} />
-              </div>
-              <h3>Digital Skills</h3>
-              <p>200+ Skills</p>
-            </div>
-
-            <div className={styles.categoryCard}>
-              <div className={styles.categoryIcon}>
-                <Palette size={24} />
-              </div>
-              <h3>Creative Arts</h3>
-              <p>150+ Skills</p>
-            </div>
-
-            <div className={styles.categoryCard}>
-              <div className={styles.categoryIcon}>
-                <Languages size={24} />
-              </div>
-              <h3>Languages</h3>
-              <p>100+ Skills</p>
-            </div>
-
-            <div className={styles.categoryCard}>
-              <div className={styles.categoryIcon}>
-                <Star size={24} />
-              </div>
-              <h3>Life Skills</h3>
-              <p>180+ Skills</p>
-            </div>
-
-            <div className={styles.categoryCard}>
-              <div className={styles.categoryIcon}>
-                <Code size={24} />
-              </div>
-              <h3>Tech & Coding</h3>
-              <p>250+ Skills</p>
-            </div>
-
-            <div className={styles.categoryCard}>
-              <div className={styles.categoryIcon}>
-                <Music size={24} />
-              </div>
-              <h3>Music & Performance</h3>
-              <p>120+ Skills</p>
-            </div>
+            <IconCard
+              icon={<LayoutPanelLeft size={24} />}
+              title="Digital Skills"
+              subtitle="200+ Skills"
+            />
+            <IconCard
+              icon={<Palette size={24} />}
+              title="Creative Arts"
+              subtitle="150+ Skills"
+            />
+            <IconCard
+              icon={<Languages size={24} />}
+              title="Languages"
+              subtitle="100+ Skills"
+            />
+            <IconCard
+              icon={<Star size={24} />}
+              title="Life Skills"
+              subtitle="180+ Skills"
+            />
+            <IconCard
+              icon={<Code size={24} />}
+              title="Tech & Coding"
+              subtitle="250+ Skills"
+            />
+            <IconCard
+              icon={<Music size={24} />}
+              title="Music & Performance"
+              subtitle="120+ Skills"
+            />
           </div>
         </section>
 
@@ -272,75 +212,24 @@ export default function LandingPage() {
             What Our Users Say
           </SectionTitle>
           <div className={styles.testimonialCards}>
-            <div className={styles.testimonialCard}>
-              <div className={styles.testimonialContent}>
-                <p>
-                  &ldquo;The platform completely changed my approach to
-                  learning. Now I can not only gain knowledge but also share my
-                  experience with others. A wonderful opportunity for
-                  professional growth!&rdquo;
-                </p>
-              </div>
-              <div className={styles.testimonialAuthor}>
-                <Image
-                  src="/images/person1.jpg"
-                  alt="Alexander K."
-                  width={80}
-                  height={80}
-                  className={styles.authorAvatar}
-                />
-                <div className={styles.authorInfo}>
-                  <p className={styles.authorName}>Alexander K.</p>
-                  <p className={styles.authorRole}>JavaScript Instructor</p>
-                </div>
-              </div>
-            </div>
-            <div className={styles.testimonialCard}>
-              <div className={styles.testimonialContent}>
-                <p>
-                  &ldquo;Thanks to Learn&Share, I found the perfect design
-                  teacher. The user-friendly interface, flexible schedule, and
-                  personalized approach made learning extremely
-                  effective.&rdquo;
-                </p>
-              </div>
-              <div className={styles.testimonialAuthor}>
-                <Image
-                  src="/images/person1.jpg"
-                  alt="Maria S."
-                  width={80}
-                  height={80}
-                  className={styles.authorAvatar}
-                />
-                <div className={styles.authorInfo}>
-                  <p className={styles.authorName}>Maria S.</p>
-                  <p className={styles.authorRole}>Student, Web Designer</p>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.testimonialCard}>
-              <div className={styles.testimonialContent}>
-                <p>
-                  &ldquo;As an English teacher, I appreciate the opportunity to
-                  work with motivated students. The platform provides all the
-                  necessary tools for effective teaching.&rdquo;
-                </p>
-              </div>
-              <div className={styles.testimonialAuthor}>
-                <Image
-                  src="/images/person1.jpg"
-                  alt="Elena M."
-                  width={80}
-                  height={80}
-                  className={styles.authorAvatar}
-                />
-                <div className={styles.authorInfo}>
-                  <p className={styles.authorName}>Elena M.</p>
-                  <p className={styles.authorRole}>English Teacher</p>
-                </div>
-              </div>
-            </div>
+            <TestimonialCard
+              text="The platform completely changed my approach to learning. Now I can not only gain knowledge but also share my experience with others. A wonderful opportunity for professional growth!"
+              avatarSrc="/images/person1.jpg"
+              name="Alexander K."
+              role="JavaScript Instructor"
+            />
+            <TestimonialCard
+              text="Thanks to Learn&Share, I found the perfect design teacher. The user-friendly interface, flexible schedule, and personalized approach made learning extremely effective."
+              avatarSrc="/images/person1.jpg"
+              name="Maria S."
+              role="Student, Web Designer"
+            />
+            <TestimonialCard
+              text="As an English teacher, I appreciate the opportunity to work with motivated students. The platform provides all the necessary tools for effective teaching."
+              avatarSrc="/images/person1.jpg"
+              name="Elena M."
+              role="English Teacher"
+            />
           </div>
         </section>
 

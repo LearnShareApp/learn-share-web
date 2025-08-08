@@ -12,7 +12,7 @@
 
 .icon {
   margin-bottom: 16px;
-  color: #9ca3af;
+  color: $color-text-secondary;
 
   svg {
     width: 48px;
@@ -23,13 +23,13 @@
 .title {
   margin: 0 0 8px 0;
   font-size: 1.25rem;
-  font-weight: 600;
-  color: #374151;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
 }
 
 .description {
   margin: 0 0 24px 0;
-  color: #6b7280;
+  color: $color-text-secondary;
   font-size: 1rem;
   line-height: 1.5;
   max-width: 400px;

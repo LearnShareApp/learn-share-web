@@ -113,9 +113,10 @@ export default function HomePage() {
             <LessonItem lesson={nextLesson} />
           ) : (
             <EmptyState
-              icon={<Info size={24} />}
-              title="You don't have any upcoming lessons"
-              actionText="Find a Teacher"
+              icon={<Info size={48} />}
+              title="No upcoming lessons yet"
+              description="When you book lessons, they will appear here."
+              actionText="Find Teachers"
               actionHref="/teachers"
             />
           )}
@@ -129,9 +130,10 @@ export default function HomePage() {
               ))
             ) : (
               <EmptyState
-                icon={<Users size={24} />}
-                title="You haven't had any lessons yet"
-                actionText="Find a Teacher"
+                icon={<Users size={48} />}
+                title="No previous teachers yet"
+                description="After your first lesson, your teachers will appear here."
+                actionText="Find Teachers"
                 actionHref="/teachers"
               />
             )}

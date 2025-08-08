@@ -9,24 +9,24 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 16px;
-  font-size: 14px;
+  font-size: $font-size-sm;
 }
 
 .breadcrumbLink {
-  color: #6b7280;
+  color: $color-text-secondary;
   text-decoration: none;
   padding: 4px 8px;
-  border-radius: 4px;
-  transition: color 0.2s ease;
+  border-radius: $border-radius-sm;
+  transition: color $transition-fast;
 
   &:hover {
-    color: #667eea;
+    color: $color-primary;
   }
 }
 
 .breadcrumbCurrent {
-  color: #374151;
-  font-weight: 500;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
 }
 
 .breadcrumbSeparator {
@@ -48,15 +48,15 @@
 .title {
   margin: 0 0 8px 0;
   font-size: 2.25rem;
-  font-weight: 700;
-  color: #1f2937;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
   line-height: 1.2;
 }
 
 .subtitle {
   margin: 0;
   font-size: 1.125rem;
-  color: #6b7280;
+  color: $color-text-secondary;
   line-height: 1.4;
 }
 
@@ -67,7 +67,7 @@
   flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: $breakpoint-md) {
   .headerContent {
     flex-direction: column;
     align-items: stretch;

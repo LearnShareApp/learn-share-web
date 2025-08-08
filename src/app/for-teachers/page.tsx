@@ -15,10 +15,9 @@ import {
   BarChartBig,
   Bell,
   Clock,
-  Users,
-  Star,
   Settings,
 } from "lucide-react";
+import { StepList, EmptyState, SectionTitle, TeacherStats } from "@/components";
 
 const TeachingPage = () => {
   const { profile, loadingProfile } = useProfileContext();
@@ -83,35 +82,28 @@ const TeachingPage = () => {
           Share your knowledge and skills, teach others, and earn money.
         </p>
         <div className={styles.stepsContainer}>
-          <div className={styles.step}>
-            <div className={styles.stepNumber}>1</div>
-            <div className={styles.stepContent}>
-              <h3>Create a Demonstration</h3>
-              <p>
-                Record a video demonstrating your skill and upload it to
-                YouTube.
-              </p>
-            </div>
-          </div>
-          <div className={styles.step}>
-            <div className={styles.stepNumber}>2</div>
-            <div className={styles.stepContent}>
-              <h3>Submit an Application</h3>
-              <p>
-                Fill out an application form to add your skill to the platform.
-              </p>
-            </div>
-          </div>
-          <div className={styles.step}>
-            <div className={styles.stepNumber}>3</div>
-            <div className={styles.stepContent}>
-              <h3>Wait for Approval</h3>
-              <p>
-                Our moderators will check your skill and approve your
-                application.
-              </p>
-            </div>
-          </div>
+          <StepList
+            steps={[
+              {
+                number: 1,
+                title: "Create a Demonstration",
+                description:
+                  "Record a video demonstrating your skill and upload it to YouTube.",
+              },
+              {
+                number: 2,
+                title: "Submit an Application",
+                description:
+                  "Fill out an application form to add your skill to the platform.",
+              },
+              {
+                number: 3,
+                title: "Wait for Approval",
+                description:
+                  "Our moderators will check your skill and approve your application.",
+              },
+            ]}
+          />
         </div>
         <Link
           href="/for-teachers/add-skill"
@@ -145,35 +137,12 @@ const TeachingPage = () => {
           </div>
         </div>
 
-        <div className={styles.statistics}>
-          <div className={styles.statItem}>
-            <Clock className={styles.statIcon} />
-            <div className={styles.statContent}>
-              <span className={styles.statValue}>
-                {teacher.finished_lessons}
-              </span>
-              <span className={styles.statLabel}>Проведено уроков</span>
-            </div>
-          </div>
-          <div className={styles.statItem}>
-            <Users className={styles.statIcon} />
-            <div className={styles.statContent}>
-              <span className={styles.statValue}>
-                {teacher.count_of_students}
-              </span>
-              <span className={styles.statLabel}>Студентов</span>
-            </div>
-          </div>
-          <div className={styles.statItem}>
-            <Star className={styles.statIcon} />
-            <div className={styles.statContent}>
-              <span className={styles.statValue}>
-                {teacher.common_rate.toFixed(1)}
-              </span>
-              <span className={styles.statLabel}>Рейтинг</span>
-            </div>
-          </div>
-        </div>
+        <TeacherStats
+          className={styles.statistics}
+          finishedLessons={teacher.finished_lessons}
+          studentsCount={teacher.count_of_students}
+          rating={teacher.common_rate.toFixed(1)}
+        />
       </header>
 
       <div className={styles.quickActions}>
@@ -231,16 +200,12 @@ const TeachingPage = () => {
                     ))}
                   </div>
                 ) : (
-                  <div className={styles.emptyState}>
-                    <CalendarPlus size={48} />
-                    <p>У вас пока нет запланированных уроков</p>
-                    <Link
-                      href="/for-teachers/add-time"
-                      className={styles.primaryButton}
-                    >
-                      Добавить доступное время
-                    </Link>
-                  </div>
+                  <EmptyState
+                    icon={<CalendarPlus size={48} />}
+                    title="У вас пока нет запланированных уроков"
+                    actionText="Добавить доступное время"
+                    actionHref="/for-teachers/add-time"
+                  />
                 )}
               </section>
             ) : (
@@ -256,10 +221,10 @@ const TeachingPage = () => {
                     ))}
                   </div>
                 ) : (
-                  <div className={styles.emptyState}>
-                    <Clock size={48} />
-                    <p>У вас пока нет завершенных уроков</p>
-                  </div>
+                  <EmptyState
+                    icon={<Clock size={48} />}
+                    title="У вас пока нет завершенных уроков"
+                  />
                 )}
               </section>
             )}
@@ -268,7 +233,7 @@ const TeachingPage = () => {
           <div className={styles.sideColumn}>
             <div className={styles.skillsSection}>
               <div className={styles.sectionHeader}>
-                <h2>Ваши навыки</h2>
+                <SectionTitle level={2}>Ваши навыки</SectionTitle>
                 <Link
                   href="/for-teachers/add-skill"
                   className={styles.addButton}
@@ -299,6 +264,12 @@ const TeachingPage = () => {
                         className={styles.editButton}
                       >
                         Редактировать
+                      </Link>
+                      <Link
+                        href={`/teachers/${teacher.teacher_id}`}
+                        className={styles.viewButton}
+                      >
+                        Просмотреть
                       </Link>
                     </div>
                   </div>

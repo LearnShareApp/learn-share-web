@@ -1,14 +1,13 @@
 import React from "react";
 import styles from "./page.module.scss";
+import { DocumentLayout } from "@/components";
 
 export default function TermsPage() {
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h1>Learn&amp;Share Terms of Service</h1>
-        <p className={styles.lastUpdated}>Last updated: March 18, 2024</p>
-      </div>
-
+    <DocumentLayout
+      title="Learn&Share Terms of Service"
+      lastUpdated="March 18, 2024"
+    >
       <div className={styles.termsContent}>
         <section className={styles.termsSection}>
           <h2>1. Introduction</h2>
@@ -364,6 +363,6 @@ export default function TermsPage() {
           </div>
         </section>
       </div>
-    </div>
+    </DocumentLayout>
   );
 }

@@ -1,0 +1,29 @@
+.steps {
+  display: grid;
+  gap: 16px;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.stepNumber {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.stepContent h3 {
+  margin: 0 0 4px 0;
+}
+
+.stepContent p {
+  margin: 0;
+}

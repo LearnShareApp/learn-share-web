@@ -1,0 +1,16 @@
+.featureItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.icon {
+  display: inline-flex;
+}
+
+.label {
+  font-weight: 500;
+}

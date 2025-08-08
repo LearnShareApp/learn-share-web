@@ -1,16 +1,15 @@
 import React from "react";
 import styles from "./page.module.scss";
+import { DocumentLayout } from "@/components";
 
 //TODO: replace the postal address from Russian Federation, Moscow, Primernaya st., 123, LLC "LearnSher", 123456 to Serbia, Novi Sad, random street random house etc.
 
 export default function PrivacyPage() {
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h1>Learn&amp;Share Privacy Policy</h1>
-        <p className={styles.lastUpdated}>Last updated: March 18, 2024</p>
-      </div>
-
+    <DocumentLayout
+      title="Learn&Share Privacy Policy"
+      lastUpdated="March 18, 2024"
+    >
       <div className={styles.policyContent}>
         <section className={styles.policySection}>
           <h2>About Us</h2>
@@ -590,6 +589,6 @@ export default function PrivacyPage() {
           </div>
         </section>
       </div>
-    </div>
+    </DocumentLayout>
   );
 }

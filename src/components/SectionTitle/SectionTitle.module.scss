@@ -6,8 +6,8 @@
 
 .sectionTitle {
   margin: 0;
-  font-weight: 600;
-  color: #333;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
   line-height: 1.2;
 }
 
@@ -45,7 +45,7 @@
 
 .subtitle {
   margin: 0;
-  color: #666;
+  color: $color-text-secondary;
   font-size: 1rem;
   line-height: 1.4;
 }

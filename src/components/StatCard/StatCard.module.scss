@@ -1,15 +1,15 @@
 @use "../../styles/variables.scss" as *;
 
 .statCard {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: $color-background-primary;
+  border: 1px solid $color-border;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease;
+  box-shadow: $shadow-sm;
+  transition: all $transition-fast;
 
   &:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: $shadow-md;
     transform: translateY(-2px);
   }
 }
@@ -29,20 +29,20 @@
 
 .number {
   font-size: 2rem;
-  font-weight: 700;
-  color: #1f2937;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
   line-height: 1;
 }
 
 .label {
   font-size: 0.875rem;
-  color: #6b7280;
-  font-weight: 500;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
 }
 
 .icon {
-  color: #667eea;
-  opacity: 0.7;
+  color: $color-primary;
+  opacity: 0.8;
 
   svg {
     width: 24px;
@@ -52,18 +52,18 @@
 
 .trend {
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   padding: 4px 8px;
   border-radius: 6px;
   display: inline-block;
 
   &.positive {
-    color: #059669;
-    background: rgba(5, 150, 105, 0.1);
+    color: $color-success-dark;
+    background: rgba($color-success, 0.1);
   }
 
   &.negative {
-    color: #dc2626;
-    background: rgba(220, 38, 38, 0.1);
+    color: $color-danger-dark;
+    background: rgba($color-danger, 0.1);
   }
 }

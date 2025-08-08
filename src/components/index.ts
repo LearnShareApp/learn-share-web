@@ -14,3 +14,11 @@ export { default as Badge } from "./badge/Badge";
 export { default as Loader } from "./loader/Loader";
 export { default as TeacherVideo } from "./teacher-video/TeacherVideo";
 export { default as AuthRedirector } from "./AuthRedirector";
+
+// New reusable blocks
+export { default as FeatureItem } from "./FeatureItem/FeatureItem";
+export { default as StepList } from "./StepList/StepList";
+export { default as IconCard } from "./IconCard/IconCard";
+export { default as TestimonialCard } from "./TestimonialCard/TestimonialCard";
+export { default as DocumentLayout } from "./DocumentLayout/DocumentLayout";
+export { default as TeacherStats } from "./TeacherStats/TeacherStats";
