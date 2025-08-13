@@ -41,11 +41,14 @@ interface MediaError extends Error {
   message: string;
 }
 
-export default function LessonRoomPage({ params }: { params: PageParams }) {
+export default function LessonRoomPage({
+  params,
+}: {
+  params: Promise<PageParams>;
+}) {
   const router = useRouter();
 
   // Используем React.use() для получения params, как требуется в новой версии Next.js
-  // @ts-expect-error - игнорируем предупреждение TypeScript, так как это новая функциональность Next.js
   const resolvedParams = use(params) as PageParams;
   const lessonToken = resolvedParams.lessonToken;
 
