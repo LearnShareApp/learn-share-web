@@ -33,6 +33,13 @@ class ApiService {
   private api: AxiosInstance;
 
   constructor() {
+    // Проверяем наличие URL бекенда
+    if (!BACKEND_URL) {
+      console.error(
+        "NEXT_PUBLIC_API_URL is not defined. Please set it in your .env.local file."
+      );
+    }
+
     this.api = axios.create({
       baseURL: BACKEND_URL,
       headers: {
