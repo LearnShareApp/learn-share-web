@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { apiService } from "@/utilities/api";
 import { DateTime, TeacherSkill } from "../../types/types";
@@ -10,7 +10,7 @@ import Avatar from "@/components/avatar/Avatar";
 import Loader from "@/components/loader/Loader";
 import { useTeacher } from "@/hooks/useTeacher";
 
-export default function BookPage() {
+function BookPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const teacherId = searchParams.get("teacherId");
@@ -245,5 +245,13 @@ export default function BookPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BookPage() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <BookPageContent />
+    </Suspense>
   );
 }

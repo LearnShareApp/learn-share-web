@@ -1,7 +1,7 @@
 "use client";
 
 // import { apiService } from "../../utilities/api";
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { apiService } from "../../utilities/api";
 import { TeacherProfile, Category } from "../../types/types";
@@ -26,7 +26,7 @@ function debounce<A extends unknown[], R>(
   };
 }
 
-export default function TeachersPage() {
+function TeachersPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -222,5 +222,13 @@ export default function TeachersPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function TeachersPage() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <TeachersPageContent />
+    </Suspense>
   );
 }

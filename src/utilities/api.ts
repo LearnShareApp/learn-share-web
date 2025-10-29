@@ -128,7 +128,7 @@ class ApiService {
   }
 
   async lessonApprove(id: number): Promise<string> {
-    const response = await this.api.put(`/api/lessons/${id}/approve`);
+    const response = await this.api.put(`/api/lessons/${id}/plan`);
     return response.statusText;
   }
 
