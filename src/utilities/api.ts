@@ -104,14 +104,14 @@ class ApiService {
 
   async getTime(): Promise<DateTime[]> {
     const response = await this.api.get<TimesResponse>("/api/teacher/schedule");
-    return response.data.datetimes;
+    return response.data.datetimes || [];
   }
 
   async getTimeById(id: string): Promise<DateTime[]> {
     const response = await this.api.get<TimesResponse>(
       `/api/teachers/${id}/schedule`
     );
-    return response.data.datetimes;
+    return response.data.datetimes || [];
   }
 
   async getAvatar(avatarId: string): Promise<ArrayBuffer> {
@@ -149,7 +149,7 @@ class ApiService {
 
   async getCategories(): Promise<Category[]> {
     const response = await this.api.get<CategoriesResponse>("/api/categories");
-    return response.data.categories;
+    return response.data.categories || [];
   }
 
   async getUserProfile(): Promise<UserProfile> {
@@ -173,7 +173,7 @@ class ApiService {
     const response = await this.api.get<ComplaintResponse>(
       `/api/admin/complaints`
     );
-    return response.data.complaints;
+    return response.data.complaints || [];
   }
 
   async getAdminSkills(): Promise<GetAdminSkills> {
@@ -202,12 +202,12 @@ class ApiService {
     const response = await this.api.get<TeacherLessonResponse>(
       "/api/teacher/lessons"
     );
-    return response.data.lessons;
+    return response.data.lessons || [];
   }
 
   async getLessons(): Promise<Lesson[]> {
     const response = await this.api.get<LessonResponse>("/api/student/lessons");
-    return response.data.lessons;
+    return response.data.lessons || [];
   }
 
   async getLessonToken(id: number): Promise<string> {

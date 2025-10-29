@@ -36,7 +36,7 @@ export default function HomePage() {
       setLoadingLessons(true);
       try {
         const lessonsData = await apiService.getLessons();
-        const upcomingLessons = lessonsData.filter(
+        const upcomingLessons = (lessonsData || []).filter(
           (lesson) => new Date(lesson.datetime) > new Date()
         );
         const sortedLessons = upcomingLessons.sort(

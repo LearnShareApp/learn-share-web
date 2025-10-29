@@ -26,7 +26,7 @@ export default function LessonRequestsPage() {
         setLoading(true);
         const response = await apiService.getTeacherLessons();
         // Filter lessons by status
-        setLessons(response);
+        setLessons(response || []);
         setError(null);
       } catch (err) {
         console.error("Error loading lessons:", err);

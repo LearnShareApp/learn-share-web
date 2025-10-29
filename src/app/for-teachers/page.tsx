@@ -39,7 +39,7 @@ const TeachingPage = () => {
         try {
           setLoading(true);
           const response = await apiService.getTeacherLessons();
-          const sortedLessons = response.sort((a, b) => {
+          const sortedLessons = (response || []).sort((a, b) => {
             const dateA = new Date(a.datetime);
             const dateB = new Date(b.datetime);
             return dateB.getTime() - dateA.getTime();
@@ -75,7 +75,9 @@ const TeachingPage = () => {
   if (loadingProfile || (profile?.is_teacher && loadingTeacher))
     return <Loader />;
 
-  if (!teacher || !profile?.is_teacher || error)
+  console.log(error);
+
+  if (!teacher || !profile?.is_teacher)
     return (
       <div className={styles.becomeTeacherCard}>
         <h1 className={styles.title}>Become a Teacher</h1>
