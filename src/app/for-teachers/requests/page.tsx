@@ -41,8 +41,8 @@ export default function LessonRequestsPage() {
 
   // Filter lessons based on active tab
   const filteredLessons = lessons.filter((lesson) => {
-    if (activeTab === "pending") return lesson.status === "verification";
-    if (activeTab === "cancelled") return lesson.status === "cancelled";
+    if (activeTab === "pending") return lesson.state_name === "pending";
+    if (activeTab === "cancelled") return lesson.state_name === "cancelled";
     return true; // "all" tab
   });
 
@@ -54,7 +54,7 @@ export default function LessonRequestsPage() {
       setLessons(
         lessons.map((lesson) =>
           lesson.lesson_id === lessonId
-            ? { ...lesson, status: "approved" }
+            ? { ...lesson, state_name: "planned" }
             : lesson
         )
       );
@@ -72,7 +72,7 @@ export default function LessonRequestsPage() {
       setLessons(
         lessons.map((lesson) =>
           lesson.lesson_id === lessonId
-            ? { ...lesson, status: "cancelled" }
+            ? { ...lesson, state_name: "cancelled" }
             : lesson
         )
       );
@@ -96,10 +96,10 @@ export default function LessonRequestsPage() {
 
   // Count lessons by status
   const pendingCount = lessons.filter(
-    (lesson) => lesson.status === "verification"
+    (lesson) => lesson.state_name === "pending"
   ).length;
   const cancelledCount = lessons.filter(
-    (lesson) => lesson.status === "cancelled"
+    (lesson) => lesson.state_name === "cancelled"
   ).length;
 
   return (
@@ -174,21 +174,21 @@ export default function LessonRequestsPage() {
                   <div
                     className={styles.statusBadge}
                     data-status={
-                      lesson.status === "verification"
+                      lesson.state_name === "pending"
                         ? "pending"
-                        : lesson.status
+                        : lesson.state_name
                     }
                   >
-                    {lesson.status === "verification" && "Pending Confirmation"}
-                    {lesson.status === "cancelled" && "Cancelled"}
-                    {lesson.status === "approved" && "Approved"}
-                    {!["verification", "cancelled", "approved"].includes(
-                      lesson.status
-                    ) && lesson.status}
+                    {lesson.state_name === "pending" && "Pending Confirmation"}
+                    {lesson.state_name === "cancelled" && "Cancelled"}
+                    {lesson.state_name === "approved" && "Approved"}
+                    {!["pending", "cancelled", "approved"].includes(
+                      lesson.state_name
+                    ) && lesson.state_name}
                   </div>
                 </div>
 
-                {lesson.status === "verification" && (
+                {lesson.state_name === "pending" && (
                   <div className={styles.requestActions}>
                     <button
                       className={styles.approveButton}

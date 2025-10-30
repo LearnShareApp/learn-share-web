@@ -22,9 +22,7 @@ import {
 
 const TeachingPage = () => {
   const { profile, loadingProfile } = useProfileContext();
-  const { teacher, loadingTeacher } = useTeacher({
-    skipProfileCheck: true,
-  });
+  const { teacher, loadingTeacher } = useTeacher();
 
   const [pastLessons, setPastLessons] = useState<TeacherLesson[]>([]);
   const [upcomingLessons, setUpcomingLessons] = useState<TeacherLesson[]>([]);
@@ -46,18 +44,18 @@ const TeachingPage = () => {
           });
 
           setPastLessons(
-            sortedLessons.filter((lesson) => lesson.status === "finished")
+            sortedLessons.filter((lesson) => lesson.state_name === "finished")
           );
           setUpcomingLessons(
             sortedLessons.filter(
               (lesson) =>
-                lesson.status !== "finished" &&
-                lesson.status !== "cancel" &&
-                lesson.status !== "cancelled"
+                lesson.state_name !== "finished" &&
+                lesson.state_name !== "cancel" &&
+                lesson.state_name !== "cancelled"
             )
           );
           setNewRequests(
-            sortedLessons.filter((lesson) => lesson.status === "waiting")
+            sortedLessons.filter((lesson) => lesson.state_name === "pending")
           );
           setError(null);
         } catch (err) {

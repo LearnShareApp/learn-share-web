@@ -55,7 +55,7 @@ const AuthPage = () => {
     try {
       const response = await apiService.signUp({
         ...signUpData,
-        birthdate: new Date(signUpData.birthdate),
+        birthdate: new Date(signUpData.birthdate).toISOString(),
       });
       localStorage.setItem("userToken", response.token);
       router.push("/home");

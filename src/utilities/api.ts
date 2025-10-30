@@ -165,8 +165,10 @@ class ApiService {
   }
 
   async getIsAdmin(): Promise<boolean> {
-    const response = await this.api.get<boolean>(`/api/user/is-admin`);
-    return response.data;
+    const response = await this.api.get<{ is_admin: boolean }>(
+      `/api/user/is-admin`
+    );
+    return response.data.is_admin;
   }
 
   async getComplaints(): Promise<Complaint[]> {
