@@ -9,6 +9,7 @@ import styles from "./page.module.scss";
 import Link from "next/link";
 import Loader from "@/components/loader/Loader";
 import { useProfileContext } from "@/providers/ProfileProvider";
+import { LessonState, isOneOfStates } from "@/types/lessonStates";
 import {
   CalendarPlus,
   ClipboardList,
@@ -44,18 +45,20 @@ const TeachingPage = () => {
           });
 
           setPastLessons(
-            sortedLessons.filter((lesson) => lesson.state_name === "finished")
+            sortedLessons.filter((lesson) => lesson.state_id === LessonState.Finished)
           );
           setUpcomingLessons(
             sortedLessons.filter(
               (lesson) =>
-                lesson.state_name !== "finished" &&
-                lesson.state_name !== "cancel" &&
-                lesson.state_name !== "cancelled"
+                !isOneOfStates(lesson.state_id, [
+                  LessonState.Finished,
+                  LessonState.Cancelled,
+                  LessonState.Rejected,
+                ])
             )
           );
           setNewRequests(
-            sortedLessons.filter((lesson) => lesson.state_name === "pending")
+            sortedLessons.filter((lesson) => lesson.state_id === LessonState.Pending)
           );
           setError(null);
         } catch (err) {

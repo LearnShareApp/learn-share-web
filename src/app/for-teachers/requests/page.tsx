@@ -6,6 +6,7 @@ import Link from "next/link";
 import Loader from "@/components/loader/Loader";
 import { apiService } from "@/utilities/api";
 import { TeacherLesson } from "../../../types/types";
+import { LessonState } from "@/types/lessonStates";
 import { useTeacher } from "@/hooks/useTeacher";
 import { Archive } from "lucide-react";
 
@@ -41,8 +42,8 @@ export default function LessonRequestsPage() {
 
   // Filter lessons based on active tab
   const filteredLessons = lessons.filter((lesson) => {
-    if (activeTab === "pending") return lesson.state_name === "pending";
-    if (activeTab === "cancelled") return lesson.state_name === "cancelled";
+    if (activeTab === "pending") return lesson.state_id === LessonState.Pending;
+    if (activeTab === "cancelled") return lesson.state_id === LessonState.Cancelled;
     return true; // "all" tab
   });
 
@@ -54,7 +55,7 @@ export default function LessonRequestsPage() {
       setLessons(
         lessons.map((lesson) =>
           lesson.lesson_id === lessonId
-            ? { ...lesson, state_name: "planned" }
+            ? { ...lesson, state_id: LessonState.Planned, state_name: "planned" }
             : lesson
         )
       );
@@ -72,7 +73,7 @@ export default function LessonRequestsPage() {
       setLessons(
         lessons.map((lesson) =>
           lesson.lesson_id === lessonId
-            ? { ...lesson, state_name: "cancelled" }
+            ? { ...lesson, state_id: LessonState.Cancelled, state_name: "cancelled" }
             : lesson
         )
       );
@@ -96,10 +97,10 @@ export default function LessonRequestsPage() {
 
   // Count lessons by status
   const pendingCount = lessons.filter(
-    (lesson) => lesson.state_name === "pending"
+    (lesson) => lesson.state_id === LessonState.Pending
   ).length;
   const cancelledCount = lessons.filter(
-    (lesson) => lesson.state_name === "cancelled"
+    (lesson) => lesson.state_id === LessonState.Cancelled
   ).length;
 
   return (
@@ -174,21 +175,21 @@ export default function LessonRequestsPage() {
                   <div
                     className={styles.statusBadge}
                     data-status={
-                      lesson.state_name === "pending"
+                      lesson.state_id === LessonState.Pending
                         ? "pending"
                         : lesson.state_name
                     }
                   >
-                    {lesson.state_name === "pending" && "Pending Confirmation"}
-                    {lesson.state_name === "cancelled" && "Cancelled"}
+                    {lesson.state_id === LessonState.Pending && "Pending Confirmation"}
+                    {lesson.state_id === LessonState.Cancelled && "Cancelled"}
                     {lesson.state_name === "approved" && "Approved"}
-                    {!["pending", "cancelled", "approved"].includes(
-                      lesson.state_name
+                    {![LessonState.Pending, LessonState.Cancelled].includes(
+                      lesson.state_id as any
                     ) && lesson.state_name}
                   </div>
                 </div>
 
-                {lesson.state_name === "pending" && (
+                {lesson.state_id === LessonState.Pending && (
                   <div className={styles.requestActions}>
                     <button
                       className={styles.approveButton}
