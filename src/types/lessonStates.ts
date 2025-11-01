@@ -1,10 +1,13 @@
 export const LessonState = {
   Pending: 1,
-  Planned: 2,
-  Ongoing: 3,
-  Finished: 4,
+  Approved: 2,
+  Rejected: 3,
+  Planned: 4,
   Cancelled: 5,
-  Rejected: 6,
+  Ongoing: 6,
+  Finished: 7,
+  Conflicted: 8,
+  Completed: 9,
 } as const;
 
 export type LessonStateId = (typeof LessonState)[keyof typeof LessonState];
