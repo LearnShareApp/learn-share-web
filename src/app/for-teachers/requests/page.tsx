@@ -6,7 +6,7 @@ import Link from "next/link";
 import Loader from "@/components/loader/Loader";
 import { apiService } from "@/utilities/api";
 import { TeacherLesson } from "../../../types/types";
-import { LessonState } from "@/types/lessonStates";
+import { LessonState, isOneOfStates } from "@/types/lessonStates";
 import { useTeacher } from "@/hooks/useTeacher";
 import { Archive } from "lucide-react";
 
@@ -43,7 +43,8 @@ export default function LessonRequestsPage() {
   // Filter lessons based on active tab
   const filteredLessons = lessons.filter((lesson) => {
     if (activeTab === "pending") return lesson.state_id === LessonState.Pending;
-    if (activeTab === "cancelled") return lesson.state_id === LessonState.Cancelled;
+    if (activeTab === "cancelled")
+      return lesson.state_id === LessonState.Cancelled;
     return true; // "all" tab
   });
 
@@ -55,7 +56,11 @@ export default function LessonRequestsPage() {
       setLessons(
         lessons.map((lesson) =>
           lesson.lesson_id === lessonId
-            ? { ...lesson, state_id: LessonState.Planned, state_name: "planned" }
+            ? {
+                ...lesson,
+                state_id: LessonState.Planned,
+                state_name: "planned",
+              }
             : lesson
         )
       );
@@ -73,7 +78,11 @@ export default function LessonRequestsPage() {
       setLessons(
         lessons.map((lesson) =>
           lesson.lesson_id === lessonId
-            ? { ...lesson, state_id: LessonState.Cancelled, state_name: "cancelled" }
+            ? {
+                ...lesson,
+                state_id: LessonState.Cancelled,
+                state_name: "cancelled",
+              }
             : lesson
         )
       );
@@ -180,12 +189,14 @@ export default function LessonRequestsPage() {
                         : lesson.state_name
                     }
                   >
-                    {lesson.state_id === LessonState.Pending && "Pending Confirmation"}
+                    {lesson.state_id === LessonState.Pending &&
+                      "Pending Confirmation"}
                     {lesson.state_id === LessonState.Cancelled && "Cancelled"}
                     {lesson.state_name === "approved" && "Approved"}
-                    {![LessonState.Pending, LessonState.Cancelled].includes(
-                      lesson.state_id as any
-                    ) && lesson.state_name}
+                    {!isOneOfStates(lesson.state_id, [
+                      LessonState.Pending,
+                      LessonState.Cancelled,
+                    ]) && lesson.state_name}
                   </div>
                 </div>
 

@@ -397,7 +397,7 @@ export default function TeacherProfilePage() {
             <div className={styles.reviewsGrid}>
               {(isExpanded ? reviews : reviews.slice(0, 6)).map(
                 (review, index) => (
-                  <ReviewItem key={`${review.id}-${index}`} review={review} />
+                  <ReviewItem key={`${review.review_id}-${index}`} review={review} />
                 )
               )}
             </div>

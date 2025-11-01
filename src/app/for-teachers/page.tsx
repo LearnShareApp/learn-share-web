@@ -45,20 +45,22 @@ const TeachingPage = () => {
           });
 
           setPastLessons(
-            sortedLessons.filter((lesson) => lesson.state_id === LessonState.Finished)
+            sortedLessons.filter(
+              (lesson) => lesson.state_id === LessonState.Finished
+            )
           );
           setUpcomingLessons(
-            sortedLessons.filter(
-              (lesson) =>
-                !isOneOfStates(lesson.state_id, [
-                  LessonState.Finished,
-                  LessonState.Cancelled,
-                  LessonState.Rejected,
-                ])
+            sortedLessons.filter((lesson) =>
+              isOneOfStates(lesson.state_id, [
+                LessonState.Ongoing,
+                LessonState.Planned,
+              ])
             )
           );
           setNewRequests(
-            sortedLessons.filter((lesson) => lesson.state_id === LessonState.Pending)
+            sortedLessons.filter(
+              (lesson) => lesson.state_id === LessonState.Pending
+            )
           );
           setError(null);
         } catch (err) {

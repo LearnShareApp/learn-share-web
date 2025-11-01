@@ -273,7 +273,7 @@ export default function LessonRoomPage({
     );
   }
 
-  const serverUrl = process.env.NEXT_PUBLIC_LiveKit_URL;
+  const serverUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL;
 
   console.log("Подключение к LiveKit:", { serverUrl, tokenAvailable: !!token });
 
