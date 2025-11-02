@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import type { UserProfile } from "@/types/types"; // Исправленный импорт типа Profile
 import type Avatar from "../../../components/avatar/Avatar"; // Импортируем дефолтный экспорт
 
@@ -47,12 +48,31 @@ const ProfileInformationSettings: React.FC<ProfileInformationSettingsProps> = ({
         <div className={styles.settingControl}>
           <div className={styles.avatarSection}>
             <div className={styles.avatarPreview}>
-              <AvatarComponent avatarId={getAvatarToDisplay()} size={100} />
+              {(() => {
+                const avatarSrc = getAvatarToDisplay();
+                return avatarSrc?.startsWith("data:image/") ? (
+                  <Image
+                    src={avatarSrc}
+                    alt="Avatar preview"
+                    width={100}
+                    height={100}
+                    unoptimized
+                    style={{
+                      borderRadius: "50%",
+                      border: "none",
+                      objectFit: "cover",
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                    }}
+                  />
+                ) : (
+                  <AvatarComponent avatarId={avatarSrc} size={100} />
+                );
+              })()}
             </div>
             <div className={styles.avatarControls}>
               <p className={styles.avatarDescription}>
                 This will be displayed to other users when they view your
-                profile or posts. Max size: 2MB
+                profile or posts. Image will be automatically compressed.
               </p>
               <input
                 type="file"
