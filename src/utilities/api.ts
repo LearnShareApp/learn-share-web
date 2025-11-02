@@ -33,6 +33,13 @@ class ApiService {
   private api: AxiosInstance;
 
   constructor() {
+    // Проверяем наличие URL бекенда
+    if (!BACKEND_URL) {
+      console.error(
+        "NEXT_PUBLIC_API_URL is not defined. Please set it in your .env.local file."
+      );
+    }
+
     this.api = axios.create({
       baseURL: BACKEND_URL,
       headers: {
@@ -97,14 +104,14 @@ class ApiService {
 
   async getTime(): Promise<DateTime[]> {
     const response = await this.api.get<TimesResponse>("/api/teacher/schedule");
-    return response.data.datetimes;
+    return response.data.datetimes || [];
   }
 
   async getTimeById(id: string): Promise<DateTime[]> {
     const response = await this.api.get<TimesResponse>(
       `/api/teachers/${id}/schedule`
     );
-    return response.data.datetimes;
+    return response.data.datetimes || [];
   }
 
   async getAvatar(avatarId: string): Promise<ArrayBuffer> {
@@ -121,7 +128,7 @@ class ApiService {
   }
 
   async lessonApprove(id: number): Promise<string> {
-    const response = await this.api.put(`/api/lessons/${id}/approve`);
+    const response = await this.api.put(`/api/lessons/${id}/plan`);
     return response.statusText;
   }
 
@@ -142,7 +149,7 @@ class ApiService {
 
   async getCategories(): Promise<Category[]> {
     const response = await this.api.get<CategoriesResponse>("/api/categories");
-    return response.data.categories;
+    return response.data.categories || [];
   }
 
   async getUserProfile(): Promise<UserProfile> {
@@ -158,15 +165,17 @@ class ApiService {
   }
 
   async getIsAdmin(): Promise<boolean> {
-    const response = await this.api.get<boolean>(`/api/user/is-admin`);
-    return response.data;
+    const response = await this.api.get<{ is_admin: boolean }>(
+      `/api/user/is-admin`
+    );
+    return response.data.is_admin;
   }
 
   async getComplaints(): Promise<Complaint[]> {
     const response = await this.api.get<ComplaintResponse>(
       `/api/admin/complaints`
     );
-    return response.data.complaints;
+    return response.data.complaints || [];
   }
 
   async getAdminSkills(): Promise<GetAdminSkills> {
@@ -195,12 +204,12 @@ class ApiService {
     const response = await this.api.get<TeacherLessonResponse>(
       "/api/teacher/lessons"
     );
-    return response.data.lessons;
+    return response.data.lessons || [];
   }
 
   async getLessons(): Promise<Lesson[]> {
     const response = await this.api.get<LessonResponse>("/api/student/lessons");
-    return response.data.lessons;
+    return response.data.lessons || [];
   }
 
   async getLessonToken(id: number): Promise<string> {

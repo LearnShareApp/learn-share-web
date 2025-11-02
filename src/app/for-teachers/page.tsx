@@ -9,6 +9,7 @@ import styles from "./page.module.scss";
 import Link from "next/link";
 import Loader from "@/components/loader/Loader";
 import { useProfileContext } from "@/providers/ProfileProvider";
+import { LessonState, isOneOfStates } from "@/types/lessonStates";
 import {
   CalendarPlus,
   ClipboardList,
@@ -22,9 +23,7 @@ import {
 
 const TeachingPage = () => {
   const { profile, loadingProfile } = useProfileContext();
-  const { teacher, loadingTeacher } = useTeacher({
-    skipProfileCheck: true,
-  });
+  const { teacher, loadingTeacher } = useTeacher();
 
   const [pastLessons, setPastLessons] = useState<TeacherLesson[]>([]);
   const [upcomingLessons, setUpcomingLessons] = useState<TeacherLesson[]>([]);
@@ -39,25 +38,29 @@ const TeachingPage = () => {
         try {
           setLoading(true);
           const response = await apiService.getTeacherLessons();
-          const sortedLessons = response.sort((a, b) => {
+          const sortedLessons = (response || []).sort((a, b) => {
             const dateA = new Date(a.datetime);
             const dateB = new Date(b.datetime);
             return dateB.getTime() - dateA.getTime();
           });
 
           setPastLessons(
-            sortedLessons.filter((lesson) => lesson.status === "finished")
+            sortedLessons.filter(
+              (lesson) => lesson.state_id === LessonState.Finished
+            )
           );
           setUpcomingLessons(
-            sortedLessons.filter(
-              (lesson) =>
-                lesson.status !== "finished" &&
-                lesson.status !== "cancel" &&
-                lesson.status !== "cancelled"
+            sortedLessons.filter((lesson) =>
+              isOneOfStates(lesson.state_id, [
+                LessonState.Ongoing,
+                LessonState.Planned,
+              ])
             )
           );
           setNewRequests(
-            sortedLessons.filter((lesson) => lesson.status === "waiting")
+            sortedLessons.filter(
+              (lesson) => lesson.state_id === LessonState.Pending
+            )
           );
           setError(null);
         } catch (err) {
@@ -75,7 +78,9 @@ const TeachingPage = () => {
   if (loadingProfile || (profile?.is_teacher && loadingTeacher))
     return <Loader />;
 
-  if (!teacher || !profile?.is_teacher || error)
+  console.log(error);
+
+  if (!teacher || !profile?.is_teacher)
     return (
       <div className={styles.becomeTeacherCard}>
         <h1 className={styles.title}>Become a Teacher</h1>

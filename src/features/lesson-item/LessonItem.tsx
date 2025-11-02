@@ -1,3 +1,4 @@
+import { LessonState } from "@/types/lessonStates";
 import React, { useState, useEffect, useMemo } from "react";
 import { apiService } from "../../utilities/api";
 import Avatar from "@/components/avatar/Avatar";
@@ -25,7 +26,7 @@ const LessonItem: React.FC<LessonItemProps> = ({
   // Проверяем, должен ли урок быть автоматически завершен
   useEffect(() => {
     const autoFinishLesson = async () => {
-      if (isTeacher && lesson.status === "ongoing") {
+      if (isTeacher && lesson.state_id === LessonState.Ongoing) {
         const lessonEndTime = new Date(lessonDate.getTime() + 35 * 60 * 1000); // 35 минут после начала
         if (Date.now() > lessonEndTime.getTime()) {
           try {
@@ -40,10 +41,10 @@ const LessonItem: React.FC<LessonItemProps> = ({
     };
 
     autoFinishLesson();
-  }, [isTeacher, lesson.status, lesson.lesson_id, lessonDate]);
+  }, [isTeacher, lesson.state_id, lesson.lesson_id, lessonDate]);
 
   // Check if the lesson is in the past
-  const isPastLesson = lesson.status === "finished";
+  const isPastLesson = lesson.state_id === LessonState.Finished;
 
   // Check if lesson is starting soon (less than 5 minutes)
   const lessonStartingSoon =
@@ -123,7 +124,7 @@ const LessonItem: React.FC<LessonItemProps> = ({
       console.log("Starting lesson with ID:", lesson.lesson_id);
 
       // Проверяем, находится ли урок уже в статусе "started"
-      if (lesson.status !== "ongoing") {
+      if (lesson.state_id !== LessonState.Ongoing) {
         // Запускаем урок на сервере только если он еще не запущен
         try {
           await apiService.lessonStart(lesson.lesson_id);
@@ -165,7 +166,7 @@ const LessonItem: React.FC<LessonItemProps> = ({
 
   // Проверка на отменённый урок
   const isCancelledLesson =
-    lesson.status === "cancel" || lesson.status === "cancelled";
+    lesson.state_id === LessonState.Cancelled || lesson.state_id === LessonState.Rejected;
 
   return (
     <div

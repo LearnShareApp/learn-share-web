@@ -6,6 +6,7 @@ import Link from "next/link";
 import Loader from "@/components/loader/Loader";
 import { apiService } from "@/utilities/api";
 import { TeacherLesson } from "../../../types/types";
+import { LessonState, isOneOfStates } from "@/types/lessonStates";
 import { useTeacher } from "@/hooks/useTeacher";
 import { Archive } from "lucide-react";
 
@@ -26,7 +27,7 @@ export default function LessonRequestsPage() {
         setLoading(true);
         const response = await apiService.getTeacherLessons();
         // Filter lessons by status
-        setLessons(response);
+        setLessons(response || []);
         setError(null);
       } catch (err) {
         console.error("Error loading lessons:", err);
@@ -41,8 +42,9 @@ export default function LessonRequestsPage() {
 
   // Filter lessons based on active tab
   const filteredLessons = lessons.filter((lesson) => {
-    if (activeTab === "pending") return lesson.status === "verification";
-    if (activeTab === "cancelled") return lesson.status === "cancelled";
+    if (activeTab === "pending") return lesson.state_id === LessonState.Pending;
+    if (activeTab === "cancelled")
+      return lesson.state_id === LessonState.Cancelled;
     return true; // "all" tab
   });
 
@@ -54,7 +56,11 @@ export default function LessonRequestsPage() {
       setLessons(
         lessons.map((lesson) =>
           lesson.lesson_id === lessonId
-            ? { ...lesson, status: "approved" }
+            ? {
+                ...lesson,
+                state_id: LessonState.Planned,
+                state_name: "planned",
+              }
             : lesson
         )
       );
@@ -72,7 +78,11 @@ export default function LessonRequestsPage() {
       setLessons(
         lessons.map((lesson) =>
           lesson.lesson_id === lessonId
-            ? { ...lesson, status: "cancelled" }
+            ? {
+                ...lesson,
+                state_id: LessonState.Cancelled,
+                state_name: "cancelled",
+              }
             : lesson
         )
       );
@@ -96,10 +106,10 @@ export default function LessonRequestsPage() {
 
   // Count lessons by status
   const pendingCount = lessons.filter(
-    (lesson) => lesson.status === "verification"
+    (lesson) => lesson.state_id === LessonState.Pending
   ).length;
   const cancelledCount = lessons.filter(
-    (lesson) => lesson.status === "cancelled"
+    (lesson) => lesson.state_id === LessonState.Cancelled
   ).length;
 
   return (
@@ -174,21 +184,23 @@ export default function LessonRequestsPage() {
                   <div
                     className={styles.statusBadge}
                     data-status={
-                      lesson.status === "verification"
+                      lesson.state_id === LessonState.Pending
                         ? "pending"
-                        : lesson.status
+                        : lesson.state_name
                     }
                   >
-                    {lesson.status === "verification" && "Pending Confirmation"}
-                    {lesson.status === "cancelled" && "Cancelled"}
-                    {lesson.status === "approved" && "Approved"}
-                    {!["verification", "cancelled", "approved"].includes(
-                      lesson.status
-                    ) && lesson.status}
+                    {lesson.state_id === LessonState.Pending &&
+                      "Pending Confirmation"}
+                    {lesson.state_id === LessonState.Cancelled && "Cancelled"}
+                    {lesson.state_name === "approved" && "Approved"}
+                    {!isOneOfStates(lesson.state_id, [
+                      LessonState.Pending,
+                      LessonState.Cancelled,
+                    ]) && lesson.state_name}
                   </div>
                 </div>
 
-                {lesson.status === "verification" && (
+                {lesson.state_id === LessonState.Pending && (
                   <div className={styles.requestActions}>
                     <button
                       className={styles.approveButton}

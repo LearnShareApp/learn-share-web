@@ -49,7 +49,7 @@ export default function LessonRoomPage({
   const router = useRouter();
 
   // Используем React.use() для получения params, как требуется в новой версии Next.js
-  const resolvedParams = use(params) as PageParams;
+  const resolvedParams = use(params);
   const lessonToken = resolvedParams.lessonToken;
 
   const [token, setToken] = useState<string | null>(null);
@@ -273,7 +273,7 @@ export default function LessonRoomPage({
     );
   }
 
-  const serverUrl = process.env.NEXT_PUBLIC_LiveKit_URL;
+  const serverUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL;
 
   console.log("Подключение к LiveKit:", { serverUrl, tokenAvailable: !!token });
 

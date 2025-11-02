@@ -6,7 +6,8 @@ export interface LoginData {
 export interface SignUpData extends LoginData {
   name: string;
   surname: string;
-  birthdate: Date;
+  birthdate: string;
+  avatar?: string;
 }
 
 export interface AddSkillData {
@@ -16,7 +17,7 @@ export interface AddSkillData {
 }
 
 export interface AddTimeData {
-  datetime: Date;
+  datetime: string;
 }
 
 export interface AddReview {
@@ -27,13 +28,17 @@ export interface AddReview {
 }
 
 export interface Review {
-  id: number;
+  category_id: number;
   comment: string;
   rate: number;
-  user_id: number;
+  review_id: number;
+  skill_id: number;
+  student_avatar: string;
+  student_email: string;
+  student_id: number;
   student_name: string;
   student_surname: string;
-  student_avatar: string;
+  teacher_id: number;
 }
 
 export interface ReviewResponse {
@@ -66,7 +71,7 @@ export interface CategoriesResponse {
 }
 
 export interface DateTime {
-  datetime: Date;
+  datetime: string;
   is_available: boolean;
   schedule_time_id: number;
 }
@@ -86,7 +91,7 @@ export interface UserProfile {
   waiting_lessons: number;
   verification_lessons: number;
   finished_lessons: number;
-  registration_date: Date;
+  registration_date: string;
   is_teacher: boolean;
 }
 
@@ -97,13 +102,15 @@ export interface TeacherSkill {
   rate: number;
   skill_id: number;
   video_card_link: string;
+  is_active?: boolean;
+  reviews_count?: number;
 }
 
 export interface TeacherProfile {
   avatar: string;
   user_id: number;
   teacher_id: number;
-  registration_date: Date;
+  registration_date: string;
   email: string;
   name: string;
   surname: string;
@@ -122,10 +129,13 @@ export interface TeacherLesson {
   student_name: string;
   student_surname: string;
   student_avatar: string;
+  student_email?: string;
   category_id: number;
   category_name: string;
   status: string;
-  datetime: Date;
+  datetime: string;
+  state_id: number;
+  state_name: string;
 }
 
 export interface Lesson {
@@ -134,10 +144,44 @@ export interface Lesson {
   teacher_name: string;
   teacher_surname: string;
   teacher_avatar: string;
+  teacher_email?: string;
+  teacher_user_id?: number;
   category_id: number;
   category_name: string;
   status: string;
-  datetime: Date;
+  datetime: string;
+  state_id: number;
+  state_name: string;
+}
+
+export interface LessonDetail {
+  category_id: number;
+  category_name: string;
+  datetime: string;
+  lesson_id: number;
+  state_id: number;
+  state_name: string;
+  status: string;
+  student_avatar: string;
+  student_email: string;
+  student_id: number;
+  student_name: string;
+  student_surname: string;
+  teacher_avatar: string;
+  teacher_email: string;
+  teacher_id: number;
+  teacher_name: string;
+  teacher_surname: string;
+  teacher_user_id: number;
+}
+
+export interface LessonShortData {
+  category_id: number;
+  category_name: string;
+  lesson_id: number;
+  student_id: number;
+  teacher_id: number;
+  teacher_user_id: number;
 }
 
 export interface TeacherLessonResponse {

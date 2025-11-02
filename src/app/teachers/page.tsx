@@ -26,14 +26,6 @@ function debounce<A extends unknown[], R>(
   };
 }
 
-export default function TeachersPage() {
-  return (
-    <Suspense fallback={<Loader />}>
-      <TeachersPageContent />
-    </Suspense>
-  );
-}
-
 function TeachersPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -230,5 +222,13 @@ function TeachersPageContent() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function TeachersPage() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <TeachersPageContent />
+    </Suspense>
   );
 }

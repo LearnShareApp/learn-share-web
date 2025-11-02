@@ -10,14 +10,6 @@ import Avatar from "@/components/avatar/Avatar";
 import Loader from "@/components/loader/Loader";
 import { useTeacher } from "@/hooks/useTeacher";
 
-export default function BookPage() {
-  return (
-    <Suspense fallback={<Loader />}>
-      <BookPageContent />
-    </Suspense>
-  );
-}
-
 function BookPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -253,5 +245,13 @@ function BookPageContent() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BookPage() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <BookPageContent />
+    </Suspense>
   );
 }

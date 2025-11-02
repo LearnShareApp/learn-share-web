@@ -96,22 +96,53 @@ export default function SettingsPage() {
         ? new Date(birthdate).toISOString()
         : undefined;
 
-      await apiService.updateProfile({
+      // Удаляем префикс data:image/jpeg;base64, из base64 строки, если он есть
+      const avatarToSend = newAvatar
+        ? newAvatar.replace(/^data:image\/[a-z]+;base64,/, "")
+        : undefined;
+
+      const profileData: {
+        name: string;
+        surname: string;
+        birthdate: string;
+        avatar?: string;
+      } = {
         name,
         surname,
         birthdate: formattedBirthdate || "",
-        ...(newAvatar ? { avatar: newAvatar } : {}),
-      });
+      };
+
+      // Добавляем avatar только если он есть
+      if (avatarToSend) {
+        profileData.avatar = avatarToSend;
+      }
+
+      await apiService.updateProfile(profileData);
 
       await refreshProfile();
       setFormSuccessMessage("Profile updated successfully");
       setNewAvatar(undefined);
     } catch (err: unknown) {
-      console.error(err);
+      console.error("Profile update error:", err);
       let errorMessage = "Error updating profile";
       if (axios.isAxiosError(err)) {
-        const axiosError = err as AxiosError<{ message: string }>;
-        errorMessage = axiosError.response?.data?.message || axiosError.message;
+        const axiosError = err as AxiosError<{
+          message?: string;
+          error?: string;
+        }>;
+        // Пытаемся получить детальное сообщение об ошибке
+        const serverMessage =
+          axiosError.response?.data?.message ||
+          axiosError.response?.data?.error ||
+          axiosError.message;
+
+        // Логируем полный ответ для отладки
+        if (axiosError.response) {
+          console.error("Server response:", axiosError.response.status);
+          console.error("Server data:", axiosError.response.data);
+        }
+
+        errorMessage = serverMessage || "Unknown server error";
       } else if (err instanceof Error) {
         errorMessage = err.message;
       }
@@ -121,21 +152,81 @@ export default function SettingsPage() {
     }
   };
 
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Функция для сжатия изображения с обрезкой до квадрата (1:1)
+  const compressImage = (
+    file: File,
+    size: number = 800,
+    quality: number = 0.8
+  ): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          if (!ctx) {
+            reject(new Error("Could not get canvas context"));
+            return;
+          }
+
+          // Вычисляем размер стороны квадрата (минимальная сторона исходного изображения)
+          const minSide = Math.min(img.width, img.height);
+
+          // Вычисляем координаты для обрезки по центру
+          const sourceX = (img.width - minSide) / 2;
+          const sourceY = (img.height - minSide) / 2;
+
+          // Устанавливаем размер canvas как квадрат
+          canvas.width = size;
+          canvas.height = size;
+
+          // Рисуем обрезанное изображение на canvas с масштабированием до нужного размера
+          ctx.drawImage(
+            img,
+            sourceX, // X координата начала обрезки
+            sourceY, // Y координата начала обрезки
+            minSide, // Ширина области обрезки
+            minSide, // Высота области обрезки
+            0, // X координата на canvas
+            0, // Y координата на canvas
+            size, // Ширина на canvas (квадрат)
+            size // Высота на canvas (квадрат)
+          );
+
+          // Конвертируем в base64 с заданным качеством
+          const compressedBase64 = canvas.toDataURL("image/jpeg", quality);
+          resolve(compressedBase64);
+        };
+        img.onerror = () => reject(new Error("Failed to load image"));
+        const result = reader.result;
+        if (typeof result === "string") {
+          img.src = result;
+        } else {
+          reject(new Error("Failed to read file as data URL"));
+        }
+      };
+      reader.onerror = () => reject(new Error("Failed to read file"));
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       if (file.type.startsWith("image/")) {
-        if (file.size > 2 * 1024 * 1024) {
-          setFormError("File is too large. Maximum size is 2MB.");
-          return;
-        }
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64data = reader.result as string;
-          setNewAvatar(base64data);
+        try {
           setFormError("");
-        };
-        reader.readAsDataURL(file);
+          // Сжимаем изображение перед установкой
+          const compressedBase64 = await compressImage(file);
+          setNewAvatar(compressedBase64);
+        } catch (error) {
+          console.error("Error compressing image:", error);
+          setFormError(
+            "Failed to process image. Please try another image file."
+          );
+        }
       } else {
         setFormError("Please upload an image in JPG, PNG, or GIF format.");
       }

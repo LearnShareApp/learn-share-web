@@ -21,7 +21,7 @@ export default function SchedulePage() {
         const lessonsData = await apiService.getLessons();
 
         // Sort lessons by date and time (newest first)
-        const sortedLessons = lessonsData.sort((a, b) => {
+        const sortedLessons = (lessonsData || []).sort((a, b) => {
           const dateA = new Date(a.datetime);
           const dateB = new Date(b.datetime);
           return dateB.getTime() - dateA.getTime(); // Sort in descending order (newest first)

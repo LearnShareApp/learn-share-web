@@ -105,7 +105,7 @@ export default function AddTimePage() {
         return;
       }
 
-      await apiService.addTime({ datetime });
+      await apiService.addTime({ datetime: datetime.toISOString() });
       setSuccess("Time slot successfully added!");
       fetchTimes();
 
